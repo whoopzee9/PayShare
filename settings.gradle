@@ -1,4 +1,4 @@
-rootProject.name = "AndroidTemplate"
+rootProject.name = "PayShare"
 include ':app'
 include ':common'
 include ':feature'
