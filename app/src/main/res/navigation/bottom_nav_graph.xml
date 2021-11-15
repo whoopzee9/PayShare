@@ -9,19 +9,37 @@
         android:id="@+id/loginFragment"
         android:name="ru.spbstu.feature.login.presentation.LoginFragment"
         android:label="LoginFragment"
-        tools:layout="@layout/fragment_login" />
+        tools:layout="@layout/fragment_login" >
+        <action
+            android:id="@+id/action_loginFragment_to_eventsFragment"
+            app:destination="@id/eventsFragment" />
+    </fragment>
 
     <fragment
         android:id="@+id/eventsFragment"
         android:name="ru.spbstu.feature.events.presentation.EventsFragment"
         android:label="EventsFragment"
-        tools:layout="@layout/fragment_events" />
+        tools:layout="@layout/fragment_events" >
+        <action
+            android:id="@+id/action_eventsFragment_to_eventFragment"
+            app:destination="@id/eventFragment" />
+        <action
+            android:id="@+id/action_eventsFragment_to_historyFragment"
+            app:destination="@id/historyFragment" />
+    </fragment>
 
     <fragment
         android:id="@+id/eventFragment"
         android:name="ru.spbstu.feature.event.presentation.EventFragment"
         android:label="EventFragment"
-        tools:layout="@layout/fragment_event" />
+        tools:layout="@layout/fragment_event" >
+        <action
+            android:id="@+id/action_eventFragment_to_expenseFragment"
+            app:destination="@id/expenseFragment" />
+        <action
+            android:id="@+id/action_eventFragment_to_debtFragment"
+            app:destination="@id/debtFragment" />
+    </fragment>
 
     <fragment
         android:id="@+id/expenseFragment"
@@ -39,5 +57,9 @@
         android:id="@+id/historyFragment"
         android:name="ru.spbstu.feature.history.presentation.HistoryFragment"
         android:label="HistoryFragment"
-        tools:layout="@layout/fragment_history" />
+        tools:layout="@layout/fragment_history" >
+        <action
+            android:id="@+id/action_historyFragment_to_eventFragment"
+            app:destination="@id/eventFragment" />
+    </fragment>
 </navigation>
