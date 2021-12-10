@@ -3,6 +3,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     package="ru.spbstu.payshare">
 
+    <uses-permission android:name="android.permission.INTERNET"/>
+
     <application
         android:name="ru.spbstu.payshare.App"
         android:allowBackup="true"

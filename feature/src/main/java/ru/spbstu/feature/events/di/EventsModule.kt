@@ -10,7 +10,6 @@ import ru.spbstu.common.di.viewmodel.ViewModelKey
 import ru.spbstu.common.di.viewmodel.ViewModelModule
 import ru.spbstu.feature.FeatureRouter
 import ru.spbstu.feature.events.presentation.EventsViewModel
-import ru.spbstu.feature.login.presentation.LoginViewModel
 
 
 @Module(
@@ -22,7 +21,7 @@ class EventsModule {
 
     @Provides
     @IntoMap
-    @ViewModelKey(LoginViewModel::class)
+    @ViewModelKey(EventsViewModel::class)
     fun provideViewModel(router: FeatureRouter): ViewModel {
         return EventsViewModel(router)
     }

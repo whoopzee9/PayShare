@@ -8,9 +8,8 @@ import ru.spbstu.feature.R
 import ru.spbstu.feature.databinding.FragmentEventBinding
 import ru.spbstu.feature.di.FeatureApi
 import ru.spbstu.feature.di.FeatureComponent
-import ru.spbstu.feature.events.presentation.EventsViewModel
 
-class EventFragment: ToolbarFragment<EventsViewModel>(
+class EventFragment: ToolbarFragment<EventViewModel>(
     R.layout.fragment_event,
     R.string.error_connection,
     ToolbarType.EMPTY

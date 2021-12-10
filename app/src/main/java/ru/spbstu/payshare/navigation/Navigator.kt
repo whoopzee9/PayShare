@@ -7,6 +7,7 @@ import androidx.navigation.NavDestination
 import org.greenrobot.eventbus.EventBus
 import ru.spbstu.common.events.SetBottomNavVisibility
 import ru.spbstu.feature.FeatureRouter
+import ru.spbstu.payshare.R
 
 class Navigator : FeatureRouter {
 
@@ -51,6 +52,8 @@ class Navigator : FeatureRouter {
     }
 
     private companion object {
-        val navBarHiddenIdsList = listOf<Int>()
+        val navBarHiddenIdsList = listOf(
+            R.id.loginFragment
+        )
     }
 }

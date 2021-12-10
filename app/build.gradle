@@ -89,4 +89,9 @@ dependencies {
     implementation platform(firebaseBomDep)
     implementation firebaseAnalyticsDep
     implementation firebaseCrashlyticsDep
+
+    implementation googleAuthDep
+
+    implementation vkSdkCodeDep
+    implementation vkSdkApiDep
 }
