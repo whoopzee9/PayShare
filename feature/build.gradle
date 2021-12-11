@@ -74,4 +74,11 @@ dependencies {
 
     implementation coroutinesDep
     implementation coroutinesAndroidDep
+
+    implementation googleAuthDep
+
+    implementation vkSdkCodeDep
+    implementation vkSdkApiDep
+
+    implementation eventBusDep
 }

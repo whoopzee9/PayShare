@@ -1,23 +1,24 @@
-package ru.spbstu.feature.event.presentation
+package ru.spbstu.feature.profile.presentation
 
 import android.view.ViewGroup
 import ru.spbstu.common.di.FeatureUtils
 import ru.spbstu.common.extenstions.viewBinding
 import ru.spbstu.common.utils.ToolbarFragment
 import ru.spbstu.feature.R
-import ru.spbstu.feature.databinding.FragmentEventBinding
+import ru.spbstu.feature.databinding.FragmentProfileBinding
 import ru.spbstu.feature.di.FeatureApi
 import ru.spbstu.feature.di.FeatureComponent
 
-class EventFragment: ToolbarFragment<EventViewModel>(
-    R.layout.fragment_event,
+
+class ProfileFragment: ToolbarFragment<ProfileViewModel>(
+    R.layout.fragment_profile,
     R.string.error_connection,
     ToolbarType.EMPTY
 ) {
 
-    override val binding by viewBinding(FragmentEventBinding::bind)
+    override val binding by viewBinding(FragmentProfileBinding::bind)
 
-    override fun getToolbarLayout(): ViewGroup = binding.frgEventLayoutToolbar.root
+    override fun getToolbarLayout(): ViewGroup = binding.frgProfileLayoutToolbar.root
 
     override fun setupViews() {
         super.setupViews()
@@ -25,7 +26,7 @@ class EventFragment: ToolbarFragment<EventViewModel>(
 
     override fun inject() {
         FeatureUtils.getFeature<FeatureComponent>(this, FeatureApi::class.java)
-            .eventComponentFactory()
+            .profileComponentFactory()
             .create(this)
             .inject(this)
     }

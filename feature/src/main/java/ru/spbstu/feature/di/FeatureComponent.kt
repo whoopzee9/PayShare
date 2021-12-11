@@ -11,7 +11,7 @@ import ru.spbstu.feature.events.di.EventsComponent
 import ru.spbstu.feature.expense.di.ExpenseComponent
 import ru.spbstu.feature.history.di.HistoryComponent
 import ru.spbstu.feature.login.di.LoginComponent
-import ru.spbstu.feature.test.di.TestComponent
+import ru.spbstu.feature.profile.di.ProfileComponent
 
 @Component(
     dependencies = [
@@ -25,13 +25,13 @@ import ru.spbstu.feature.test.di.TestComponent
 @FeatureScope
 interface FeatureComponent {
 
-    fun testComponentFactory(): TestComponent.Factory
     fun loginComponentFactory(): LoginComponent.Factory
     fun eventsComponentFactory(): EventsComponent.Factory
     fun eventComponentFactory(): EventComponent.Factory
     fun expenseComponentFactory(): ExpenseComponent.Factory
     fun debtComponentFactory(): DebtComponent.Factory
     fun historyComponentFactory(): HistoryComponent.Factory
+    fun profileComponentFactory(): ProfileComponent.Factory
 
     @Component.Factory
     interface Factory {

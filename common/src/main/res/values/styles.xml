@@ -25,11 +25,13 @@
 
     <style name="TextView.Default" parent="Widget.AppCompat.TextView">
         <item name="android:textColor">@color/text_color_primary</item>
+        <item name="fontFamily">@font/montserrat_medium</item>
         <item name="android:textSize">@dimen/sp_14</item>
     </style>
 
-    <style name="TextView.H1" parent="TextView.Default">
-        <item name="android:textSize">@dimen/sp_22</item>
+    <style name="TextView.Title" parent="TextView.Default">
+        <item name="android:textSize">@dimen/sp_20</item>
+        <item name="fontFamily">@font/montserrat_semi_bold</item>
     </style>
 
     <style name="TextView.H2" parent="TextView.Default">
@@ -51,9 +53,29 @@
         <item name="android:insetBottom">@dimen/dp_0</item>
         <item name="android:textColor">@color/button_text_color</item>
         <item name="elevation">@dimen/dp_0</item>
-        <item name="iconTint">@color/text_color_primary</item>
         <item name="android:backgroundTint">@color/button_background_color</item>
         <item name="android:textAppearance">?android:attr/textAppearanceButton</item>
         <item name="android:textAllCaps">false</item>
+    </style>
+
+    <style name="MaterialButton.Login" parent="MaterialButton.Default">
+        <item name="strokeWidth">@dimen/dp_1</item>
+        <item name="strokeColor">@color/stroke_color_primary</item>
+        <item name="cornerRadius">@dimen/dp_10</item>
+        <item name="android:backgroundTint">@color/button_tint_secondary</item>
+    </style>
+
+    <style name="MaterialButton.TextButton" parent="Widget.MaterialComponents.Button.TextButton">
+        <item name="android:insetLeft">@dimen/dp_0</item>
+        <item name="android:insetTop">@dimen/dp_10</item>
+        <item name="android:insetRight">@dimen/dp_0</item>
+        <item name="android:insetBottom">@dimen/dp_10</item>
+        <item name="elevation">@dimen/dp_0</item>
+        <item name="android:textSize">@dimen/sp_14</item>
+        <item name="android:textColor">@color/text_color_third</item>
+        <item name="android:textAllCaps">false</item>
+        <item name="background">?selectableItemBackground</item>
+        <item name="rippleColor">@color/background_secondary</item>
+        <item name="android:letterSpacing">0</item>
     </style>
 </resources>

@@ -1,9 +1,17 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+
     <string name="error_unknown">Неизвестная ошибка, попробуйте позднее.</string>
     <string name="error_connection">Ошибка подключения к серверу, попробуйте позднее.</string>
 
     <string name="menu_test">Тест</string>
 
     <string name="description_back">Вернуться назад</string>
+    <string name="login">Вход</string>
+    <string name="sign_with_vkontakte">Войти с помощью ВКонтакте</string>
+    <string name="sign_with_google">Войти с помощью Google</string>
+    <string name="about_app">О приложении</string>
+    <string name="purchases">Покупки</string>
+    <string name="archive">Архив</string>
+    <string name="profile">Профиль</string>
 </resources>

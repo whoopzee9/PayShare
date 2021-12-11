@@ -45,6 +45,11 @@ buildscript {
 
         crashlyticsGradleVersion = '2.7.1'
 
+        googleAuthVersion = '19.2.0'
+
+        vkAuthVersion = '3.4.1'
+
+
         kotlinDep = "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlinVersion"
 
         androidxCoreDep = "androidx.core:core-ktx:$coreVersion"
@@ -91,6 +96,11 @@ buildscript {
         firebaseBomDep = "com.google.firebase:firebase-bom:$firebaseVersion"
         firebaseAnalyticsDep = 'com.google.firebase:firebase-analytics-ktx'
         firebaseCrashlyticsDep = 'com.google.firebase:firebase-crashlytics-ktx'
+
+        googleAuthDep = "com.google.android.gms:play-services-auth:$googleAuthVersion"
+
+        vkSdkCodeDep = "com.vk:android-sdk-core:$vkAuthVersion"
+        vkSdkApiDep = "com.vk:android-sdk-api:$vkAuthVersion"
     }
 
     ext.kotlin_version = "1.5.30"
