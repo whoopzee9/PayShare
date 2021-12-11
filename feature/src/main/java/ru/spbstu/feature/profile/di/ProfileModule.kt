@@ -1,4 +1,4 @@
-package ru.spbstu.feature.test.di
+package ru.spbstu.feature.profile.di
 
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModel
@@ -6,31 +6,31 @@ import androidx.lifecycle.ViewModelProvider
 import dagger.Module
 import dagger.Provides
 import dagger.multibindings.IntoMap
-import ru.spbstu.common.base.BaseBackRouter
 import ru.spbstu.common.di.viewmodel.ViewModelKey
 import ru.spbstu.common.di.viewmodel.ViewModelModule
 import ru.spbstu.feature.FeatureRouter
-import ru.spbstu.feature.test.presentation.TestViewModel
+import ru.spbstu.feature.profile.presentation.ProfileViewModel
+
 
 @Module(
     includes = [
         ViewModelModule::class
     ]
 )
-class TestModule {
+class ProfileModule {
 
     @Provides
     @IntoMap
-    @ViewModelKey(TestViewModel::class)
+    @ViewModelKey(ProfileViewModel::class)
     fun provideViewModel(router: FeatureRouter): ViewModel {
-        return TestViewModel(router)
+        return ProfileViewModel(router)
     }
 
     @Provides
     fun provideViewModelCreator(
         fragment: Fragment,
         viewModelFactory: ViewModelProvider.Factory
-    ): TestViewModel {
-        return ViewModelProvider(fragment, viewModelFactory).get(TestViewModel::class.java)
+    ): ProfileViewModel {
+        return ViewModelProvider(fragment, viewModelFactory).get(ProfileViewModel::class.java)
     }
 }

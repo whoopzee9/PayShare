@@ -43,7 +43,6 @@ class LoginFragment: BaseFragment<LoginViewModel>(
         }
 
     override fun setupViews() {
-        Log.d("qwerty", "setupViews")
         super.setupViews()
         requireActivity().setStatusBarColor(R.color.background_primary)
         requireView().setLightStatusBar()
@@ -65,20 +64,19 @@ class LoginFragment: BaseFragment<LoginViewModel>(
     }
 
     override fun onStart() {
-        Log.d("qwerty", "onStart")
         EventBus.getDefault().register(this)
         super.onStart()
     }
 
     override fun onStop() {
-        Log.d("qwerty", "onStop")
         EventBus.getDefault().unregister(this)
         super.onStop()
     }
 
     @Subscribe(threadMode = ThreadMode.MAIN)
     fun onEvent(event: VkAuthEvent) {
-        Log.d("qwerty", "success")
+        //TODO send token to backend
+        viewModel.openMainFragment()
     }
 
     override fun inject() {

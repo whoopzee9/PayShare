@@ -42,6 +42,12 @@ class Navigator : FeatureRouter {
         navController = null
     }
 
+    override fun openMainFragment() {
+        when (navController?.currentDestination?.id) {
+            R.id.loginFragment -> navController?.navigate(R.id.action_loginFragment_to_eventsFragment)
+        }
+    }
+
     fun checkBottomBar() {
         EventBus.getDefault().post(
             SetBottomNavVisibility(

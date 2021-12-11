@@ -10,7 +10,6 @@ import ru.spbstu.common.di.viewmodel.ViewModelKey
 import ru.spbstu.common.di.viewmodel.ViewModelModule
 import ru.spbstu.feature.FeatureRouter
 import ru.spbstu.feature.login.presentation.LoginViewModel
-import ru.spbstu.feature.test.presentation.TestViewModel
 
 @Module(
     includes = [

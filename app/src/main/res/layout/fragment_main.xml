@@ -19,15 +19,15 @@
         android:layout_width="match_parent"
         android:layout_height="@dimen/dp_56"
         android:layout_gravity="bottom"
-        android:background="@color/background_secondary"
+        android:background="@color/bottom_nav_background_color"
         android:visibility="gone"
-        app:itemIconTint="@color/map_navigation_colors"
+        app:itemIconTint="@color/bottom_nav_color"
         app:itemTextAppearanceActive="@style/BottomNavigationViewItem"
         app:itemTextAppearanceInactive="@style/BottomNavigationViewItem"
-        app:itemTextColor="@color/map_navigation_colors"
+        app:itemTextColor="@color/bottom_nav_color"
         app:labelVisibilityMode="labeled"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:menu="@menu/bottom_navigation" />
+        app:menu="@menu/bottom_nav_menu" />
 </LinearLayout>

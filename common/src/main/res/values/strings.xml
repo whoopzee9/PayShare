@@ -11,4 +11,7 @@
     <string name="sign_with_vkontakte">Войти с помощью ВКонтакте</string>
     <string name="sign_with_google">Войти с помощью Google</string>
     <string name="about_app">О приложении</string>
+    <string name="purchases">Покупки</string>
+    <string name="archive">Архив</string>
+    <string name="profile">Профиль</string>
 </resources>

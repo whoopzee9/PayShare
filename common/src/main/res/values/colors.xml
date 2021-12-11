@@ -21,4 +21,8 @@
     <color name="toolbar_background">#FFFFFF</color>
 
     <color name="stroke_color_primary">#000000</color>
+
+    <color name="bottom_nav_selected_color">#FFFFFF</color>
+    <color name="bottom_nav_unselected_color">#CEDFFD</color>
+    <color name="bottom_nav_background_color">#4385F6</color>
 </resources>
