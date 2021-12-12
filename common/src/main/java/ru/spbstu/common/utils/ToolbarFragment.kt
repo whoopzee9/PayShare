@@ -7,6 +7,7 @@ import androidx.annotation.DrawableRes
 import androidx.annotation.LayoutRes
 import androidx.annotation.StringRes
 import androidx.core.content.ContextCompat
+import ru.spbstu.common.R
 import ru.spbstu.common.base.BaseFragment
 import ru.spbstu.common.databinding.IncludeToolbarBinding
 import ru.spbstu.common.extenstions.handleBackPressed
@@ -23,8 +24,8 @@ abstract class ToolbarFragment<T : BackViewModel> constructor(
     private val layoutToolbarBinding get() = _layoutToolbarBinding!!
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
         setToolbar()
+        super.onViewCreated(view, savedInstanceState)
     }
 
     override fun onDestroy() {
@@ -32,8 +33,12 @@ abstract class ToolbarFragment<T : BackViewModel> constructor(
         super.onDestroy()
     }
 
-    protected fun setToolbar(clickListener: () -> Unit) {
-        setToolbar(clickListener = clickListener)
+    protected fun setToolbar(firstClickListener: () -> Unit, secondClickListener: () -> Unit) {
+        setToolbar(
+            type = this.type,
+            firstClickListener = firstClickListener,
+            secondClickListener = secondClickListener
+        )
     }
 
     protected abstract fun getToolbarLayout(): ViewGroup
@@ -41,18 +46,36 @@ abstract class ToolbarFragment<T : BackViewModel> constructor(
     private fun setToolbar(
         type: ToolbarType = this.type,
         @StringRes titleResource: Int = this.titleResource,
-        clickListener: (() -> Unit)? = { viewModel.back() }
+        firstClickListener: (() -> Unit)? = { viewModel.back() },
+        secondClickListener: (() -> Unit)? = { },
     ) {
         _layoutToolbarBinding = IncludeToolbarBinding.bind(getToolbarLayout())
         when (type) {
             ToolbarType.EMPTY -> {
-                val params = layoutToolbarBinding.includeToolbarIbButton.layoutParams
-                params.width = 0
-                params.height = 0
-                layoutToolbarBinding.includeToolbarIbButton.layoutParams = params
+                layoutToolbarBinding.includeToolbarIbFirstButton.visibility = View.GONE
+                layoutToolbarBinding.includeToolbarIbSecondButton.visibility = View.GONE
             }
-            else -> {
-                layoutToolbarBinding.includeToolbarIbButton.setImageResource(type.icon)
+            ToolbarType.PURCHASES -> {
+                layoutToolbarBinding.includeToolbarIbFirstButton.visibility = View.VISIBLE
+                layoutToolbarBinding.includeToolbarIbFirstButton.setImageResource(type.firstIcon)
+                layoutToolbarBinding.includeToolbarIbSecondButton.setImageResource(type.secondIcon)
+                layoutToolbarBinding.root.setBackgroundColor(
+                    ContextCompat.getColor(
+                        requireContext(),
+                        R.color.toolbar_background_color_primary
+                    )
+                )
+                layoutToolbarBinding.includeToolbarTvTitle.setTextColor(
+                    ContextCompat.getColor(
+                        requireContext(),
+                        R.color.text_color_secondary
+                    )
+                )
+            }
+            ToolbarType.BACK -> {
+                layoutToolbarBinding.includeToolbarIbFirstButton.visibility = View.VISIBLE
+                layoutToolbarBinding.includeToolbarIbSecondButton.visibility = View.GONE
+                layoutToolbarBinding.includeToolbarIbFirstButton.setImageResource(type.firstIcon)
                 layoutToolbarBinding.root.setBackgroundColor(
                     ContextCompat.getColor(
                         requireContext(),
@@ -60,21 +83,34 @@ abstract class ToolbarFragment<T : BackViewModel> constructor(
                     )
                 )
             }
+            else -> {
+
+            }
         }
         if (titleResource != 0) {
             layoutToolbarBinding.includeToolbarTvTitle.text = getString(titleResource)
         }
-        clickListener?.let {
-            layoutToolbarBinding.includeToolbarIbButton.setDebounceClickListener {
+        firstClickListener?.let {
+            layoutToolbarBinding.includeToolbarIbFirstButton.setDebounceClickListener {
                 it()
             }
-            handleBackPressed {
+            if (type == ToolbarType.BACK) {
+                handleBackPressed {
+                    it()
+                }
+            }
+        }
+        secondClickListener?.let {
+            layoutToolbarBinding.includeToolbarIbSecondButton.setDebounceClickListener {
                 it()
             }
         }
     }
 
-    enum class ToolbarType(@DrawableRes val icon: Int) {
-        BACK(android.R.drawable.ic_delete), EMPTY(0)
+    enum class ToolbarType(@DrawableRes val firstIcon: Int, @DrawableRes val secondIcon: Int) {
+        BACK(android.R.drawable.ic_delete, 0), EMPTY(0, 0), PURCHASES(
+            R.drawable.ic_qr_code_24,
+            R.drawable.ic_search_24
+        )
     }
 }

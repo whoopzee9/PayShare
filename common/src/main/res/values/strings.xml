@@ -14,4 +14,7 @@
     <string name="purchases">Покупки</string>
     <string name="archive">Архив</string>
     <string name="profile">Профиль</string>
+    <string name="no_active_events">Нет активных событий\nСоздайте!</string>
+    <string name="all">Все</string>
+    <string name="total_price_template">Итог: %.2f руб</string>
 </resources>

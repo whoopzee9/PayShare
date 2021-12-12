@@ -38,7 +38,7 @@
         <item name="android:textSize">@dimen/sp_18</item>
     </style>
 
-    <style name="TextView.H3" parent="TextView.Default">
+    <style name="TextView.Text" parent="TextView.Default">
         <item name="android:textSize">@dimen/sp_16</item>
     </style>
 
