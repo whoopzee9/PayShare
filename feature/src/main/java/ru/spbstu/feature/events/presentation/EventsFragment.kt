@@ -4,6 +4,7 @@ import android.view.View
 import android.view.ViewGroup
 import ru.spbstu.common.di.FeatureUtils
 import ru.spbstu.common.extenstions.clearLightStatusBar
+import ru.spbstu.common.extenstions.setDebounceClickListener
 import ru.spbstu.common.extenstions.setStatusBarColor
 import ru.spbstu.common.extenstions.viewBinding
 import ru.spbstu.common.utils.ToolbarFragment
@@ -12,6 +13,7 @@ import ru.spbstu.feature.databinding.FragmentEventsBinding
 import ru.spbstu.feature.di.FeatureApi
 import ru.spbstu.feature.di.FeatureComponent
 import ru.spbstu.feature.events.presentation.adapter.EventsAdapter
+import ru.spbstu.feature.events.presentation.dialogs.SearchEventDialogFragment
 
 
 class EventsFragment : ToolbarFragment<EventsViewModel>(
@@ -23,6 +25,8 @@ class EventsFragment : ToolbarFragment<EventsViewModel>(
     override val binding by viewBinding(FragmentEventsBinding::bind)
 
     private lateinit var adapter: EventsAdapter
+
+    private var searchEventDialog: SearchEventDialogFragment? = null
 
     override fun getToolbarLayout(): ViewGroup = binding.frgEventsLayoutToolbar.root
 
@@ -36,6 +40,11 @@ class EventsFragment : ToolbarFragment<EventsViewModel>(
         }, secondClickListener = {
 
         })
+
+        //search
+        binding.frgEventsLayoutToolbar.includeToolbarIbSecondButton.setDebounceClickListener {
+            showSearchEventDialog()
+        }
     }
 
     override fun inject() {
@@ -64,5 +73,26 @@ class EventsFragment : ToolbarFragment<EventsViewModel>(
     private fun initAdapter() {
         adapter = EventsAdapter(viewModel::openEvent)
         binding.frgEventsRvEvents.adapter = adapter
+    }
+
+    private fun showSearchEventDialog() {
+        var dialogFragment = searchEventDialog
+        if (dialogFragment == null) {
+            dialogFragment = SearchEventDialogFragment.newInstance()
+        } else {
+            //setup dialog views, if necessary
+        }
+        searchEventDialog = dialogFragment
+        dialogFragment.setOnOKClickListener {
+            
+        }
+        dialogFragment.setOnQRClickListener {
+
+        }
+        dialogFragment.show(parentFragmentManager, SEARCH_DIALOG_TAG)
+    }
+
+    companion object {
+        private const val SEARCH_DIALOG_TAG = "ru.spbstu.payshare.SEARCH_EVENT_DIALOG"
     }
 }

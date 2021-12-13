@@ -94,4 +94,6 @@ dependencies {
 
     implementation vkSdkCodeDep
     implementation vkSdkApiDep
+
+    implementation pinEditTextDep
 }

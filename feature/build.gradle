@@ -81,4 +81,6 @@ dependencies {
     implementation vkSdkApiDep
 
     implementation eventBusDep
+
+    implementation pinEditTextDep
 }

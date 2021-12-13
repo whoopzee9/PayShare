@@ -7,8 +7,10 @@ import android.os.Build
 import android.view.View
 import android.view.ViewGroup
 import android.view.WindowInsetsController
+import android.widget.EditText
 import android.widget.TextView
 import androidx.annotation.ColorRes
+import ru.spbstu.common.text.TextLengthWatcher
 import ru.spbstu.common.utils.DebounceClickListener
 import ru.spbstu.common.utils.DebouncePostHandler
 
@@ -82,3 +84,28 @@ inline fun <reified T : ViewGroup.LayoutParams> View.layoutParams(block: T.() ->
 }
 
 fun View.dpToPx(dp: Float): Float = context.dpToPx(dp)
+
+/**
+ * Allows you to perform actions when changing the text.
+ *
+ * @param runBeforeTextEntered Optional. The function that performs something before the minimum is reached.
+ * @param runAfterTextEntered Optional. The function that performs something after the minimum is reached.
+ * @param runOnTextEntered Optional. The function that performs something when text entered.
+ */
+fun EditText.setTextLengthWatcher(
+    runBeforeTextEntered: (() -> Unit)? = null,
+    runAfterTextEntered: (() -> Unit)? = null,
+    runOnTextEntered: (() -> Unit)? = null,
+) = addTextChangedListener(object : TextLengthWatcher() {
+    override fun runBeforeTextEntered() {
+        runBeforeTextEntered?.invoke()
+    }
+
+    override fun runAfterTextEntered() {
+        runAfterTextEntered?.invoke()
+    }
+
+    override fun runOnTextEntered() {
+        runOnTextEntered?.invoke()
+    }
+})
