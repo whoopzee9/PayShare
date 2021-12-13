@@ -15,7 +15,6 @@ import ru.spbstu.feature.di.FeatureComponent
 import ru.spbstu.feature.events.presentation.adapter.EventsAdapter
 import ru.spbstu.feature.events.presentation.dialogs.SearchEventDialogFragment
 
-
 class EventsFragment : ToolbarFragment<EventsViewModel>(
     R.layout.fragment_events,
     R.string.purchases,
@@ -36,12 +35,10 @@ class EventsFragment : ToolbarFragment<EventsViewModel>(
         requireView().clearLightStatusBar()
         initAdapter()
         setToolbar(firstClickListener = {
-
         }, secondClickListener = {
-
         })
 
-        //search
+        // search
         binding.frgEventsLayoutToolbar.includeToolbarIbSecondButton.setDebounceClickListener {
             showSearchEventDialog()
         }
@@ -80,14 +77,12 @@ class EventsFragment : ToolbarFragment<EventsViewModel>(
         if (dialogFragment == null) {
             dialogFragment = SearchEventDialogFragment.newInstance()
         } else {
-            //setup dialog views, if necessary
+            // setup dialog views, if necessary
         }
         searchEventDialog = dialogFragment
         dialogFragment.setOnOKClickListener {
-            
         }
         dialogFragment.setOnQRClickListener {
-
         }
         dialogFragment.show(parentFragmentManager, SEARCH_DIALOG_TAG)
     }

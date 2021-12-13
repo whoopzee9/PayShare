@@ -1,5 +1,6 @@
 package ru.spbstu.feature.events.presentation
 
+import android.util.Log
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import ru.spbstu.common.utils.BackViewModel
@@ -8,6 +9,7 @@ import ru.spbstu.feature.domain.model.Event
 import ru.spbstu.feature.domain.model.Expense
 import ru.spbstu.feature.domain.model.Shop
 import ru.spbstu.feature.domain.model.User
+import timber.log.Timber
 import java.time.LocalDateTime
 
 class EventsViewModel(private val router: FeatureRouter) : BackViewModel(router) {
@@ -20,6 +22,8 @@ class EventsViewModel(private val router: FeatureRouter) : BackViewModel(router)
     }
 
     fun openEvent(event: Event) {
+        Timber.i("??? Added")
+        Log.d("??","clicked")
         router.openEventFragment(event)
     }
 
