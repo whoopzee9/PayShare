@@ -34,8 +34,9 @@
         <item name="fontFamily">@font/montserrat_semi_bold</item>
     </style>
 
-    <style name="TextView.H2" parent="TextView.Default">
+    <style name="TextView.SubTitle" parent="TextView.Default">
         <item name="android:textSize">@dimen/sp_18</item>
+        <item name="fontFamily">@font/montserrat_semi_bold</item>
     </style>
 
     <style name="TextView.Text" parent="TextView.Default">
@@ -53,6 +54,8 @@
         <item name="android:insetBottom">@dimen/dp_0</item>
         <item name="android:textColor">@color/button_text_color</item>
         <item name="elevation">@dimen/dp_0</item>
+        <item name="android:textSize">@dimen/sp_14</item>
+        <item name="fontFamily">@font/montserrat_medium</item>
         <item name="android:backgroundTint">@color/button_background_color</item>
         <item name="android:textAppearance">?android:attr/textAppearanceButton</item>
         <item name="android:textAllCaps">false</item>
@@ -78,5 +81,24 @@
         <item name="background">?selectableItemBackground</item>
         <item name="rippleColor">@color/background_secondary</item>
         <item name="android:letterSpacing">0</item>
+    </style>
+
+    <style name="Button.Save" parent="MaterialButton.Default">
+        <item name="android:textColor">@color/text_color_secondary</item>
+        <item name="android:textSize">@dimen/sp_16</item>
+        <item name="cornerRadius">@dimen/dp_10</item>
+    </style>
+
+    <style name="BottomSheet.Style" parent="Widget.Design.BottomSheet.Modal">
+        <item name="android:background">@drawable/background_rounded_top</item>
+    </style>
+
+    <style name="BottomSheetDialog.Theme" parent="Theme.MaterialComponents.Light.BottomSheetDialog">
+        <item name="bottomSheetStyle">@style/BottomSheet.Style</item>
+        <item name="android:windowIsFloating">false</item>
+        <item name="android:statusBarColor">@android:color/transparent</item>
+        <item name="android:windowSoftInputMode">adjustResize</item>
+        <item name="android:windowNoTitle">true</item>
+        <item name="android:windowBackground">@color/shadow_color_primary</item>
     </style>
 </resources>

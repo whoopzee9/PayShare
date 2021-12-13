@@ -2,6 +2,8 @@ package ru.spbstu.feature.events.presentation
 
 import android.view.View
 import android.view.ViewGroup
+import com.google.android.material.bottomsheet.BottomSheetBehavior
+import com.google.android.material.bottomsheet.BottomSheetDialog
 import ru.spbstu.common.di.FeatureUtils
 import ru.spbstu.common.extenstions.clearLightStatusBar
 import ru.spbstu.common.extenstions.setDebounceClickListener
@@ -9,11 +11,18 @@ import ru.spbstu.common.extenstions.setStatusBarColor
 import ru.spbstu.common.extenstions.viewBinding
 import ru.spbstu.common.utils.ToolbarFragment
 import ru.spbstu.feature.R
+import ru.spbstu.feature.databinding.FragmentAddEventDialogBinding
 import ru.spbstu.feature.databinding.FragmentEventsBinding
+import ru.spbstu.feature.databinding.FragmentTimePickerDialogBinding
 import ru.spbstu.feature.di.FeatureApi
 import ru.spbstu.feature.di.FeatureComponent
 import ru.spbstu.feature.events.presentation.adapter.EventsAdapter
 import ru.spbstu.feature.events.presentation.dialogs.SearchEventDialogFragment
+import ru.spbstu.feature.events.presentation.wheelPicker.HourPickerAdapter
+import ru.spbstu.feature.events.presentation.wheelPicker.MinutePickerAdapter
+import studio.clapp.wheelpicker.extensions.formatLeadingZero
+import java.time.LocalTime
+import kotlin.math.ceil
 
 
 class EventsFragment : ToolbarFragment<EventsViewModel>(
@@ -27,6 +36,13 @@ class EventsFragment : ToolbarFragment<EventsViewModel>(
     private lateinit var adapter: EventsAdapter
 
     private var searchEventDialog: SearchEventDialogFragment? = null
+
+    private var eventAddingDialog: BottomSheetDialog? = null
+    private var timePickerDialog: BottomSheetDialog? = null
+
+    private lateinit var timePickerDialogBinding: FragmentTimePickerDialogBinding
+    private lateinit var timePickerMinuteAdapter: MinutePickerAdapter
+    private lateinit var timePickerHourAdapter: HourPickerAdapter
 
     override fun getToolbarLayout(): ViewGroup = binding.frgEventsLayoutToolbar.root
 
@@ -44,6 +60,9 @@ class EventsFragment : ToolbarFragment<EventsViewModel>(
         //search
         binding.frgEventsLayoutToolbar.includeToolbarIbSecondButton.setDebounceClickListener {
             showSearchEventDialog()
+        }
+        binding.frgEventsFabAdd.setDebounceClickListener {
+            showEventAddingDialog()
         }
     }
 
@@ -84,12 +103,71 @@ class EventsFragment : ToolbarFragment<EventsViewModel>(
         }
         searchEventDialog = dialogFragment
         dialogFragment.setOnOKClickListener {
-            
+
         }
         dialogFragment.setOnQRClickListener {
 
         }
         dialogFragment.show(parentFragmentManager, SEARCH_DIALOG_TAG)
+    }
+
+    private fun showEventAddingDialog() {
+        if (eventAddingDialog == null) {
+            eventAddingDialog = BottomSheetDialog(requireContext(), R.style.BottomSheetDialog_Theme)
+            val dialogBinding =
+                FragmentAddEventDialogBinding.inflate(layoutInflater, binding.root, false)
+            dialogBinding.frgAddEventDialogEtTime.setDebounceClickListener {
+                showTimePickerDialog(LocalTime.now()) { hour, min ->
+                    dialogBinding.frgAddEventDialogEtTime.setText("${hour.formatLeadingZero()}:${min.formatLeadingZero()}")
+                }
+            }
+            dialogBinding.frgAddEventDialogMbSave.setDebounceClickListener {
+
+            }
+            eventAddingDialog?.setContentView(dialogBinding.root)
+            eventAddingDialog?.behavior?.state = BottomSheetBehavior.STATE_EXPANDED
+        }
+        eventAddingDialog?.behavior?.state = BottomSheetBehavior.STATE_EXPANDED
+        eventAddingDialog?.show()
+    }
+
+    private fun showTimePickerDialog(
+        currTime: LocalTime,
+        onSaveClick: (hour: Int, min: Int) -> Unit
+    ) {
+        if (timePickerDialog == null) {
+            timePickerDialog = BottomSheetDialog(requireContext(), R.style.BottomSheetDialog_Theme)
+            timePickerDialogBinding =
+                FragmentTimePickerDialogBinding.inflate(layoutInflater, binding.root, false)
+            timePickerHourAdapter = HourPickerAdapter()
+            timePickerMinuteAdapter = MinutePickerAdapter()
+
+            with(timePickerDialogBinding.frgTimePickerDialogHourPicker) {
+                setAdapter(timePickerHourAdapter)
+                setOnUpListener { timePickerDialog?.behavior?.isDraggable = true }
+                setOnDownListener { timePickerDialog?.behavior?.isDraggable = false }
+            }
+
+            with(timePickerDialogBinding.frgTimePickerDialogMinutePicker) {
+                setAdapter(timePickerMinuteAdapter)
+                setOnUpListener { timePickerDialog?.behavior?.isDraggable = true }
+                setOnDownListener { timePickerDialog?.behavior?.isDraggable = false }
+            }
+
+            timePickerDialog?.setContentView(timePickerDialogBinding.root)
+        }
+        timePickerHourAdapter.picker?.scrollTo(currTime.hour)
+        timePickerMinuteAdapter.picker?.scrollTo(ceil(currTime.minute / 5.0).toInt())
+
+        timePickerDialogBinding.frgTimePickerDialogMbSave.setDebounceClickListener {
+            val min = timePickerMinuteAdapter.picker?.getCurrentItem()?.toInt() ?: 0
+            val hour = timePickerHourAdapter.picker?.getCurrentItem()?.toInt() ?: 0
+
+            onSaveClick(hour, min)
+            timePickerDialog?.dismiss()
+        }
+        timePickerDialog?.behavior?.state = BottomSheetBehavior.STATE_EXPANDED
+        timePickerDialog?.show()
     }
 
     companion object {
