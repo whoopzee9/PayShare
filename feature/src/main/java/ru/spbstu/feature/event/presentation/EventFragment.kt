@@ -1,5 +1,6 @@
 package ru.spbstu.feature.event.presentation
 
+import android.os.Bundle
 import android.view.ViewGroup
 import ru.spbstu.common.di.FeatureUtils
 import ru.spbstu.common.extenstions.viewBinding
@@ -9,7 +10,7 @@ import ru.spbstu.feature.databinding.FragmentEventBinding
 import ru.spbstu.feature.di.FeatureApi
 import ru.spbstu.feature.di.FeatureComponent
 
-class EventFragment: ToolbarFragment<EventViewModel>(
+class EventFragment : ToolbarFragment<EventViewModel>(
     R.layout.fragment_event,
     R.string.error_connection,
     ToolbarType.EMPTY
@@ -32,6 +33,16 @@ class EventFragment: ToolbarFragment<EventViewModel>(
 
     override fun subscribe() {
         super.subscribe()
+    }
 
+    companion object {
+        private val TAG = EventFragment::class.java.simpleName
+        val BUNDLE_KEY = "${TAG}_BUNDLE_KEY"
+
+        // TODO add parcel to class Event
+        fun makeBundle(): Bundle {
+            val bundle = Bundle()
+            return bundle
+        }
     }
 }

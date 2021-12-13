@@ -7,6 +7,8 @@ import androidx.navigation.NavDestination
 import org.greenrobot.eventbus.EventBus
 import ru.spbstu.common.events.SetBottomNavVisibility
 import ru.spbstu.feature.FeatureRouter
+import ru.spbstu.feature.domain.model.Event
+import ru.spbstu.feature.event.presentation.EventFragment
 import ru.spbstu.payshare.R
 
 class Navigator : FeatureRouter {
@@ -45,6 +47,17 @@ class Navigator : FeatureRouter {
     override fun openMainFragment() {
         when (navController?.currentDestination?.id) {
             R.id.loginFragment -> navController?.navigate(R.id.action_loginFragment_to_eventsFragment)
+        }
+    }
+
+    override fun openEventFragment(event: Event) {
+        when (navController?.currentDestination?.id) {
+            R.id.eventsFragment -> {
+                val bundle = EventFragment.makeBundle()
+                navController?.navigate(
+                    R.id.action_eventsFragment_to_eventFragment, bundle
+                )
+            }
         }
     }
 
