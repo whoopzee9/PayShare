@@ -9,6 +9,7 @@ import ru.spbstu.feature.R
 import ru.spbstu.feature.databinding.FragmentEventBinding
 import ru.spbstu.feature.di.FeatureApi
 import ru.spbstu.feature.di.FeatureComponent
+import ru.spbstu.feature.event.presentation.adapter.PurchaseAdapter
 
 class EventFragment : ToolbarFragment<EventViewModel>(
     R.layout.fragment_event,
@@ -16,12 +17,24 @@ class EventFragment : ToolbarFragment<EventViewModel>(
     ToolbarType.EMPTY
 ) {
 
+    private val purchaseAdapter by lazy {
+        PurchaseAdapter(viewModel::setBoughtStatus)
+    }
     override val binding by viewBinding(FragmentEventBinding::bind)
 
     override fun getToolbarLayout(): ViewGroup = binding.frgEventLayoutToolbar.root
 
     override fun setupViews() {
         super.setupViews()
+        binding.frgEventRvPurchases.adapter = purchaseAdapter
+    }
+
+    override fun subscribe() {
+        super.subscribe()
+
+        viewModel.purchases.observe {
+            purchaseAdapter.bindData(it)
+        }
     }
 
     override fun inject() {
@@ -29,10 +42,6 @@ class EventFragment : ToolbarFragment<EventViewModel>(
             .eventComponentFactory()
             .create(this)
             .inject(this)
-    }
-
-    override fun subscribe() {
-        super.subscribe()
     }
 
     companion object {

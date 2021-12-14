@@ -22,8 +22,6 @@ class EventsViewModel(private val router: FeatureRouter) : BackViewModel(router)
     }
 
     fun openEvent(event: Event) {
-        Timber.i("??? Added")
-        Log.d("??","clicked")
         router.openEventFragment(event)
     }
 

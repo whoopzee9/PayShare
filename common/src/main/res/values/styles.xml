@@ -79,4 +79,21 @@
         <item name="rippleColor">@color/background_secondary</item>
         <item name="android:letterSpacing">0</item>
     </style>
+
+    <style name="MaterialButton.OutlineNoElevation" parent="Widget.MaterialComponents.Button">
+        <item name="android:textSize">@dimen/sp_18</item>
+        <item name="android:textColor">@color/text_color_hint</item>
+        <item name="android:textAlignment">center</item>
+        <item name="cornerRadius">@dimen/dp_16</item>
+        <item name="boxBackgroundMode">none</item>
+        <item name="strokeColor">@color/stroke_color_primary</item>
+        <item name="strokeWidth">@dimen/dp_1</item>
+        <item name="textAllCaps">false</item>
+        <item name="android:paddingTop">0dp</item>
+        <item name="android:paddingBottom">0dp</item>
+        <item name="android:paddingStart">0dp</item>
+        <item name="android:paddingEnd">0dp</item>
+        <item name="android:insetTop">@dimen/dp_10</item>
+        <item name="android:insetBottom">@dimen/dp_10</item>
+    </style>
 </resources>

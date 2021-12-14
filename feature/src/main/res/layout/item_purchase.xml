@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.google.android.material.card.MaterialCardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/lesson_student__time_card"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginHorizontal="@dimen/dp_16"
+    android:layout_marginVertical="@dimen/dp_8"
+    app:cardCornerRadius="@dimen/dp_16"
+    app:cardElevation="@dimen/dp_4">
+
+    <LinearLayout
+        android:id="@+id/item_purchase__layout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/background_primary"
+        android:orientation="horizontal">
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/item_purchase__price"
+            style="@style/MaterialButton.OutlineNoElevation"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginVertical="@dimen/dp_4"
+            android:layout_marginStart="@dimen/dp_12"
+            android:layout_marginEnd="@dimen/dp_10"
+            app:strokeColor="@color/stroke_color_secondary"
+            tools:text="2000" />
+
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:layout_weight="1"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/item_purchase__tv_description"
+                style="@style/TextView.Small"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="@color/text_color_primary_dark"
+                android:textStyle="bold" />
+
+            <TextView
+                android:id="@+id/item_purchase__tv_date"
+                style="@style/TextView.Small"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="@color/text_color_primary_dark"
+                android:textSize="@dimen/sp_10" />
+        </LinearLayout>
+
+        <com.google.android.material.checkbox.MaterialCheckBox
+            android:id="@+id/item_purchase__cb_is_bought"
+            android:layout_width="@dimen/dp_30"
+            android:layout_height="@dimen/dp_30"
+            android:layout_gravity="center_vertical"
+            android:layout_marginEnd="@dimen/dp_12"
+            android:backgroundTint="@color/button_tint_primary"
+            android:button="@drawable/checkbox_add"
+            android:buttonTint="@color/button_tint_primary" />
+
+    </LinearLayout>
+</com.google.android.material.card.MaterialCardView>
