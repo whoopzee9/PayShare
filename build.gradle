@@ -51,6 +51,8 @@ buildscript {
 
         pinEditTextVersion = '1.2.6'
 
+        coilVersion = '1.3.2'
+
 
         kotlinDep = "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlinVersion"
 
@@ -105,6 +107,8 @@ buildscript {
         vkSdkApiDep = "com.vk:android-sdk-api:$vkAuthVersion"
 
         pinEditTextDep = "com.github.poovamraj:PinEditTextField:$pinEditTextVersion"
+
+        coilDep = "io.coil-kt:coil:$coilVersion"
     }
 
     ext.kotlin_version = "1.5.30"

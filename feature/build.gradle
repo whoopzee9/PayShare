@@ -84,4 +84,6 @@ dependencies {
     implementation eventBusDep
 
     implementation pinEditTextDep
+
+    implementation coilDep
 }

@@ -4,6 +4,7 @@
 
     <color name="background_primary">#FFFFFF</color>
     <color name="background_secondary">#E5E5E5</color>
+    <color name="background_third">#FAFAFA</color>
     <color name="button_tint_primary">#4385F6</color>
     <color name="button_tint_secondary">#FFFFFF</color>
     <color name="button_disabled_tint">#A3A2A7</color>
@@ -14,6 +15,7 @@
     <color name="text_color_primary_dark">#1F5281</color>
     <color name="text_color_secondary">#FFFFFF</color>
     <color name="text_color_third">#A3A3A3</color>
+    <color name="text_color_third_dark">#898989</color>
     <color name="text_color_hint">#0C85B8</color>
     <color name="text_color_amount">#4E6F66</color>
     <color name="text_color_hint_primary">#A3A2A7</color>
@@ -35,6 +37,7 @@
     <color name="toolbar_background_color_secondary">#FFFFFF</color>
 
     <color name="fab_color">#FF2121</color>
+    <color name="fab_color_secondary">#4385f6</color>
 
     <color name="divider_color">#EBEBEB</color>
 

@@ -21,4 +21,7 @@
     <string name="enter_with_qr">Войти с QR</string>
     <string name="cancel">Отмена</string>
     <string name="ok">Ок</string>
+    <string name="total_amount">Общая сумма:</string>
+    <string name="participants">Участвуют</string>
+    <string name="buy">Скидываемся</string>
 </resources>
