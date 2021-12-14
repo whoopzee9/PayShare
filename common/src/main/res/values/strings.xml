@@ -29,4 +29,18 @@
     <string name="hour_short">ч</string>
     <string name="minute_short">м</string>
     <string name="choose_time">Выберите время</string>
+
+    <string name="monday_short">пн</string>
+    <string name="tuesday_short">вт</string>
+    <string name="wednesday_short">ср</string>
+    <string name="thursday_short">чт</string>
+    <string name="friday_short">пт</string>
+    <string name="saturday_short">сб</string>
+    <string name="sunday_short">вс</string>
+    <string name="calendar_month_header">%s %s</string>
+
+    <string name="select_date">Выберите дату</string>
+    <string name="event_date">Дата события</string>
+    <string name="end_date">Дата окончания</string>
+    <string name="select_start_date">Выберите дату начала</string>
 </resources>

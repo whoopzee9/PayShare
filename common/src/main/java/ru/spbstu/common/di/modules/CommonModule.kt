@@ -10,6 +10,7 @@ import dagger.Provides
 import ru.spbstu.common.di.scope.ApplicationScope
 import ru.spbstu.common.token.TokenRepository
 import ru.spbstu.common.token.TokenRepositoryImpl
+import ru.spbstu.common.utils.BundleDataWrapper
 import javax.inject.Named
 
 const val SHARED_PREFERENCES_FILE = "template.preferences"
@@ -36,6 +37,12 @@ abstract class CommonModule {
                 EncryptedSharedPreferences.PrefKeyEncryptionScheme.AES256_SIV,
                 EncryptedSharedPreferences.PrefValueEncryptionScheme.AES256_GCM
             )
+        }
+
+        @Provides
+        @ApplicationScope
+        fun provideBundleDataWrapper(): BundleDataWrapper {
+            return BundleDataWrapper()
         }
     }
 

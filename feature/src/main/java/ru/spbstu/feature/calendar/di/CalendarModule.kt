@@ -1,4 +1,4 @@
-package ru.spbstu.feature.events.di
+package ru.spbstu.feature.calendar.di
 
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModel
@@ -9,29 +9,30 @@ import dagger.multibindings.IntoMap
 import ru.spbstu.common.di.viewmodel.ViewModelKey
 import ru.spbstu.common.di.viewmodel.ViewModelModule
 import ru.spbstu.common.utils.BundleDataWrapper
-import ru.spbstu.feature.FeatureRouter
-import ru.spbstu.feature.events.presentation.EventsViewModel
-
+import ru.spbstu.feature.calendar.presentation.CalendarViewModel
 
 @Module(
     includes = [
         ViewModelModule::class
     ]
 )
-class EventsModule {
+class CalendarModule {
 
     @Provides
     @IntoMap
-    @ViewModelKey(EventsViewModel::class)
-    fun provideViewModel(router: FeatureRouter, bundleDataWrapper: BundleDataWrapper): ViewModel {
-        return EventsViewModel(router, bundleDataWrapper)
+    @ViewModelKey(CalendarViewModel::class)
+    fun provideViewModel(dataWrapper: BundleDataWrapper): ViewModel {
+        return CalendarViewModel(dataWrapper)
     }
 
     @Provides
     fun provideViewModelCreator(
         fragment: Fragment,
         viewModelFactory: ViewModelProvider.Factory
-    ): EventsViewModel {
-        return ViewModelProvider(fragment, viewModelFactory).get(EventsViewModel::class.java)
+    ): CalendarViewModel {
+        return ViewModelProvider(
+            fragment,
+            viewModelFactory
+        ).get(CalendarViewModel::class.java)
     }
 }

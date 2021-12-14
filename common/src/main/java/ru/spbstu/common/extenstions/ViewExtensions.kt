@@ -10,9 +10,13 @@ import android.view.WindowInsetsController
 import android.widget.EditText
 import android.widget.TextView
 import androidx.annotation.ColorRes
+import androidx.core.content.ContextCompat
+import ru.spbstu.common.R
 import ru.spbstu.common.text.TextLengthWatcher
 import ru.spbstu.common.utils.DebounceClickListener
 import ru.spbstu.common.utils.DebouncePostHandler
+import java.time.YearMonth
+import java.util.*
 
 @Suppress("DEPRECATION")
 fun View.setLightStatusBar() {
@@ -109,3 +113,28 @@ fun EditText.setTextLengthWatcher(
         runOnTextEntered?.invoke()
     }
 })
+
+fun TextView.setTextColorFromRes(@ColorRes resId: Int) {
+    val color = ContextCompat.getColor(context, resId)
+    this.setTextColor(color)
+}
+
+/**
+ * This extension set the capitalized name of the month in STANDALONE format.
+ * example: July | Июль
+ *
+ * @param yearMonth The date in the year month format
+ * @param text The text after month string
+ */
+@SuppressLint("NewApi")
+fun TextView.setStandaloneMonthString(yearMonth: YearMonth, text: String = "") {
+    val calendar = Calendar.getInstance()
+    calendar.set(
+        yearMonth.year,
+        yearMonth.monthValue - 1,
+        yearMonth.atDay(1).dayOfMonth
+    )
+    val month = android.text.format.DateFormat.format("LLLL", calendar).toString()
+        .capitalize()
+    this.text = context.getString(R.string.calendar_month_header, month, text)
+}

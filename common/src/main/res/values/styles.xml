@@ -101,4 +101,26 @@
         <item name="android:windowNoTitle">true</item>
         <item name="android:windowBackground">@color/shadow_color_primary</item>
     </style>
+
+    <style name="BottomSheetDialog_Black" parent="Theme.MaterialComponents.Light.BottomSheetDialog">
+        <item name="bottomSheetStyle">@style/BottomSheet.Style</item>
+        <item name="android:windowIsFloating">false</item>
+        <item name="android:windowBackground">@color/background_shadow</item>
+        <item name="android:statusBarColor">@color/background_shadow</item>
+        <item name="android:windowSoftInputMode">adjustResize</item>
+        <item name="android:windowNoTitle">true</item>
+    </style>
+
+    <style name="SelectableItemTheme">
+        <item name="colorControlHighlight">@color/button_tint_primary</item>
+    </style>
+
+    <style name="SelectableItemTheme.Primary" parent="SelectableItemTheme">
+        <item name="colorControlHighlight">@color/highlight_color_primary</item>
+    </style>
+
+    <style name="ImageButtonSelectable" parent="SelectableItemTheme.Primary">
+        <item name="android:theme">@style/SelectableItemTheme.Primary</item>
+        <item name="android:background">?selectableItemBackgroundBorderless</item>
+    </style>
 </resources>

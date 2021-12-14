@@ -28,3 +28,14 @@ fun Fragment.handleBackPressed(callback: OnBackPressedCallback) {
 }
 
 fun Fragment.tag(): String = this::class.java.simpleName
+
+fun Fragment.addBackPressedCallback(action: () -> Unit) {
+    requireActivity().onBackPressedDispatcher.addCallback(
+        viewLifecycleOwner,
+        object : OnBackPressedCallback(true) {
+            override fun handleOnBackPressed() {
+                action()
+            }
+        }
+    )
+}

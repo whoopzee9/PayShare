@@ -2,8 +2,10 @@ package ru.spbstu.feature.events.presentation
 
 import android.view.View
 import android.view.ViewGroup
+import androidx.lifecycle.lifecycleScope
 import com.google.android.material.bottomsheet.BottomSheetBehavior
 import com.google.android.material.bottomsheet.BottomSheetDialog
+import kotlinx.coroutines.launch
 import ru.spbstu.common.di.FeatureUtils
 import ru.spbstu.common.extenstions.clearLightStatusBar
 import ru.spbstu.common.extenstions.setDebounceClickListener
@@ -11,16 +13,20 @@ import ru.spbstu.common.extenstions.setStatusBarColor
 import ru.spbstu.common.extenstions.viewBinding
 import ru.spbstu.common.utils.ToolbarFragment
 import ru.spbstu.feature.R
+import ru.spbstu.feature.calendar.presentation.CalendarFragment
 import ru.spbstu.feature.databinding.FragmentAddEventDialogBinding
 import ru.spbstu.feature.databinding.FragmentEventsBinding
 import ru.spbstu.feature.databinding.FragmentTimePickerDialogBinding
 import ru.spbstu.feature.di.FeatureApi
 import ru.spbstu.feature.di.FeatureComponent
+import ru.spbstu.feature.domain.model.CalendarDateRange
+import ru.spbstu.feature.domain.model.CalendarSelectionMode
 import ru.spbstu.feature.events.presentation.adapter.EventsAdapter
 import ru.spbstu.feature.events.presentation.dialogs.SearchEventDialogFragment
 import ru.spbstu.feature.events.presentation.wheelPicker.HourPickerAdapter
 import ru.spbstu.feature.events.presentation.wheelPicker.MinutePickerAdapter
 import studio.clapp.wheelpicker.extensions.formatLeadingZero
+import java.time.LocalDate
 import java.time.LocalTime
 import kotlin.math.ceil
 
@@ -43,6 +49,7 @@ class EventsFragment : ToolbarFragment<EventsViewModel>(
     private lateinit var timePickerDialogBinding: FragmentTimePickerDialogBinding
     private lateinit var timePickerMinuteAdapter: MinutePickerAdapter
     private lateinit var timePickerHourAdapter: HourPickerAdapter
+    private val calendarFragment by lazy { CalendarFragment(CalendarSelectionMode.SINGLE_DAY) }
 
     override fun getToolbarLayout(): ViewGroup = binding.frgEventsLayoutToolbar.root
 
@@ -121,9 +128,18 @@ class EventsFragment : ToolbarFragment<EventsViewModel>(
                     dialogBinding.frgAddEventDialogEtTime.setText("${hour.formatLeadingZero()}:${min.formatLeadingZero()}")
                 }
             }
+            dialogBinding.frgAddEventDialogEtDate.setDebounceClickListener {
+                calendarFragment.show(parentFragmentManager, DATE_DIALOG_TAG)
+            }
             dialogBinding.frgAddEventDialogMbSave.setDebounceClickListener {
 
             }
+            viewModel.bundleDataWrapper.bundleData.observe {
+                val text = (it.get(CalendarFragment.DATA_KEY) as? CalendarDateRange)?.startDate
+                    ?: LocalDate.now().toString()
+                dialogBinding.frgAddEventDialogEtDate.setText(text.toString())
+            }
+
             eventAddingDialog?.setContentView(dialogBinding.root)
             eventAddingDialog?.behavior?.state = BottomSheetBehavior.STATE_EXPANDED
         }
@@ -172,5 +188,6 @@ class EventsFragment : ToolbarFragment<EventsViewModel>(
 
     companion object {
         private const val SEARCH_DIALOG_TAG = "ru.spbstu.payshare.SEARCH_EVENT_DIALOG"
+        private const val DATE_DIALOG_TAG = "ru.spbstu.payshare.DATE_DIALOG"
     }
 }

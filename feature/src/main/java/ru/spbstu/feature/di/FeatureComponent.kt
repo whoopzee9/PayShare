@@ -2,6 +2,7 @@ package ru.spbstu.feature.di
 
 import dagger.BindsInstance
 import dagger.Component
+import ru.spbstu.feature.calendar.di.CalendarComponent
 import ru.spbstu.common.di.CommonApi
 import ru.spbstu.common.di.scope.FeatureScope
 import ru.spbstu.feature.FeatureRouter
@@ -32,6 +33,7 @@ interface FeatureComponent {
     fun debtComponentFactory(): DebtComponent.Factory
     fun historyComponentFactory(): HistoryComponent.Factory
     fun profileComponentFactory(): ProfileComponent.Factory
+    fun calendarComponentFactory(): CalendarComponent.Factory
 
     @Component.Factory
     interface Factory {
