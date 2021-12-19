@@ -54,9 +54,12 @@ abstract class ToolbarFragment<T : BackViewModel> constructor(
             ToolbarType.EMPTY -> {
                 layoutToolbarBinding.includeToolbarIbFirstButton.visibility = View.GONE
                 layoutToolbarBinding.includeToolbarIbSecondButton.visibility = View.GONE
+                layoutToolbarBinding.includeToolbarIbBackButton.visibility = View.GONE
             }
             ToolbarType.PURCHASES -> {
                 layoutToolbarBinding.includeToolbarIbFirstButton.visibility = View.VISIBLE
+                layoutToolbarBinding.includeToolbarIbSecondButton.visibility = View.VISIBLE
+                layoutToolbarBinding.includeToolbarIbBackButton.visibility = View.GONE
                 layoutToolbarBinding.includeToolbarIbFirstButton.setImageResource(type.firstIcon)
                 layoutToolbarBinding.includeToolbarIbSecondButton.setImageResource(type.secondIcon)
                 layoutToolbarBinding.root.setBackgroundColor(
@@ -73,15 +76,21 @@ abstract class ToolbarFragment<T : BackViewModel> constructor(
                 )
             }
             ToolbarType.BACK -> {
-                layoutToolbarBinding.includeToolbarIbFirstButton.visibility = View.VISIBLE
+                layoutToolbarBinding.includeToolbarIbFirstButton.visibility = View.GONE
                 layoutToolbarBinding.includeToolbarIbSecondButton.visibility = View.GONE
-                layoutToolbarBinding.includeToolbarIbFirstButton.setImageResource(type.firstIcon)
                 layoutToolbarBinding.root.setBackgroundColor(
                     ContextCompat.getColor(
                         requireContext(),
-                        android.R.color.transparent
+                        R.color.background_primary
                     )
                 )
+                layoutToolbarBinding.includeToolbarIbBackButton.visibility = View.VISIBLE
+                layoutToolbarBinding.includeToolbarIbBackButton.setDebounceClickListener {
+                    viewModel.back()
+                }
+                handleBackPressed {
+                    viewModel.back()
+                }
             }
             else -> {
 
@@ -93,11 +102,6 @@ abstract class ToolbarFragment<T : BackViewModel> constructor(
         firstClickListener?.let {
             layoutToolbarBinding.includeToolbarIbFirstButton.setDebounceClickListener {
                 it()
-            }
-            if (type == ToolbarType.BACK) {
-                handleBackPressed {
-                    it()
-                }
             }
         }
         secondClickListener?.let {

@@ -48,6 +48,18 @@ class Navigator : FeatureRouter {
         }
     }
 
+    override fun openQrCodeFragment() {
+        when (navController?.currentDestination?.id) {
+            R.id.eventsFragment -> navController?.navigate(R.id.action_eventsFragment_to_qrCodeFragment)
+        }
+    }
+
+    override fun openLoginFragment() {
+        when (navController?.currentDestination?.id) {
+            R.id.eventsFragment -> navController?.navigate(R.id.action_eventsFragment_to_loginFragment)
+        }
+    }
+
     fun checkBottomBar() {
         EventBus.getDefault().post(
             SetBottomNavVisibility(
@@ -59,7 +71,8 @@ class Navigator : FeatureRouter {
 
     private companion object {
         val navBarHiddenIdsList = listOf(
-            R.id.loginFragment
+            R.id.loginFragment,
+            R.id.qrCodeFragment
         )
     }
 }

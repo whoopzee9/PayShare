@@ -4,4 +4,6 @@ import ru.spbstu.common.base.BaseBackRouter
 
 interface FeatureRouter : BaseBackRouter {
     fun openMainFragment()
+    fun openQrCodeFragment()
+    fun openLoginFragment()
 }

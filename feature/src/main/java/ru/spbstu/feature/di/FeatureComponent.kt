@@ -13,6 +13,7 @@ import ru.spbstu.feature.expense.di.ExpenseComponent
 import ru.spbstu.feature.history.di.HistoryComponent
 import ru.spbstu.feature.login.di.LoginComponent
 import ru.spbstu.feature.profile.di.ProfileComponent
+import ru.spbstu.feature.qr_code.di.QrCodeComponent
 
 @Component(
     dependencies = [
@@ -34,6 +35,7 @@ interface FeatureComponent {
     fun historyComponentFactory(): HistoryComponent.Factory
     fun profileComponentFactory(): ProfileComponent.Factory
     fun calendarComponentFactory(): CalendarComponent.Factory
+    fun qrCodeComponentFactory(): QrCodeComponent.Factory
 
     @Component.Factory
     interface Factory {

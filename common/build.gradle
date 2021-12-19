@@ -82,4 +82,6 @@ dependencies {
 
     implementation vkSdkCodeDep
     implementation vkSdkApiDep
+
+    implementation dexterDep
 }

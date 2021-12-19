@@ -56,6 +56,12 @@ buildscript {
 
         calendarViewVersion = '1.0.4'
 
+        barcodeScanningVersion = '17.0.0'
+
+        cameraViewVersion = '2.7.2'
+
+        dexterVersion = '6.2.3'
+
 
         kotlinDep = "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlinVersion"
 
@@ -114,6 +120,12 @@ buildscript {
         wheelPickerDep = "studio.clapp:wheelpicker:$wheelPickerVersion"
 
         calendarViewDep = "com.github.kizitonwose:CalendarView:$calendarViewVersion"
+
+        barcodeScanningDep = "com.google.mlkit:barcode-scanning:$barcodeScanningVersion"
+
+        cameraViewDep = "com.otaliastudios:cameraview:$cameraViewVersion"
+
+        dexterDep = "com.karumi:dexter:$dexterVersion"
     }
 
     ext.kotlin_version = "1.5.30"

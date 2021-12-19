@@ -2,10 +2,8 @@ package ru.spbstu.feature.events.presentation
 
 import android.view.View
 import android.view.ViewGroup
-import androidx.lifecycle.lifecycleScope
 import com.google.android.material.bottomsheet.BottomSheetBehavior
 import com.google.android.material.bottomsheet.BottomSheetDialog
-import kotlinx.coroutines.launch
 import ru.spbstu.common.di.FeatureUtils
 import ru.spbstu.common.extenstions.clearLightStatusBar
 import ru.spbstu.common.extenstions.setDebounceClickListener
@@ -67,6 +65,10 @@ class EventsFragment : ToolbarFragment<EventsViewModel>(
         //search
         binding.frgEventsLayoutToolbar.includeToolbarIbSecondButton.setDebounceClickListener {
             showSearchEventDialog()
+        }
+        //QrCode
+        binding.frgEventsLayoutToolbar.includeToolbarIbFirstButton.setDebounceClickListener {
+            viewModel.openQrCodeScanner()
         }
         binding.frgEventsFabAdd.setDebounceClickListener {
             showEventAddingDialog()

@@ -25,6 +25,10 @@ class EventsViewModel(val router: FeatureRouter, val bundleDataWrapper: BundleDa
 
     }
 
+    fun openQrCodeScanner() {
+        router.openQrCodeFragment()
+    }
+
     init {
         _events.value = listOf(
             Event(

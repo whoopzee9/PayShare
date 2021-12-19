@@ -65,6 +65,7 @@
         <item name="strokeWidth">@dimen/dp_1</item>
         <item name="strokeColor">@color/stroke_color_primary</item>
         <item name="cornerRadius">@dimen/dp_10</item>
+        <item name="android:textColor">@color/text_color_primary</item>
         <item name="android:backgroundTint">@color/button_tint_secondary</item>
     </style>
 

@@ -100,4 +100,10 @@ dependencies {
     implementation wheelPickerDep
 
     implementation calendarViewDep
+
+    implementation barcodeScanningDep
+
+    api cameraViewDep
+
+    implementation dexterDep
 }

@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <include
+        android:id="@+id/frg_qr_code__layout_toolbar"
+        layout="@layout/include_toolbar" />
+
+    <com.otaliastudios.cameraview.CameraView
+        android:id="@+id/frg_qr_code__camera_view"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        app:cameraAudio="off"
+        app:cameraPictureSizeAspectRatio="18:9"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/frg_qr_code__layout_toolbar"/>
+
+    <View
+        android:id="@+id/frg_qr_code__border_carcass"
+        android:layout_width="224dp"
+        android:layout_height="224dp"
+        android:src="@drawable/camera_qr_scanner"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/frg_qr_code__layout_toolbar" />
+
+    <View
+        android:id="@+id/frg_qr_code__qr_top"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:background="#66000000"
+        app:layout_constraintBottom_toTopOf="@+id/frg_qr_code__border_carcass"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <View
+        android:id="@+id/frg_qr_code__qr_bottom"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:background="#66000000"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/frg_qr_code__border_carcass" />
+
+    <View
+        android:id="@+id/frg_qr_code__qr_left"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:background="#66000000"
+        app:layout_constraintBottom_toTopOf="@id/frg_qr_code__qr_bottom"
+        app:layout_constraintEnd_toStartOf="@id/frg_qr_code__border_carcass"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/frg_qr_code__qr_top" />
+
+    <View
+        android:id="@+id/frg_qr_code__qr_right"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:background="#66000000"
+        app:layout_constraintBottom_toTopOf="@+id/frg_qr_code__qr_bottom"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/frg_qr_code__border_carcass"
+        app:layout_constraintTop_toBottomOf="@+id/frg_qr_code__qr_top" />
+
+    <ImageView
+        android:id="@+id/frg_qr_code__border_qr"
+        android:layout_width="236dp"
+        android:layout_height="236dp"
+        android:src="@drawable/camera_qr_scanner"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/frg_qr_code__layout_toolbar" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>
