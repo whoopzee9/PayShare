@@ -46,7 +46,7 @@ abstract class ToolbarFragment<T : BackViewModel> constructor(
     private fun setToolbar(
         type: ToolbarType = this.type,
         @StringRes titleResource: Int = this.titleResource,
-        firstClickListener: (() -> Unit)? = { viewModel.back() },
+        firstClickListener: (() -> Unit)? = { },
         secondClickListener: (() -> Unit)? = { },
     ) {
         _layoutToolbarBinding = IncludeToolbarBinding.bind(getToolbarLayout())
@@ -98,6 +98,24 @@ abstract class ToolbarFragment<T : BackViewModel> constructor(
                     viewModel.back()
                 }
             }
+            ToolbarType.PROFILE -> {
+                layoutToolbarBinding.includeToolbarIbFirstButton.visibility = View.GONE
+                layoutToolbarBinding.includeToolbarIbSecondButton.visibility = View.VISIBLE
+                layoutToolbarBinding.includeToolbarIbBackButton.visibility = View.GONE
+                layoutToolbarBinding.includeToolbarIbSecondButton.setImageResource(type.secondIcon)
+                layoutToolbarBinding.root.setBackgroundColor(
+                    ContextCompat.getColor(
+                        requireContext(),
+                        R.color.background_primary
+                    )
+                )
+                layoutToolbarBinding.includeToolbarTvTitle.setTextColor(
+                    ContextCompat.getColor(
+                        requireContext(),
+                        R.color.text_color_primary
+                    )
+                )
+            }
             else -> {
 
             }
@@ -121,6 +139,7 @@ abstract class ToolbarFragment<T : BackViewModel> constructor(
         BACK(android.R.drawable.ic_delete, 0), EMPTY(0, 0), PURCHASES(
             R.drawable.ic_qr_code_24,
             R.drawable.ic_search_24
-        )
+        ),
+        PROFILE(0, R.drawable.ic_exit_24)
     }
 }
