@@ -21,13 +21,8 @@
     <string name="enter_with_qr">Войти с QR</string>
     <string name="cancel">Отмена</string>
     <string name="ok">Ок</string>
-    <string name="total_amount">Общая сумма:</string>
-    <string name="participants">Участвуют</string>
-    <string name="buy">Скидываемся</string>
-
     <string name="new_event">Новое событие</string>
     <string name="save">Сохранить</string>
-
     <string name="title">Название</string>
     <string name="date">Дата</string>
     <string name="time">Время</string>
@@ -48,6 +43,11 @@
     <string name="event_date">Дата события</string>
     <string name="end_date">Дата окончания</string>
     <string name="select_start_date">Выберите дату начала</string>
+
+    <string name="total_amount">Общая сумма:</string>
+    <string name="participants">Участвуют</string>
+    <string name="buy">Скидываемся</string>
+
     <string name="new_purchase">Добавление расхода</string>
     <string name="price">Стоимость</string>
     <string name="shop">Магазин</string>

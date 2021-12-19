@@ -90,4 +90,14 @@ dependencies {
     implementation calendarViewDep
 
     implementation coilDep
+
+    implementation wheelPickerDep
+
+    implementation calendarViewDep
+
+    implementation barcodeScanningDep
+
+    api cameraViewDep
+
+    implementation dexterDep
 }

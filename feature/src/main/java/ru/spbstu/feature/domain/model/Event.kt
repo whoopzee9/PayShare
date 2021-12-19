@@ -4,14 +4,13 @@ import ru.spbstu.common.base.BaseModel
 import java.time.LocalDateTime
 
 data class Event(
-    override val id: Long,
-    val code: String,
-    val name: String,
-    val date: LocalDateTime,
-    val expenses: List<Expense>,
-    val users: List<User>,
-    val isFavourite: Boolean
-
+    override val id: Long = 0,
+    val code: String = "",
+    val name: String = "",
+    val date: LocalDateTime = LocalDateTime.now(),
+    val expenses: List<Expense> = listOf(),
+    val users: List<User> = listOf(),
+    val isFavourite: Boolean = false
 ) : BaseModel(id) {
     override fun isContentEqual(other: BaseModel): Boolean {
         return other is Event && this.code == other.code && this.name == other.name &&

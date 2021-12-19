@@ -50,8 +50,23 @@ class Navigator : FeatureRouter {
         }
     }
 
-    override fun openEventFragment(event: Event) {
+    override fun openQrCodeFragment() {
         when (navController?.currentDestination?.id) {
+            R.id.eventsFragment -> navController?.navigate(R.id.action_eventsFragment_to_qrCodeFragment)
+        }
+    }
+
+    override fun openLoginFragment() {
+        when (navController?.currentDestination?.id) {
+            R.id.eventsFragment -> navController?.navigate(R.id.action_eventsFragment_to_loginFragment)
+        }
+    }
+
+    override fun openEventFragment(event: Event) {
+        // todo send bundle
+        when (navController?.currentDestination?.id) {
+            R.id.qrCodeFragment -> navController?.navigate(R.id.action_qrCodeFragment_to_eventFragment)
+            // R.id.eventsFragment -> navController?.navigate(R.id.action_eventsFragment_to_eventFragment)
             R.id.eventsFragment -> {
                 val bundle = EventFragment.makeBundle()
                 navController?.navigate(
@@ -72,7 +87,8 @@ class Navigator : FeatureRouter {
 
     private companion object {
         val navBarHiddenIdsList = listOf(
-            R.id.loginFragment
+            R.id.loginFragment,
+            R.id.qrCodeFragment
         )
     }
 }

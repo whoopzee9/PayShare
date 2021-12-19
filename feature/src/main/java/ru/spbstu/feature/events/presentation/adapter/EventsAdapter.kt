@@ -1,9 +1,7 @@
 package ru.spbstu.feature.events.presentation.adapter
 
-import android.os.Build
 import android.view.View
 import android.view.ViewGroup
-import androidx.annotation.RequiresApi
 import ru.spbstu.common.base.BaseAdapter
 import ru.spbstu.common.base.BaseViewHolder
 import ru.spbstu.common.extenstions.setDebounceClickListener
@@ -13,10 +11,7 @@ import ru.spbstu.feature.databinding.ItemEventsBinding
 import ru.spbstu.feature.domain.model.Event
 import java.time.format.DateTimeFormatter
 
-@RequiresApi(Build.VERSION_CODES.O)
-
-class EventsAdapter(val onItemClick: (Event) -> Unit) :
-    BaseAdapter<Event, EventsAdapter.EventsViewHolder>() {
+class EventsAdapter(val onItemClick: (Event) -> Unit) : BaseAdapter<Event, EventsAdapter.EventsViewHolder>() {
 
     inner class EventsViewHolder(parent: ViewGroup) :
         BaseViewHolder<Event, ItemEventsBinding>(parent.viewBinding(ItemEventsBinding::inflate)) {
@@ -25,13 +20,12 @@ class EventsAdapter(val onItemClick: (Event) -> Unit) :
         private var prevFavourite = true
 
         init {
-            binding.itemEventsCvCard.setDebounceClickListener {
+            binding.itemEventsCardViewLayout.setDebounceClickListener {
                 onItemClick(item)
             }
         }
 
         override fun bind(item: Event) {
-
             var totalPrice = 0.0
             this.item = item
             item.expenses.forEach { totalPrice += it.price }
@@ -77,6 +71,7 @@ class EventsAdapter(val onItemClick: (Event) -> Unit) :
                 binding.itemEventsTvAll.visibility = View.GONE
             }
             prevFavourite = item.isFavourite
+
         }
     }
 

@@ -13,6 +13,7 @@ import com.kizitonwose.calendarview.ui.ViewContainer
 import com.kizitonwose.calendarview.utils.yearMonth
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
+import ru.spbstu.feature.calendar.presentation.calendar_binder.CalendarDayBinder
 import ru.spbstu.common.di.FeatureUtils
 import ru.spbstu.common.extenstions.addBackPressedCallback
 import ru.spbstu.common.extenstions.setDebounceClickListener
@@ -20,7 +21,6 @@ import ru.spbstu.common.extenstions.setStandaloneMonthString
 import ru.spbstu.common.extenstions.setTextColorFromRes
 import ru.spbstu.common.utils.FullScreenBottomSheetDialogFragment
 import ru.spbstu.feature.R
-import ru.spbstu.feature.calendar.presentation.calendar_binder.CalendarDayBinder
 import ru.spbstu.feature.databinding.FragmentCalendarBinding
 import ru.spbstu.feature.databinding.IncludeCalendarMonthLayoutBinding
 import ru.spbstu.feature.di.FeatureApi
@@ -191,9 +191,9 @@ class CalendarFragment(
     @SuppressLint("NewApi")
     private fun setDoneButtonIsClickable(calendarDateRange: CalendarDateRange) {
         if (calendarDateRange.endDate != null || (
-            calendarDateRange.startDate != null &&
-                viewModel.calendarMode == CalendarSelectionMode.SINGLE_DAY
-            )
+                    calendarDateRange.startDate != null &&
+                            viewModel.calendarMode == CalendarSelectionMode.SINGLE_DAY
+                    )
         ) {
             binding.frgCalendarMbDone.isEnabled = true
             binding.frgCalendarMbDone.setBackgroundColor(

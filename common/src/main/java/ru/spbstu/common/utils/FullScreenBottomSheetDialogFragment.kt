@@ -67,16 +67,16 @@ open class FullScreenBottomSheetDialogFragment : BottomSheetDialogFragment() {
     protected open fun onDialogShown() {
         (requireView().parent as View).alpha = ALPHA_SHOWN
         parentBehavior.addBottomSheetCallback(object :
-                BottomSheetBehavior.BottomSheetCallback() {
-                override fun onStateChanged(bottomSheet: View, newState: Int) {
-                    if (newState == BottomSheetBehavior.STATE_HIDDEN) {
-                        hide()
-                    }
+            BottomSheetBehavior.BottomSheetCallback() {
+            override fun onStateChanged(bottomSheet: View, newState: Int) {
+                if (newState == BottomSheetBehavior.STATE_HIDDEN) {
+                    hide()
                 }
+            }
 
-                override fun onSlide(bottomSheet: View, slideOffset: Float) {
-                }
-            })
+            override fun onSlide(bottomSheet: View, slideOffset: Float) {
+            }
+        })
     }
 
     private fun setupFullHeight(bottomSheet: View) {

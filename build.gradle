@@ -52,11 +52,11 @@ buildscript {
 
         pinEditTextVersion = '1.2.6'
 
-        wheelPickerVersion = '1.0.1'
+        barcodeScanningVersion = '17.0.0'
 
-        calendarViewVersion = '1.0.4'
+        cameraViewVersion = '2.7.2'
 
-        coilVersion = '1.3.2'
+        dexterVersion = '6.2.3'
 
 
         kotlinDep = "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlinVersion"
@@ -66,7 +66,7 @@ buildscript {
         cardViewDep = "androidx.cardview:cardview:$cardViewVersion"
         recyclerViewDep = "androidx.recyclerview:recyclerview:$recyclerVersion"
         constraintDep = "androidx.constraintlayout:constraintlayout:$constraintVersion"
-        materialDep = "com.google.android.material:material:$materialVersion"
+        materialDep = "com.google.android.material:material:$supportVersion"
         timberDep = "com.jakewharton.timber:timber:$timberVersion"
 
         daggerDep = "com.google.dagger:dagger:$daggerVersion"
@@ -113,11 +113,11 @@ buildscript {
 
         pinEditTextDep = "com.github.poovamraj:PinEditTextField:$pinEditTextVersion"
 
-        wheelPickerDep = "studio.clapp:wheelpicker:$wheelPickerVersion"
+        barcodeScanningDep = "com.google.mlkit:barcode-scanning:$barcodeScanningVersion"
 
-        calendarViewDep = "com.github.kizitonwose:CalendarView:$calendarViewVersion"
+        cameraViewDep = "com.otaliastudios:cameraview:$cameraViewVersion"
 
-        coilDep = "io.coil-kt:coil:$coilVersion"
+        dexterDep = "com.karumi:dexter:$dexterVersion"
     }
 
     ext.kotlin_version = "1.5.30"
@@ -126,7 +126,7 @@ buildscript {
         mavenCentral()
     }
     dependencies {
-        classpath 'com.android.tools.build:gradle:4.2.2'
+        classpath 'com.android.tools.build:gradle:7.0.4'
         classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlin_version"
         classpath 'com.google.gms:google-services:4.3.10'
         classpath "com.google.firebase:firebase-crashlytics-gradle:$crashlyticsGradleVersion"
