@@ -14,4 +14,36 @@
     <string name="purchases">Покупки</string>
     <string name="archive">Архив</string>
     <string name="profile">Профиль</string>
+    <string name="no_active_events">Нет активных событий\nСоздайте!</string>
+    <string name="all">Все</string>
+    <string name="total_price_template">Итог: %.2f руб</string>
+    <string name="enter_room_code">Введите код комнаты</string>
+    <string name="enter_with_qr">Войти с QR</string>
+    <string name="cancel">Отмена</string>
+    <string name="ok">Ок</string>
+    <string name="new_event">Новое событие</string>
+    <string name="save">Сохранить</string>
+    <string name="title">Название</string>
+    <string name="date">Дата</string>
+    <string name="time">Время</string>
+    <string name="hour_short">ч</string>
+    <string name="minute_short">м</string>
+    <string name="choose_time">Выберите время</string>
+
+    <string name="monday_short">пн</string>
+    <string name="tuesday_short">вт</string>
+    <string name="wednesday_short">ср</string>
+    <string name="thursday_short">чт</string>
+    <string name="friday_short">пт</string>
+    <string name="saturday_short">сб</string>
+    <string name="sunday_short">вс</string>
+    <string name="calendar_month_header">%s %s</string>
+
+    <string name="select_date">Выберите дату</string>
+    <string name="event_date">Дата события</string>
+    <string name="end_date">Дата окончания</string>
+    <string name="select_start_date">Выберите дату начала</string>
+    <string name="scanning">Сканирование</string>
+    <string name="need_permissions">Необходимо предоставить разрешения для использования камеры</string>
+    <string name="join">Присоединиться</string>
 </resources>

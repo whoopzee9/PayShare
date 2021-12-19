@@ -94,4 +94,16 @@ dependencies {
 
     implementation vkSdkCodeDep
     implementation vkSdkApiDep
+
+    implementation pinEditTextDep
+
+    implementation wheelPickerDep
+
+    implementation calendarViewDep
+
+    implementation barcodeScanningDep
+
+    api cameraViewDep
+
+    implementation dexterDep
 }
