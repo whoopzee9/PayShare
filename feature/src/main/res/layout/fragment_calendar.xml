@@ -1,0 +1,137 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/frg_calendar__sheet"
+    android:layout_width="match_parent"
+    android:layout_height="0dp"
+    android:background="@drawable/background_rounded_top"
+    android:orientation="vertical"
+    app:behavior_hideable="true"
+    app:behavior_peekHeight="0dp"
+    app:layout_behavior="com.google.android.material.bottomsheet.BottomSheetBehavior"
+    tools:layout_height="match_parent">
+
+    <ImageButton
+        android:id="@+id/frg_calendar__ib_back"
+        style="@style/ImageButtonSelectable"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentTop="true"
+        android:layout_marginVertical="@dimen/dp_16"
+        android:layout_marginEnd="@dimen/dp_24"
+        android:padding="@dimen/dp_10"
+        android:src="@drawable/ic_close_24"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/frg_calendar__tv_title"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/dp_16"
+        android:layout_marginTop="@dimen/dp_40"
+        android:text="@string/select_date"
+        android:textColor="@color/text_color_secondary_dark"
+        android:textSize="@dimen/sp_14"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/frg_calendar__tv_calendar_select_date"
+        style="@style/TextView.Title"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/dp_16"
+        android:layout_marginTop="@dimen/dp_16"
+        android:includeFontPadding="false"
+        android:text="@string/select_start_date"
+        android:visibility="gone"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/frg_calendar__tv_title"
+        app:layout_constraintWidth_percent="0.65" />
+
+    <TextView
+        android:id="@+id/frg_calendar__tv_start_date"
+        style="@style/TextView.Default"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textStyle="bold"
+        app:layout_constraintBottom_toBottomOf="@+id/frg_calendar__iv_arrow"
+        app:layout_constraintEnd_toStartOf="@+id/frg_calendar__iv_arrow"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/frg_calendar__iv_arrow"
+        tools:text="1 июля 2021" />
+
+    <TextView
+        android:id="@+id/frg_calendar__tv_end_date"
+        style="@style/TextView.Default"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/end_date"
+        android:textColor="@color/text_color_secondary_dark"
+        android:textStyle="bold"
+        app:layout_constraintBottom_toBottomOf="@+id/frg_calendar__iv_arrow"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/frg_calendar__iv_arrow"
+        app:layout_constraintTop_toTopOf="@+id/frg_calendar__iv_arrow" />
+
+    <ImageView
+        android:id="@+id/frg_calendar__iv_arrow"
+        android:layout_width="@dimen/dp_20"
+        android:layout_height="@dimen/dp_20"
+        android:layout_marginTop="@dimen/dp_20"
+        android:rotation="180"
+        android:src="@drawable/ic_back_arrow_2_24"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/frg_calendar__tv_title"
+        app:tint="@color/background_secondary_dark" />
+
+    <TextView
+        android:id="@+id/frg_calendar__tv_single_day"
+        style="@style/TextView.Default"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/dp_20"
+        android:textStyle="bold"
+        android:visibility="gone"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/frg_calendar__tv_title"
+        tools:text="1 июля 2021"
+        tools:visibility="visible" />
+
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_marginTop="@dimen/dp_24"
+        android:background="@color/background_primary"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintTop_toTopOf="@id/frg_calendar__calendar_layout" />
+
+    <include
+        android:id="@+id/frg_calendar__calendar_layout"
+        layout="@layout/include_calendar_layout"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_marginHorizontal="@dimen/dp_8"
+        android:layout_marginTop="@dimen/dp_32"
+        app:layout_constraintBottom_toTopOf="@id/frg_calendar__mb_done"
+        app:layout_constraintTop_toBottomOf="@id/frg_calendar__tv_calendar_select_date"
+        app:layout_goneMarginTop="@dimen/dp_72" />
+
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/frg_calendar__mb_done"
+        style="@style/Button.Save"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginHorizontal="@dimen/dp_16"
+        android:layout_marginBottom="@dimen/dp_16"
+        android:text="@string/save"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

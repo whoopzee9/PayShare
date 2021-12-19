@@ -85,5 +85,9 @@ dependencies {
 
     implementation pinEditTextDep
 
+    implementation wheelPickerDep
+
+    implementation calendarViewDep
+
     implementation coilDep
 }

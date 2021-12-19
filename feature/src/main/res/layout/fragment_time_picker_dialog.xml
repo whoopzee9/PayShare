@@ -1,0 +1,103 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    app:layout_behavior="com.google.android.material.bottomsheet.BottomSheetBehavior">
+
+    <View
+        android:id="@+id/frg_time_picker_dialog__top_view"
+        android:layout_width="@dimen/dp_26"
+        android:layout_height="@dimen/dp_2"
+        android:layout_marginTop="10dp"
+        android:layout_marginBottom="@dimen/dp_10"
+        android:background="@color/top_view_color"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/frg_time_picker_dialog__tv_title"
+        style="@style/TextView.SubTitle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/dp_28"
+        android:text="@string/choose_time"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/frg_time_picker_dialog__top_view" />
+
+    <studio.clapp.wheelpicker.WheelPicker
+        android:id="@+id/frg_time_picker_dialog__hour_picker"
+        android:layout_width="0dp"
+        android:layout_height="250dp"
+        android:layout_below="@id/frg_time_picker_dialog__tv_title"
+        android:layout_marginTop="@dimen/dp_50"
+        android:fontFamily="@font/montserrat_medium"
+        android:paddingStart="90dp"
+        app:align="LEFT"
+        app:layout_constraintEnd_toStartOf="@+id/frg_time_picker_dialog__minute_picker"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/frg_time_picker_dialog__tv_title"
+        app:selectedTextColor="@color/text_color_hint_primary"
+        app:selectedTextScale="1.2"
+        app:textColor="@color/text_color_hint_primary"
+        app:textSize="@dimen/sp_42"
+        app:wheelItemCount="5" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="176dp"
+        android:layout_marginTop="116dp"
+        android:fontFamily="@font/montserrat_regular"
+        android:text="@string/hour_short"
+        android:textColor="@color/text_color_hint_primary"
+        android:textSize="@dimen/sp_18"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@id/frg_time_picker_dialog__hour_picker" />
+
+    <studio.clapp.wheelpicker.WheelPicker
+        android:id="@+id/frg_time_picker_dialog__minute_picker"
+        android:layout_width="0dp"
+        android:layout_height="250dp"
+        android:layout_marginTop="@dimen/dp_50"
+        android:fontFamily="@font/montserrat_medium"
+        android:paddingEnd="90dp"
+        app:align="RIGHT"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@id/frg_time_picker_dialog__hour_picker"
+        app:layout_constraintTop_toBottomOf="@id/frg_time_picker_dialog__tv_title"
+        app:selectedTextColor="@color/text_color_hint_primary"
+        app:selectedTextScale="1.2"
+        app:textColor="@color/text_color_hint_primary"
+        app:textSize="@dimen/sp_42"
+        app:wheelItemCount="5" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="116dp"
+        android:layout_marginEnd="70dp"
+        android:fontFamily="@font/montserrat_regular"
+        android:text="@string/minute_short"
+        android:textColor="@color/text_color_hint_primary"
+        android:textSize="@dimen/sp_18"
+        app:layout_constraintEnd_toEndOf="@id/frg_time_picker_dialog__minute_picker"
+        app:layout_constraintTop_toTopOf="@id/frg_time_picker_dialog__minute_picker" />
+
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/frg_time_picker_dialog__mb_save"
+        style="@style/Button.Save"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginHorizontal="@dimen/dp_18"
+        android:layout_marginTop="@dimen/dp_20"
+        android:layout_marginBottom="@dimen/dp_20"
+        android:text="@string/save"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/frg_time_picker_dialog__hour_picker" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>
