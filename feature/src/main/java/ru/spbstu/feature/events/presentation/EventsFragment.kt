@@ -115,7 +115,7 @@ class EventsFragment : ToolbarFragment<EventsViewModel>(
 
         }
         dialogFragment.setOnQRClickListener {
-
+            viewModel.openQrCodeScanner()
         }
         dialogFragment.show(parentFragmentManager, SEARCH_DIALOG_TAG)
     }

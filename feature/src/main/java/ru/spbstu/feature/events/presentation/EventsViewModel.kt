@@ -22,7 +22,7 @@ class EventsViewModel(val router: FeatureRouter, val bundleDataWrapper: BundleDa
     }
 
     fun openEvent(event: Event) {
-
+        router.openEventFragment(event)
     }
 
     fun openQrCodeScanner() {

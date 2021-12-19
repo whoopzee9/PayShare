@@ -20,7 +20,7 @@ class EventsAdapter(val onItemClick: (Event) -> Unit) : BaseAdapter<Event, Event
         private var prevFavourite = true
 
         init {
-            binding.itemEventsCardView.setDebounceClickListener {
+            binding.itemEventsCardViewLayout.setDebounceClickListener {
                 onItemClick(item)
             }
         }
