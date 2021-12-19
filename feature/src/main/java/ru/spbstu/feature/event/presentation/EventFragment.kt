@@ -8,6 +8,8 @@ import com.google.android.material.bottomsheet.BottomSheetDialog
 import ru.spbstu.common.di.FeatureUtils
 import ru.spbstu.common.extenstions.setDebounceClickListener
 import ru.spbstu.common.extenstions.setFilledButtonClickability
+import ru.spbstu.common.extenstions.setLightStatusBar
+import ru.spbstu.common.extenstions.setStatusBarColor
 import ru.spbstu.common.extenstions.setTextLengthWatcher
 import ru.spbstu.common.extenstions.viewBinding
 import ru.spbstu.common.utils.ToolbarFragment
@@ -26,7 +28,7 @@ import java.time.LocalDate
 class EventFragment : ToolbarFragment<EventViewModel>(
     R.layout.fragment_event,
     R.string.error_connection,
-    ToolbarType.EMPTY
+    ToolbarType.ROOM
 ) {
     private var purchaseItemAddingDialog: BottomSheetDialog? = null
 
@@ -54,10 +56,16 @@ class EventFragment : ToolbarFragment<EventViewModel>(
 
     override fun setupViews() {
         super.setupViews()
+        requireActivity().setStatusBarColor(R.color.white)
+        requireView().setLightStatusBar()
         binding.frgEventLayoutToolbar.includeToolbarTvTitle.text = "Комната 228"
         binding.frgEventRvPurchases.adapter = purchaseAdapter
         binding.frgEventRvUsers.adapter = participantUserAdapter
-
+        binding.frgEventLayoutToolbar.includeToolbarIbFirstButton.setDebounceClickListener {
+            viewModel.selectAllPurchases()
+        }
+        binding.frgEventLayoutToolbar.includeToolbarIbSecondButton.setDebounceClickListener {
+        }
         binding.frgEventFabAdd.setDebounceClickListener {
             showPurchaseItemAddingDialog()
         }

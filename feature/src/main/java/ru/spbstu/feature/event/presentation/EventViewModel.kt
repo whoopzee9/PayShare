@@ -100,6 +100,13 @@ class EventViewModel(router: FeatureRouter, val bundleDataWrapper: BundleDataWra
     }
 
     fun setBoughtStatus(purchase: Expense) {
+        _purchases.value = _purchases.value.map {
+            if (it.isContentEqual(purchase)) {
+                it.copy(isBought = !purchase.isBought)
+            } else {
+                it
+            }
+        }
     }
 
     fun createNewPurchase(
@@ -108,5 +115,10 @@ class EventViewModel(router: FeatureRouter, val bundleDataWrapper: BundleDataWra
         textDate: String,
         textShop: String
     ) {
+    }
+
+    fun selectAllPurchases() {
+        // TODO select all and send by usecase
+        _purchases.value = _purchases.value.map { it.copy(isBought = true) }
     }
 }

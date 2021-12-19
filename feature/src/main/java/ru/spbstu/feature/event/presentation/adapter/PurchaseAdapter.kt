@@ -3,6 +3,7 @@ package ru.spbstu.feature.event.presentation.adapter
 import android.view.ViewGroup
 import ru.spbstu.common.base.BaseAdapter
 import ru.spbstu.common.base.BaseViewHolder
+import ru.spbstu.common.extenstions.setDebounceClickListener
 import ru.spbstu.common.extenstions.viewBinding
 import ru.spbstu.feature.databinding.ItemPurchaseBinding
 import ru.spbstu.feature.domain.model.Expense
@@ -23,10 +24,14 @@ class PurchaseAdapter(val onItemClick: (Expense) -> Unit, val onLongItemClick: (
             binding.itemPurchaseTvDate.text =
                 item.date.format(DateTimeFormatter.ofPattern("dd.MM.yy"))
             binding.itemPurchasePrice.text = item.price.toString()
+            binding.itemPurchaseCbIsBought.isChecked = item.isBought
 
             binding.itemPurchaseLayout.setOnLongClickListener {
                 onLongItemClick(item)
                 true
+            }
+            binding.itemPurchaseLayout.setDebounceClickListener {
+                onItemClick(item)
             }
         }
     }

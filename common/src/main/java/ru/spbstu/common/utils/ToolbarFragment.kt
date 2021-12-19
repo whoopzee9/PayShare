@@ -13,7 +13,6 @@ import ru.spbstu.common.databinding.IncludeToolbarBinding
 import ru.spbstu.common.extenstions.handleBackPressed
 import ru.spbstu.common.extenstions.setDebounceClickListener
 
-
 abstract class ToolbarFragment<T : BackViewModel> constructor(
     @LayoutRes contentLayoutId: Int,
     @StringRes private val titleResource: Int = 0,
@@ -92,8 +91,14 @@ abstract class ToolbarFragment<T : BackViewModel> constructor(
                     viewModel.back()
                 }
             }
+            ToolbarType.ROOM -> {
+                layoutToolbarBinding.includeToolbarIbFirstButton.visibility = View.VISIBLE
+                layoutToolbarBinding.includeToolbarIbSecondButton.visibility = View.VISIBLE
+                layoutToolbarBinding.includeToolbarIbBackButton.visibility = View.GONE
+                layoutToolbarBinding.includeToolbarIbFirstButton.setImageResource(type.firstIcon)
+                layoutToolbarBinding.includeToolbarIbSecondButton.setImageResource(type.secondIcon)
+            }
             else -> {
-
             }
         }
         if (titleResource != 0) {
@@ -115,6 +120,10 @@ abstract class ToolbarFragment<T : BackViewModel> constructor(
         BACK(android.R.drawable.ic_delete, 0), EMPTY(0, 0), PURCHASES(
             R.drawable.ic_qr_code_24,
             R.drawable.ic_search_24
+        ),
+        ROOM(
+            R.drawable.ic_is_select_all_24,
+            R.drawable.ic_info_24
         )
     }
 }

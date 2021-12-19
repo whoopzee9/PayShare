@@ -22,6 +22,7 @@
             style="@style/MaterialButton.OutlineNoElevation"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:backgroundTint="@color/white"
             android:layout_marginVertical="@dimen/dp_4"
             android:layout_marginStart="@dimen/dp_12"
             android:layout_marginEnd="@dimen/dp_10"
