@@ -1,6 +1,7 @@
 package ru.spbstu.feature.profile.presentation
 
 import android.view.ViewGroup
+import coil.load
 import ru.spbstu.common.di.FeatureUtils
 import ru.spbstu.common.extenstions.setDebounceClickListener
 import ru.spbstu.common.extenstions.setLightStatusBar
@@ -42,6 +43,9 @@ class ProfileFragment: ToolbarFragment<ProfileViewModel>(
 
     override fun subscribe() {
         super.subscribe()
-
+        viewModel.user.observe {
+            binding.frgProfileIvPicture.load(it.imageUrl)
+            binding.frgProfileTvName.text = "${it.firstName} ${it.lastName}"
+        }
     }
 }

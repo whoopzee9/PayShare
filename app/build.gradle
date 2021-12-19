@@ -106,4 +106,6 @@ dependencies {
     api cameraViewDep
 
     implementation dexterDep
+
+    implementation coilDep
 }
