@@ -10,16 +10,6 @@
         android:id="@+id/frg_event__layout_toolbar"
         layout="@layout/include_toolbar" />
 
-    <include
-        android:id="@+id/frg_event__layout_user"
-        layout="@layout/item_user"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginEnd="@dimen/dp_100"
-        android:layout_marginBottom="@dimen/dp_100"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent" />
-
     <TextView
         android:id="@+id/frg__event__title"
         android:layout_width="wrap_content"
@@ -33,26 +23,39 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/frg_event__layout_toolbar" />
 
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/frg_event__rv_users"
+        android:layout_width="@dimen/dp_0"
+        android:layout_height="wrap_content"
+        android:clipToPadding="false"
+        android:orientation="horizontal"
+        android:overScrollMode="never"
+        android:visibility="visible"
+        app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/frg__event__title"
+        tools:listitem="@layout/item_user" />
+
     <TextView
         android:id="@+id/frg__event__title_purchase"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="@dimen/dp_20"
-        android:layout_marginTop="@dimen/dp_40"
         android:text="@string/buy"
         android:textColor="@color/text_color_third_dark"
         android:textSize="@dimen/sp_12"
         android:textStyle="bold"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/frg__event__title" />
+        app:layout_constraintTop_toBottomOf="@+id/frg_event__rv_users" />
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/frg_event__rv_purchases"
         android:layout_width="@dimen/dp_0"
         android:layout_height="@dimen/dp_0"
         android:clipToPadding="false"
-        android:visibility="gone"
         android:overScrollMode="never"
+        android:visibility="visible"
         app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
         app:layout_constraintBottom_toTopOf="@id/frg__event__tv_purchase_sum"
         app:layout_constraintEnd_toEndOf="parent"
@@ -72,21 +75,6 @@
         app:srcCompat="@drawable/ic_add_24"
         app:tint="@android:color/transparent"
         app:tintMode="add" />
-
-
-    <com.google.android.material.floatingactionbutton.FloatingActionButton
-        android:id="@+id/frg_event__fab_edit"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginEnd="@dimen/dp_16"
-        android:layout_marginBottom="@dimen/dp_24"
-        android:background="@android:color/white"
-        android:src="@drawable/ic_edit_24"
-        app:backgroundTint="@color/fab_color_secondary"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintEnd_toStartOf="@id/frg_event__fab_add"
-        app:tint="@android:color/white" />
 
     <TextView
         android:id="@+id/frg__event__tv_purchase_sum"

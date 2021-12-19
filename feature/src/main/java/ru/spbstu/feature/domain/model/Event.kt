@@ -11,6 +11,7 @@ data class Event(
     val expenses: List<Expense>,
     val users: List<User>,
     val isFavourite: Boolean
+
 ) : BaseModel(id) {
     override fun isContentEqual(other: BaseModel): Boolean {
         return other is Event && this.code == other.code && this.name == other.name &&
