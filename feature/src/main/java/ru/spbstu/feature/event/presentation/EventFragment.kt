@@ -11,19 +11,15 @@ import ru.spbstu.common.extenstions.viewBinding
 import ru.spbstu.common.utils.ToolbarFragment
 import ru.spbstu.feature.R
 import ru.spbstu.feature.calendar.presentation.CalendarFragment
-import ru.spbstu.feature.databinding.FragmentAddEventDialogBinding
+import ru.spbstu.feature.databinding.FragmentAddPurchaseDialogBinding
 import ru.spbstu.feature.databinding.FragmentEventBinding
-import ru.spbstu.feature.databinding.FragmentTimePickerDialogBinding
 import ru.spbstu.feature.di.FeatureApi
 import ru.spbstu.feature.di.FeatureComponent
+import ru.spbstu.feature.domain.model.CalendarDateRange
 import ru.spbstu.feature.domain.model.CalendarSelectionMode
 import ru.spbstu.feature.event.presentation.adapter.ParticipantUserAdapter
 import ru.spbstu.feature.event.presentation.adapter.PurchaseAdapter
-import ru.spbstu.feature.events.presentation.wheelPicker.HourPickerAdapter
-import ru.spbstu.feature.events.presentation.wheelPicker.MinutePickerAdapter
-import studio.clapp.wheelpicker.extensions.formatLeadingZero
-import java.time.LocalTime
-import kotlin.math.ceil
+import java.time.LocalDate
 
 class EventFragment : ToolbarFragment<EventViewModel>(
     R.layout.fragment_event,
@@ -31,11 +27,7 @@ class EventFragment : ToolbarFragment<EventViewModel>(
     ToolbarType.EMPTY
 ) {
     private var purchaseItemAddingDialog: BottomSheetDialog? = null
-    private var timePickerDialog: BottomSheetDialog? = null
 
-    private lateinit var timePickerDialogBinding: FragmentTimePickerDialogBinding
-    private lateinit var timePickerMinuteAdapter: MinutePickerAdapter
-    private lateinit var timePickerHourAdapter: HourPickerAdapter
     private val calendarFragment by lazy { CalendarFragment(CalendarSelectionMode.SINGLE_DAY) }
 
     private val purchaseAdapter by lazy {
@@ -65,7 +57,7 @@ class EventFragment : ToolbarFragment<EventViewModel>(
         binding.frgEventRvUsers.adapter = participantUserAdapter
 
         binding.frgEventFabAdd.setDebounceClickListener {
-            showEventAddingDialog()
+            showPurchaseItemAddingDialog()
         }
     }
 
@@ -80,72 +72,28 @@ class EventFragment : ToolbarFragment<EventViewModel>(
         }
     }
 
-    private fun showEventAddingDialog() {
+    private fun showPurchaseItemAddingDialog() {
         if (purchaseItemAddingDialog == null) {
             purchaseItemAddingDialog =
                 BottomSheetDialog(requireContext(), R.style.BottomSheetDialog_Theme)
             val dialogBinding =
-                FragmentAddEventDialogBinding.inflate(layoutInflater, binding.root, false)
-            dialogBinding.frgAddEventDialogEtTime.setDebounceClickListener {
-                showTimePickerDialog(LocalTime.now()) { hour, min ->
-                    dialogBinding.frgAddEventDialogEtTime.setText("${hour.formatLeadingZero()}:${min.formatLeadingZero()}")
-                }
-            }
-            dialogBinding.frgAddEventDialogEtDate.setDebounceClickListener {
+                FragmentAddPurchaseDialogBinding.inflate(layoutInflater, binding.root, false)
+            dialogBinding.frgAddPurchaseDialogEtDate.setDebounceClickListener {
                 calendarFragment.show(parentFragmentManager, DATE_DIALOG_TAG)
             }
-            dialogBinding.frgAddEventDialogMbSave.setDebounceClickListener {
+            dialogBinding.frgAddPurchaseDialogMbSave.setDebounceClickListener {
             }
-            /*        viewModel.bundleDataWrapper.bundleData.observe {
-                        val text = (it.get(CalendarFragment.DATA_KEY) as? CalendarDateRange)?.startDate
-                            ?: LocalDate.now().toString()
-                        dialogBinding.frgAddEventDialogEtDate.setText(text.toString())
-                    }
-        */
+            viewModel.bundleDataWrapper.bundleData.observe {
+                val text = (it.get(CalendarFragment.DATA_KEY) as? CalendarDateRange)?.startDate
+                    ?: LocalDate.now().toString()
+                dialogBinding.frgAddPurchaseDialogEtDate.setText(text.toString())
+            }
+
             purchaseItemAddingDialog?.setContentView(dialogBinding.root)
             purchaseItemAddingDialog?.behavior?.state = BottomSheetBehavior.STATE_EXPANDED
         }
         purchaseItemAddingDialog?.behavior?.state = BottomSheetBehavior.STATE_EXPANDED
         purchaseItemAddingDialog?.show()
-    }
-
-    private fun showTimePickerDialog(
-        currTime: LocalTime,
-        onSaveClick: (hour: Int, min: Int) -> Unit
-    ) {
-        if (timePickerDialog == null) {
-            timePickerDialog = BottomSheetDialog(requireContext(), R.style.BottomSheetDialog_Theme)
-            timePickerDialogBinding =
-                FragmentTimePickerDialogBinding.inflate(layoutInflater, binding.root, false)
-            timePickerHourAdapter = HourPickerAdapter()
-            timePickerMinuteAdapter = MinutePickerAdapter()
-
-            with(timePickerDialogBinding.frgTimePickerDialogHourPicker) {
-                setAdapter(timePickerHourAdapter)
-                setOnUpListener { timePickerDialog?.behavior?.isDraggable = true }
-                setOnDownListener { timePickerDialog?.behavior?.isDraggable = false }
-            }
-
-            with(timePickerDialogBinding.frgTimePickerDialogMinutePicker) {
-                setAdapter(timePickerMinuteAdapter)
-                setOnUpListener { timePickerDialog?.behavior?.isDraggable = true }
-                setOnDownListener { timePickerDialog?.behavior?.isDraggable = false }
-            }
-
-            timePickerDialog?.setContentView(timePickerDialogBinding.root)
-        }
-        timePickerHourAdapter.picker?.scrollTo(currTime.hour)
-        timePickerMinuteAdapter.picker?.scrollTo(ceil(currTime.minute / 5.0).toInt())
-
-        timePickerDialogBinding.frgTimePickerDialogMbSave.setDebounceClickListener {
-            val min = timePickerMinuteAdapter.picker?.getCurrentItem()?.toInt() ?: 0
-            val hour = timePickerHourAdapter.picker?.getCurrentItem()?.toInt() ?: 0
-
-            onSaveClick(hour, min)
-            timePickerDialog?.dismiss()
-        }
-        timePickerDialog?.behavior?.state = BottomSheetBehavior.STATE_EXPANDED
-        timePickerDialog?.show()
     }
 
     override fun inject() {

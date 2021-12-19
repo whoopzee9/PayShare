@@ -8,6 +8,7 @@ import dagger.Provides
 import dagger.multibindings.IntoMap
 import ru.spbstu.common.di.viewmodel.ViewModelKey
 import ru.spbstu.common.di.viewmodel.ViewModelModule
+import ru.spbstu.common.utils.BundleDataWrapper
 import ru.spbstu.feature.FeatureRouter
 import ru.spbstu.feature.event.presentation.EventViewModel
 
@@ -21,8 +22,8 @@ class EventModule {
     @Provides
     @IntoMap
     @ViewModelKey(EventViewModel::class)
-    fun provideViewModel(router: FeatureRouter): ViewModel {
-        return EventViewModel(router)
+    fun provideViewModel(router: FeatureRouter, bundleDataWrapper: BundleDataWrapper): ViewModel {
+        return EventViewModel(router, bundleDataWrapper)
     }
 
     @Provides

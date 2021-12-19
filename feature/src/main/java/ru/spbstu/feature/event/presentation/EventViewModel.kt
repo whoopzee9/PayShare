@@ -3,13 +3,15 @@ package ru.spbstu.feature.event.presentation
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import ru.spbstu.common.utils.BackViewModel
+import ru.spbstu.common.utils.BundleDataWrapper
 import ru.spbstu.feature.FeatureRouter
 import ru.spbstu.feature.domain.model.Expense
 import ru.spbstu.feature.domain.model.Shop
 import ru.spbstu.feature.domain.model.User
 import java.time.LocalDateTime
 
-class EventViewModel(router: FeatureRouter) : BackViewModel(router) {
+class EventViewModel(router: FeatureRouter, val bundleDataWrapper: BundleDataWrapper) :
+    BackViewModel(router) {
     private val _purchases: MutableStateFlow<List<Expense>> = MutableStateFlow(listOf())
     val purchases get(): StateFlow<List<Expense>> = _purchases
 

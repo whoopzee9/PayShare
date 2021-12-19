@@ -48,4 +48,7 @@
     <string name="event_date">Дата события</string>
     <string name="end_date">Дата окончания</string>
     <string name="select_start_date">Выберите дату начала</string>
+    <string name="new_purchase">Добавление расхода</string>
+    <string name="price">Стоимость</string>
+    <string name="shop">Магазин</string>
 </resources>
