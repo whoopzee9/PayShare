@@ -66,6 +66,7 @@ class Navigator : FeatureRouter {
         when (navController?.currentDestination?.id) {
             R.id.qrCodeFragment -> navController?.navigate(R.id.action_qrCodeFragment_to_eventFragment)
             R.id.eventsFragment -> navController?.navigate(R.id.action_eventsFragment_to_eventFragment)
+            R.id.historyFragment -> navController?.navigate(R.id.action_historyFragment_to_eventFragment)
         }
     }
 

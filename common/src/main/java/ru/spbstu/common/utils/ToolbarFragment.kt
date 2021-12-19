@@ -55,6 +55,12 @@ abstract class ToolbarFragment<T : BackViewModel> constructor(
                 layoutToolbarBinding.includeToolbarIbFirstButton.visibility = View.GONE
                 layoutToolbarBinding.includeToolbarIbSecondButton.visibility = View.GONE
                 layoutToolbarBinding.includeToolbarIbBackButton.visibility = View.GONE
+                layoutToolbarBinding.root.setBackgroundColor(
+                    ContextCompat.getColor(
+                        requireContext(),
+                        R.color.toolbar_background_color_primary
+                    )
+                )
             }
             ToolbarType.PURCHASES -> {
                 layoutToolbarBinding.includeToolbarIbFirstButton.visibility = View.VISIBLE
