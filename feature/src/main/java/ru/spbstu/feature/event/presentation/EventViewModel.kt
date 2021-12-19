@@ -101,4 +101,12 @@ class EventViewModel(router: FeatureRouter, val bundleDataWrapper: BundleDataWra
 
     fun setBoughtStatus(purchase: Expense) {
     }
+
+    fun createNewPurchase(
+        textTitle: String,
+        textPrice: String,
+        textDate: String,
+        textShop: String
+    ) {
+    }
 }

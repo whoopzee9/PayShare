@@ -7,6 +7,8 @@ import com.google.android.material.bottomsheet.BottomSheetBehavior
 import com.google.android.material.bottomsheet.BottomSheetDialog
 import ru.spbstu.common.di.FeatureUtils
 import ru.spbstu.common.extenstions.setDebounceClickListener
+import ru.spbstu.common.extenstions.setFilledButtonClickability
+import ru.spbstu.common.extenstions.setTextLengthWatcher
 import ru.spbstu.common.extenstions.viewBinding
 import ru.spbstu.common.utils.ToolbarFragment
 import ru.spbstu.feature.R
@@ -59,6 +61,10 @@ class EventFragment : ToolbarFragment<EventViewModel>(
         binding.frgEventFabAdd.setDebounceClickListener {
             showPurchaseItemAddingDialog()
         }
+        setAddPurchaseCompleteListener()
+    }
+
+    private fun setAddPurchaseCompleteListener() {
     }
 
     override fun subscribe() {
@@ -83,6 +89,26 @@ class EventFragment : ToolbarFragment<EventViewModel>(
             }
             dialogBinding.frgAddPurchaseDialogMbSave.setDebounceClickListener {
             }
+            changeSavePurchaseButtonIsClickable(dialogBinding)
+            dialogBinding.frgAddPurchaseDialogEtTitle.setTextLengthWatcher(
+                runOnTextEntered = { changeSavePurchaseButtonIsClickable(dialogBinding) }
+            )
+            dialogBinding.frgAddPurchaseDialogEtPrice.setTextLengthWatcher(
+                runOnTextEntered = { changeSavePurchaseButtonIsClickable(dialogBinding) }
+            )
+            dialogBinding.frgAddPurchaseDialogEtDate.setTextLengthWatcher(
+                runOnTextEntered = { changeSavePurchaseButtonIsClickable(dialogBinding) }
+            )
+            dialogBinding.frgAddPurchaseDialogEtShop.setTextLengthWatcher(
+                runOnTextEntered = { changeSavePurchaseButtonIsClickable(dialogBinding) }
+            )
+            dialogBinding.frgAddPurchaseDialogMbSave.setDebounceClickListener {
+                val textTitle = dialogBinding.frgAddPurchaseDialogEtTitle.text.toString()
+                val textPrice = dialogBinding.frgAddPurchaseDialogEtPrice.text.toString()
+                val textDate = dialogBinding.frgAddPurchaseDialogEtDate.text.toString()
+                val textShop = dialogBinding.frgAddPurchaseDialogEtShop.text.toString()
+                viewModel.createNewPurchase(textTitle, textPrice, textDate, textShop)
+            }
             viewModel.bundleDataWrapper.bundleData.observe {
                 val text = (it.get(CalendarFragment.DATA_KEY) as? CalendarDateRange)?.startDate
                     ?: LocalDate.now().toString()
@@ -94,6 +120,16 @@ class EventFragment : ToolbarFragment<EventViewModel>(
         }
         purchaseItemAddingDialog?.behavior?.state = BottomSheetBehavior.STATE_EXPANDED
         purchaseItemAddingDialog?.show()
+    }
+
+    private fun changeSavePurchaseButtonIsClickable(binding: FragmentAddPurchaseDialogBinding) {
+        val textTitle = binding.frgAddPurchaseDialogEtTitle.text.toString()
+        val textPrice = binding.frgAddPurchaseDialogEtPrice.text.toString()
+        val textDate = binding.frgAddPurchaseDialogEtDate.text.toString()
+        val textShop = binding.frgAddPurchaseDialogEtShop.text.toString()
+        binding.frgAddPurchaseDialogMbSave.setFilledButtonClickability(
+            (textTitle.isNotEmpty() && textPrice.isNotEmpty() && textDate.isNotEmpty() && textShop.isNotEmpty())
+        )
     }
 
     override fun inject() {

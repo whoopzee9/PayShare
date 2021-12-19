@@ -24,6 +24,7 @@
     <color name="background_secondary">#E5E5E5</color>
     <color name="background_third">#FAFAFA</color>
     <color name="button_tint_primary">#4385F6</color>
+    <color name="button_tint_disabled">#A3A2A7</color>
     <color name="button_tint_secondary">#FFFFFF</color>
     <color name="button_disabled_tint">#A3A2A7</color>
 
