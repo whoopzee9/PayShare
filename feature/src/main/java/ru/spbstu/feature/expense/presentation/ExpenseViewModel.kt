@@ -68,7 +68,7 @@ class ExpenseViewModel(router: FeatureRouter) : BackViewModel(router) {
             currentUser,
             LocalDateTime.now(),
             512.55,
-            userList,
+            userList.map { it to false }.toMap(),
             Shop(1, "fsdfsdf", 59.986505, 30.348305, listOf())
         )
         _users.value = userList

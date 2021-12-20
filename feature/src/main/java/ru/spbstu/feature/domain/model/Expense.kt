@@ -11,7 +11,7 @@ data class Expense(
     val buyer: User = User(0, "", "", "", ""),
     val date: LocalDateTime = LocalDateTime.now(),
     val price: Double = 0.0,
-    val users: List<User> = emptyList(),
+    val users: Map<User, Boolean> = emptyMap(),
     val purchaseShop: Shop = Shop(
         -1, "", 0.0, 0.0, emptyList()
     )

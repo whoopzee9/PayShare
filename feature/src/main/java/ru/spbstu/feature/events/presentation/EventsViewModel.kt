@@ -45,7 +45,7 @@ class EventsViewModel(val router: FeatureRouter, val bundleDataWrapper: BundleDa
                         User(1, "dasd", "dasd", "dasd"),
                         LocalDateTime.now(),
                         123.0,
-                        listOf(),
+                        emptyMap(),
                         Shop(1,"fsdfsdf", 12.0, 23.9, listOf())
                     ),
                     Expense(
@@ -56,7 +56,7 @@ class EventsViewModel(val router: FeatureRouter, val bundleDataWrapper: BundleDa
                         User(1, "dasd", "dasd", "dasd"),
                         LocalDateTime.now(),
                         1230.0,
-                        listOf(),
+                        emptyMap(),
                         Shop(1,"fsdfsdf", 12.0, 23.9, listOf())
                     )
                 ),
@@ -77,7 +77,7 @@ class EventsViewModel(val router: FeatureRouter, val bundleDataWrapper: BundleDa
                         User(1, "dasd", "dasd", "dasd"),
                         LocalDateTime.now(),
                         13.0,
-                        listOf(),
+                        emptyMap(),
                         Shop(1,"fsdfsdf", 12.0, 23.9, listOf())
                     )
                 ),
@@ -90,7 +90,6 @@ class EventsViewModel(val router: FeatureRouter, val bundleDataWrapper: BundleDa
                 "qweqwe",
                 LocalDateTime.now(),
                 expenses = listOf(
-
                 ),
                 users = listOf(),
                 false

@@ -38,7 +38,7 @@ class HistoryViewModel(val router: FeatureRouter) : BackViewModel(router) {
                         User(1, "dasd", "dasd", "dasd"),
                         LocalDateTime.now(),
                         123.0,
-                        listOf(),
+                        emptyMap(),
                         Shop(1,"fsdfsdf", 12.0, 23.9, listOf())
                     ),
                     Expense(
@@ -49,7 +49,7 @@ class HistoryViewModel(val router: FeatureRouter) : BackViewModel(router) {
                         User(1, "dasd", "dasd", "dasd"),
                         LocalDateTime.now(),
                         1230.0,
-                        listOf(),
+                        emptyMap(),
                         Shop(1,"fsdfsdf", 12.0, 23.9, listOf())
                     )
                 ),
@@ -70,7 +70,7 @@ class HistoryViewModel(val router: FeatureRouter) : BackViewModel(router) {
                         User(1, "dasd", "dasd", "dasd"),
                         LocalDateTime.now(),
                         13.0,
-                        listOf(),
+                        emptyMap(),
                         Shop(1,"fsdfsdf", 12.0, 23.9, listOf())
                     )
                 ),

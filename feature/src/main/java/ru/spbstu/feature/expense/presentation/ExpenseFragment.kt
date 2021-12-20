@@ -12,6 +12,8 @@ import com.google.android.gms.maps.model.LatLng
 import com.google.android.gms.maps.model.MarkerOptions
 import kotlinx.coroutines.launch
 import ru.spbstu.common.di.FeatureUtils
+import ru.spbstu.common.extenstions.setLightStatusBar
+import ru.spbstu.common.extenstions.setStatusBarColor
 import ru.spbstu.common.extenstions.viewBinding
 import ru.spbstu.common.utils.ToolbarFragment
 import ru.spbstu.feature.R
@@ -45,6 +47,8 @@ class ExpenseFragment :
 
     override fun setupViews() {
         super.setupViews()
+        requireActivity().setStatusBarColor(R.color.background_primary)
+        requireView().setLightStatusBar()
         binding.frgExpenseRvUsers.adapter = participantUserAdapter
         binding.includeCarStatisticsMap.getMapAsync(this)
     }
