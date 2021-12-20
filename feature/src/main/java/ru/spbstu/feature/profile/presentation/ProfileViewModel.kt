@@ -39,7 +39,7 @@ class ProfileViewModel(
                     }
                 }
             }, {
-                setEventState(EventState.Failure(EventError.UnknownError))
+                setEventState(EventState.Failure(EventError.ConnectionError))
             })
             .addTo(disposable)
     }
@@ -60,7 +60,7 @@ class ProfileViewModel(
                     }
                 }
             }, {
-                setEventState(EventState.Failure(EventError.UnknownError))
+                setEventState(EventState.Failure(EventError.ConnectionError))
             })
             .addTo(disposable)
     }

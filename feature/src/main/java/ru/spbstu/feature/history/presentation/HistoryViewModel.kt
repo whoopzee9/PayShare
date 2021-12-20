@@ -18,74 +18,7 @@ class HistoryViewModel(val router: FeatureRouter) : BackViewModel(router) {
         _events.value = events
     }
 
-    fun openEvent(event: Event) {
-        router.openEventFragment(event)
-    }
-
-    init {
-        _events.value = listOf(
-            Event(
-                id = 1,
-                code = "sdfsdf",
-                "qweqeqweqwe",
-                LocalDateTime.now(),
-                expenses = listOf(
-                    Expense(
-                        id = 1,
-                        "cchuifvbcyh",
-                        "sdfsdfsf",
-                        false,
-                        User(1, "dasd", "dasd", "dasd"),
-                        LocalDateTime.now(),
-                        123.0,
-                        emptyMap(),
-                        Shop(1, "fsdfsdf", 12.0, 23.9, listOf())
-                    ),
-                    Expense(
-                        id = 2,
-                        "qwe",
-                        "sdfsdfsf",
-                        false,
-                        User(1, "dasd", "dasd", "dasd"),
-                        LocalDateTime.now(),
-                        1230.0,
-                        emptyMap(),
-                        Shop(1, "fsdfsdf", 12.0, 23.9, listOf())
-                    )
-                ),
-                users = listOf(),
-                true
-            ),
-            Event(
-                id = 2,
-                code = "sdfsdf",
-                "kjkljkg",
-                LocalDateTime.now(),
-                expenses = listOf(
-                    Expense(
-                        id = 3,
-                        "cc",
-                        "sdfsdfsf",
-                        false,
-                        User(1, "dasd", "dasd", "dasd"),
-                        LocalDateTime.now(),
-                        13.0,
-                        emptyMap(),
-                        Shop(1, "fsdfsdf", 12.0, 23.9, listOf())
-                    )
-                ),
-                users = listOf(),
-                true
-            ),
-            Event(
-                id = 3,
-                code = "sdfsdf",
-                "qweqwe",
-                LocalDateTime.now(),
-                expenses = listOf(),
-                users = listOf(),
-                false
-            )
-        )
+    fun openEvent(id: Long) {
+        router.openEventFragment(id)
     }
 }

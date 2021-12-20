@@ -49,7 +49,7 @@ class LoginViewModel(
                     }
                 }
             }, {
-                setEventState(EventState.Failure(EventError.UnknownError))
+                setEventState(EventState.Failure(EventError.ConnectionError))
             })
             .addTo(disposable)
     }

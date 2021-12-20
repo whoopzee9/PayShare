@@ -261,9 +261,10 @@ class EventFragment : ToolbarFragment<EventViewModel>(
                 private val PURCHASE_OPTIONS_DIALOG_TAG = "${TAG}_PURCHASE_OPTIONS_DIALOG_TAG"
                 private val DELETE_DIALOG_TAG = "${TAG}DELETE_DIALOG_TAG"
 
-                // TODO add parcel to class Event
-                fun makeBundle(): Bundle {
+
+                fun makeBundle(id: Long): Bundle {
                     val bundle = Bundle()
+                    bundle.putLong(BUNDLE_KEY, id)
                     return bundle
                 }
             }

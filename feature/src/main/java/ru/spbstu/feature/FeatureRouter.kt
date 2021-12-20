@@ -8,7 +8,7 @@ interface FeatureRouter : BaseBackRouter {
     fun openMainFragment()
     fun openQrCodeFragment()
     fun openLoginFragment()
-    fun openEventFragment(event: Event)
+    fun openEventFragment(id: Long)
     fun openQrCodeSharingFragment(code: String)
     fun openExpenseFragment(expense: Expense)
 }

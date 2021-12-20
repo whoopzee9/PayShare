@@ -7,8 +7,12 @@ import ru.spbstu.common.token.RefreshToken
 import ru.spbstu.common.token.TokenRepositoryImpl
 import ru.spbstu.feature.data.remote.api.FeatureApiService
 import ru.spbstu.feature.data.remote.model.body.AuthBody
+import ru.spbstu.feature.data.remote.model.body.EventBody
+import ru.spbstu.feature.data.remote.model.body.EventJoinBody
+import ru.spbstu.feature.data.remote.model.response.toEvent
 import ru.spbstu.feature.data.remote.model.response.toUser
 import ru.spbstu.feature.data.source.FeatureDataSource
+import ru.spbstu.feature.domain.model.Event
 import ru.spbstu.feature.domain.model.Tokens
 import ru.spbstu.feature.domain.model.User
 import timber.log.Timber
@@ -67,6 +71,64 @@ class FeatureDataSourceImpl @Inject constructor(private val featureApiService: F
                 }
                 else -> {
                     PayShareResult.Error(EventError.UnknownError)
+                }
+            }
+        }
+    }
+
+    override fun getEvents(): Single<PayShareResult<List<Event>>> {
+        return featureApiService.getEvents().map {
+            when {
+                it.isSuccessful -> {
+                    val res = it.body()
+                    if (res != null) {
+                        if (res.rooms != null) {
+                            PayShareResult.Success(res.rooms.map { response -> response.toEvent() })
+                        } else {
+                            PayShareResult.Success(listOf())
+                        }
+                    } else {
+                        PayShareResult.Error(EventError.UnknownError)
+                    }
+                }
+                else -> {
+                    PayShareResult.Error(EventError.UnknownError)
+                }
+            }
+        }
+    }
+
+    override fun createEvent(name: String, date: String): Single<PayShareResult<Long>> {
+        return featureApiService.createEvent(EventBody(name, date)).map {
+            when {
+                it.isSuccessful -> {
+                    val res = it.body()
+                    if (res != null) {
+                        PayShareResult.Success(res.id)
+                    } else {
+                        PayShareResult.Error(EventError.UnknownError)
+                    }
+                }
+                else -> {
+                    PayShareResult.Error(EventError.UnknownError)
+                }
+            }
+        }
+    }
+
+    override fun joinEvent(code: String): Single<PayShareResult<Long>> {
+        return featureApiService.joinEvent(EventJoinBody(code)).map {
+            when {
+                it.isSuccessful -> {
+                    val res = it.body()
+                    if (res != null) {
+                        PayShareResult.Success(res.id)
+                    } else {
+                        PayShareResult.Error(EventError.EventNotFound)
+                    }
+                }
+                else -> {
+                    PayShareResult.Error(EventError.EventNotFound)
                 }
             }
         }

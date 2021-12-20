@@ -11,17 +11,16 @@ import ru.spbstu.feature.databinding.ItemEventsBinding
 import ru.spbstu.feature.domain.model.Event
 import java.time.format.DateTimeFormatter
 
-class EventsAdapter(val onItemClick: (Event) -> Unit) : BaseAdapter<Event, EventsAdapter.EventsViewHolder>() {
+class EventsAdapter(val onItemClick: (Long) -> Unit) : BaseAdapter<Event, EventsAdapter.EventsViewHolder>() {
 
     inner class EventsViewHolder(parent: ViewGroup) :
         BaseViewHolder<Event, ItemEventsBinding>(parent.viewBinding(ItemEventsBinding::inflate)) {
 
         private lateinit var item: Event
-        private var prevFavourite = true
 
         init {
             binding.itemEventsCardViewLayout.setDebounceClickListener {
-                onItemClick(item)
+                onItemClick(item.id)
             }
         }
 
@@ -55,22 +54,8 @@ class EventsAdapter(val onItemClick: (Event) -> Unit) : BaseAdapter<Event, Event
                 }
             }
 
-            if (absoluteAdapterPosition == 0) {
-                if (item.isFavourite) {
-                    binding.itemEventsIvStar.visibility = View.VISIBLE
-                    binding.itemEventsTvAll.visibility = View.GONE
-                } else {
-                    binding.itemEventsIvStar.visibility = View.GONE
-                    binding.itemEventsTvAll.visibility = View.VISIBLE
-                }
-            } else if (item.isFavourite != prevFavourite) {
-                binding.itemEventsIvStar.visibility = View.GONE
-                binding.itemEventsTvAll.visibility = View.VISIBLE
-            } else {
-                binding.itemEventsIvStar.visibility = View.GONE
-                binding.itemEventsTvAll.visibility = View.GONE
-            }
-            prevFavourite = item.isFavourite
+            binding.itemEventsIvStar.visibility = View.GONE
+            binding.itemEventsTvAll.visibility = View.GONE
 
         }
     }

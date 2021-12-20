@@ -26,6 +26,7 @@ import ru.spbstu.feature.events.presentation.wheelPicker.MinutePickerAdapter
 import studio.clapp.wheelpicker.extensions.formatLeadingZero
 import java.time.LocalDate
 import java.time.LocalTime
+import java.time.format.DateTimeFormatter
 import kotlin.math.ceil
 
 class EventsFragment : ToolbarFragment<EventsViewModel>(
@@ -48,6 +49,8 @@ class EventsFragment : ToolbarFragment<EventsViewModel>(
     private lateinit var timePickerHourAdapter: HourPickerAdapter
     private val calendarFragment by lazy { CalendarFragment(CalendarSelectionMode.SINGLE_DAY) }
 
+    private lateinit var addingDialogBinding: FragmentAddEventDialogBinding
+
     override fun getToolbarLayout(): ViewGroup = binding.frgEventsLayoutToolbar.root
 
     override fun setupViews() {
@@ -61,6 +64,7 @@ class EventsFragment : ToolbarFragment<EventsViewModel>(
         setToolbar(firstClickListener = {
         }, secondClickListener = {
         })
+        viewModel.getEvents()
 
         // search
         binding.frgEventsLayoutToolbar.includeToolbarIbSecondButton.setDebounceClickListener {
@@ -112,6 +116,7 @@ class EventsFragment : ToolbarFragment<EventsViewModel>(
         }
         searchEventDialog = dialogFragment
         dialogFragment.setOnOKClickListener {
+            viewModel.joinEvent(it)
         }
         dialogFragment.setOnQRClickListener {
             viewModel.openQrCodeScanner()
@@ -122,27 +127,46 @@ class EventsFragment : ToolbarFragment<EventsViewModel>(
     private fun showEventAddingDialog() {
         if (eventAddingDialog == null) {
             eventAddingDialog = BottomSheetDialog(requireContext(), R.style.BottomSheetDialog_Theme)
-            val dialogBinding =
+            addingDialogBinding =
                 FragmentAddEventDialogBinding.inflate(layoutInflater, binding.root, false)
-            dialogBinding.frgAddEventDialogEtTime.setDebounceClickListener {
+            addingDialogBinding.frgAddEventDialogEtTime.setDebounceClickListener {
                 showTimePickerDialog(LocalTime.now()) { hour, min ->
-                    dialogBinding.frgAddEventDialogEtTime.setText("${hour.formatLeadingZero()}:${min.formatLeadingZero()}")
+                    addingDialogBinding.frgAddEventDialogEtTime.setText("${hour.formatLeadingZero()}:${min.formatLeadingZero()}")
                 }
             }
-            dialogBinding.frgAddEventDialogEtDate.setDebounceClickListener {
+            addingDialogBinding.frgAddEventDialogEtDate.setDebounceClickListener {
                 calendarFragment.show(parentFragmentManager, DATE_DIALOG_TAG)
             }
-            dialogBinding.frgAddEventDialogMbSave.setDebounceClickListener {
-            }
-            viewModel.bundleDataWrapper.bundleData.observe {
-                val text = (it.get(CalendarFragment.DATA_KEY) as? CalendarDateRange)?.startDate
-                    ?: LocalDate.now().toString()
-                dialogBinding.frgAddEventDialogEtDate.setText(text.toString())
+            addingDialogBinding.frgAddEventDialogMbSave.setDebounceClickListener {
+                val date =
+                    "${addingDialogBinding.frgAddEventDialogEtDate.text} ${addingDialogBinding.frgAddEventDialogEtTime.text}"
+                viewModel.createEvent(
+                    addingDialogBinding.frgAddEventDialogEtTitle.text.toString(),
+                    date
+                ) {
+                    eventAddingDialog?.dismiss()
+                }
             }
 
-            eventAddingDialog?.setContentView(dialogBinding.root)
+            viewModel.bundleDataWrapper.bundleData.observe {
+                val text = (it.get(CalendarFragment.DATA_KEY) as? CalendarDateRange)?.startDate
+                    ?: LocalDate.now()
+                addingDialogBinding.frgAddEventDialogEtDate.setText(
+                    text.format(
+                        DateTimeFormatter.ofPattern(
+                            "dd.MM.yy"
+                        )
+                    )
+                )
+            }
+
+            eventAddingDialog?.setContentView(addingDialogBinding.root)
             eventAddingDialog?.behavior?.state = BottomSheetBehavior.STATE_EXPANDED
         }
+        addingDialogBinding.frgAddEventDialogEtTime.setText(
+            LocalTime.now().format(DateTimeFormatter.ofPattern("HH:mm"))
+        )
+
         eventAddingDialog?.behavior?.state = BottomSheetBehavior.STATE_EXPANDED
         eventAddingDialog?.show()
     }
