@@ -73,6 +73,7 @@ dependencies {
     implementation coroutinesAndroidDep
 
     implementation okHttpDep
+    implementation okHttpLoggingDep
     implementation retrofitDep
     implementation retrofitAdapterDep
     implementation rxJavaDep
@@ -106,4 +107,6 @@ dependencies {
     api cameraViewDep
 
     implementation dexterDep
+
+    implementation coilDep
 }

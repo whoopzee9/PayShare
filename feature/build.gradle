@@ -55,6 +55,7 @@ dependencies {
     kapt metadataKapt
 
     implementation okHttpDep
+    implementation okHttpLoggingDep
     implementation retrofitDep
     implementation retrofitAdapterDep
     implementation rxJavaDep
@@ -100,4 +101,6 @@ dependencies {
     api cameraViewDep
 
     implementation dexterDep
+
+    implementation coilDep
 }

@@ -11,6 +11,7 @@ import ru.spbstu.feature.domain.model.Event
 import ru.spbstu.feature.event.presentation.EventFragment
 import ru.spbstu.feature.qr_code_sharing.presentation.QrCodeSharingFragment
 import ru.spbstu.payshare.R
+import timber.log.Timber
 
 class Navigator : FeatureRouter {
 
@@ -45,6 +46,16 @@ class Navigator : FeatureRouter {
         navController = null
     }
 
+    fun clearBackStackAndOpenLogin() {
+        if (navController?.currentDestination?.id == R.id.loginFragment) {
+            return
+        }
+        while (navController?.popBackStack() == true) {
+            Timber.tag(TAG).d("Skipped backstack entry")
+        }
+        navController?.navigate(R.id.open_login_fragment)
+    }
+
     override fun openMainFragment() {
         when (navController?.currentDestination?.id) {
             R.id.loginFragment -> navController?.navigate(R.id.action_loginFragment_to_eventsFragment)
@@ -58,9 +69,7 @@ class Navigator : FeatureRouter {
     }
 
     override fun openLoginFragment() {
-        when (navController?.currentDestination?.id) {
-            R.id.eventsFragment -> navController?.navigate(R.id.action_eventsFragment_to_loginFragment)
-        }
+        clearBackStackAndOpenLogin()
     }
 
     override fun openEventFragment(event: Event) {
@@ -73,6 +82,7 @@ class Navigator : FeatureRouter {
                     R.id.action_eventsFragment_to_eventFragment, bundle
                 )
             }
+            R.id.historyFragment -> navController?.navigate(R.id.action_historyFragment_to_eventFragment)
         }
     }
 
@@ -97,6 +107,7 @@ class Navigator : FeatureRouter {
     }
 
     private companion object {
+        val TAG = Navigator::class.simpleName
         val navBarHiddenIdsList = listOf(
             R.id.loginFragment,
             R.id.qrCodeFragment,

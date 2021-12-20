@@ -1,19 +1,19 @@
 package ru.spbstu.payshare.root.presentation
 
 import android.content.Intent
-import android.util.Log
 import androidx.lifecycle.lifecycleScope
 import com.vk.api.sdk.VK
-import com.vk.api.sdk.VKApiManager
 import com.vk.api.sdk.auth.VKAccessToken
 import com.vk.api.sdk.auth.VKAuthCallback
 import com.vk.api.sdk.exceptions.VKAuthException
-import com.vk.api.sdk.utils.VKUtils
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import org.greenrobot.eventbus.EventBus
+import org.greenrobot.eventbus.Subscribe
+import org.greenrobot.eventbus.ThreadMode
 import ru.spbstu.common.base.BaseActivity
 import ru.spbstu.common.di.FeatureUtils
+import ru.spbstu.common.events.AuthEvent
 import ru.spbstu.common.events.VkAuthEvent
 import ru.spbstu.common.extenstions.viewBinding
 import ru.spbstu.payshare.databinding.ActivityRootBinding
@@ -41,10 +41,19 @@ class RootActivity : BaseActivity<RootViewModel>() {
         navigator.detachActivity()
     }
 
+    override fun onStart() {
+        EventBus.getDefault().register(this)
+        super.onStart()
+    }
+
+    override fun onStop() {
+        EventBus.getDefault().unregister(this)
+        super.onStop()
+    }
+
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         val callback = object: VKAuthCallback {
             override fun onLogin(token: VKAccessToken) {
-                Log.d("qwerty", "eventBus")
                 lifecycleScope.launch {
                     delay(100)
                     EventBus.getDefault().post(VkAuthEvent(token))
@@ -58,6 +67,11 @@ class RootActivity : BaseActivity<RootViewModel>() {
         if (data == null || !VK.onActivityResult(requestCode, resultCode, data, callback)) {
             super.onActivityResult(requestCode, resultCode, data)
         }
+    }
+
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    fun onAuthEvent(event: AuthEvent) {
+        navigator.clearBackStackAndOpenLogin()
     }
 
     override fun inject() {

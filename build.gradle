@@ -30,7 +30,7 @@ buildscript {
         rxjavaVersion = '2.2.21'
         rxandroidVersion = '2.1.1'
         rxkotlinVersion = '2.4.0'
-        gsonVersion = '2.8.7'
+        gsonVersion ='2.8.7'
 
         eventBusVersion = '3.2.0'
 
@@ -50,19 +50,19 @@ buildscript {
 
         vkAuthVersion = '3.4.1'
 
-        calendarViewVersion = '1.0.4'
-
-        coilVersion = '1.3.2'
-
         pinEditTextVersion = '1.2.6'
 
         wheelPickerVersion = '1.0.1'
+
+        calendarViewVersion = '1.0.4'
 
         barcodeScanningVersion = '17.0.0'
 
         cameraViewVersion = '2.7.2'
 
         dexterVersion = '6.2.3'
+
+        coilVersion = '1.3.2'
 
 
         kotlinDep = "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlinVersion"
@@ -94,7 +94,8 @@ buildscript {
         legacyDep = "androidx.legacy:legacy-support-v4:$legacySupportVersion"
 
         okHttpDep = "com.squareup.okhttp3:okhttp:$okhttpVersion"
-        retrofitDep = "com.squareup.retrofit2:retrofit:$retrofitVersion"
+        okHttpLoggingDep = "com.squareup.okhttp3:logging-interceptor:$okhttpVersion"
+        retrofitDep ="com.squareup.retrofit2:retrofit:$retrofitVersion"
         retrofitAdapterDep = "com.squareup.retrofit2:adapter-rxjava2:$retrofitVersion"
         rxJavaDep = "io.reactivex.rxjava2:rxjava:$rxjavaVersion"
         rxAndroidDep = "io.reactivex.rxjava2:rxandroid:$rxandroidVersion"
@@ -123,7 +124,6 @@ buildscript {
 
         calendarViewDep = "com.github.kizitonwose:CalendarView:$calendarViewVersion"
 
-
         barcodeScanningDep = "com.google.mlkit:barcode-scanning:$barcodeScanningVersion"
 
         cameraViewDep = "com.otaliastudios:cameraview:$cameraViewVersion"
@@ -131,7 +131,6 @@ buildscript {
         dexterDep = "com.karumi:dexter:$dexterVersion"
 
         coilDep = "io.coil-kt:coil:$coilVersion"
-
     }
 
     ext.kotlin_version = "1.5.30"

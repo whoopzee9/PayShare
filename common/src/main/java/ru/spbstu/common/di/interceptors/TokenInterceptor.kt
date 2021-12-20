@@ -4,8 +4,10 @@ import com.google.gson.Gson
 import okhttp3.Interceptor
 import okhttp3.RequestBody.Companion.toRequestBody
 import okhttp3.Response
+import org.greenrobot.eventbus.EventBus
 import ru.spbstu.common.BuildConfig
 import ru.spbstu.common.di.modules.TokensResponse
+import ru.spbstu.common.events.AuthEvent
 import ru.spbstu.common.token.RefreshToken
 import ru.spbstu.common.token.TokenRepository
 import timber.log.Timber
@@ -47,7 +49,7 @@ class TokenInterceptor(private val gson: Gson, private val tokenRepository: Toke
             } else if (refreshTokenResponse.code == 401) {
                 Timber.tag(TAG)
                     .d("NetworkModule: Refresh token died response=$refreshTokenResponse")
-                //TODO: auth event
+                EventBus.getDefault().post(AuthEvent())
             }
         }
         return response
