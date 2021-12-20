@@ -100,4 +100,7 @@ dependencies {
     api cameraViewDep
 
     implementation dexterDep
+
+    implementation googleMapKitDep
+    implementation googleLocationServicesDep
 }

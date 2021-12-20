@@ -84,4 +84,7 @@ dependencies {
     implementation vkSdkApiDep
 
     implementation dexterDep
+
+    implementation googleMapKitDep
+    implementation googleLocationServicesDep
 }

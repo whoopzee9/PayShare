@@ -49,4 +49,22 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/frg_expense__rv_users" />
 
+    <com.google.android.material.card.MaterialCardView
+        android:id="@+id/include_car_statistics__map_wrapper"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_marginHorizontal="@dimen/dp_20"
+        android:layout_marginVertical="@dimen/dp_40"
+        android:backgroundTint="@color/background_secondary"
+        app:cardCornerRadius="@dimen/dp_10"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/frg_expense__layout_purchase_info"
+        app:strokeColor="@color/black">
+
+        <ru.spbstu.common.widgets.map_view.CustomMapView
+            android:id="@+id/include_car_statistics__map"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:layout_constraintTop_toTopOf="parent" />
+    </com.google.android.material.card.MaterialCardView>
 </androidx.constraintlayout.widget.ConstraintLayout>

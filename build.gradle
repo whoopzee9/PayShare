@@ -64,6 +64,9 @@ buildscript {
 
         dexterVersion = '6.2.3'
 
+        googleMapKitVersion = '17.0.1'
+        googleLocationServicesVersion = '18.0.0'
+
 
         kotlinDep = "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlinVersion"
 
@@ -132,6 +135,8 @@ buildscript {
 
         coilDep = "io.coil-kt:coil:$coilVersion"
 
+        googleMapKitDep = "com.google.android.gms:play-services-maps:$googleMapKitVersion"
+        googleLocationServicesDep = "com.google.android.gms:play-services-location:$googleLocationServicesVersion"
     }
 
     ext.kotlin_version = "1.5.30"

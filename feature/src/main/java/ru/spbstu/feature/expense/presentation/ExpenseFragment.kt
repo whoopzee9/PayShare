@@ -1,7 +1,11 @@
 package ru.spbstu.feature.expense.presentation
 
+import android.os.Bundle
+import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
+import com.google.android.gms.maps.GoogleMap
+import com.google.android.gms.maps.OnMapReadyCallback
 import ru.spbstu.common.di.FeatureUtils
 import ru.spbstu.common.extenstions.viewBinding
 import ru.spbstu.common.utils.ToolbarFragment
@@ -17,7 +21,7 @@ class ExpenseFragment : ToolbarFragment<ExpenseViewModel>(
     R.layout.fragment_expense,
     R.string.empty_toolbar,
     ToolbarType.BACK
-) {
+), OnMapReadyCallback {
 
     override val binding by viewBinding(FragmentExpenseBinding::bind)
 
@@ -34,6 +38,17 @@ class ExpenseFragment : ToolbarFragment<ExpenseViewModel>(
     override fun setupViews() {
         super.setupViews()
         binding.frgExpenseRvUsers.adapter = participantUserAdapter
+        binding.includeCarStatisticsMap.getMapAsync(this)
+    }
+    override fun onResume() {
+        super.onResume()
+        binding.includeCarStatisticsMap.onResume()
+    }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        binding.includeCarStatisticsMap.onCreate(savedInstanceState)
+
     }
 
     override fun subscribe() {
@@ -45,6 +60,10 @@ class ExpenseFragment : ToolbarFragment<ExpenseViewModel>(
         viewModel.users.observe {
             participantUserAdapter.bindData(it)
         }
+    }
+
+    override fun onMapReady(p0: GoogleMap) {
+
     }
 
     private fun setPurchaseInfo(expense: Expense) {
