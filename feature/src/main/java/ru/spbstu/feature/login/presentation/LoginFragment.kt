@@ -48,7 +48,7 @@ class LoginFragment: BaseFragment<LoginViewModel>(
         requireView().setLightStatusBar()
         binding.frgLoginMbGoogle.setDebounceClickListener {
             val gso = GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
-                //.requestIdToken(getString(R.string.google_key)) TODO add key when backend is present
+                .requestIdToken(getString(R.string.google_key))
                 .requestEmail()
                 .requestId()
                 .build()

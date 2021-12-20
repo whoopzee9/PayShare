@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+    <string name="google_key">21785242227-92ltgj80elv9rubipna6t6hdmjmienmo.apps.googleusercontent.com</string>
 
     <string name="error_unknown">Неизвестная ошибка, попробуйте позднее.</string>
     <string name="error_connection">Ошибка подключения к серверу, попробуйте позднее.</string>
@@ -46,6 +47,10 @@
     <string name="scanning">Сканирование</string>
     <string name="need_permissions">Необходимо предоставить разрешения для использования камеры</string>
     <string name="join">Присоединиться</string>
+    <string name="buyer">Покупатель</string>
+    <string name="purchase_date">Дата:</string>
     <string name="no_history">История событий пуста</string>
     <string name="history">История</string>
+    <string name="total_debt_template">Долг:\n%.2f руб</string>
+    <string name="debts">Долги</string>
 </resources>
