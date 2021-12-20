@@ -8,6 +8,7 @@ import ru.spbstu.feature.FeatureRouter
 import ru.spbstu.feature.domain.model.Expense
 import ru.spbstu.feature.domain.model.Shop
 import ru.spbstu.feature.domain.model.User
+import ru.spbstu.feature.domain.model.UserBuyed
 import java.time.LocalDateTime
 
 class ExpenseViewModel(router: FeatureRouter) : BackViewModel(router) {
@@ -15,8 +16,8 @@ class ExpenseViewModel(router: FeatureRouter) : BackViewModel(router) {
     private val _purchase: MutableStateFlow<Expense> = MutableStateFlow(Expense())
     val purchase get(): StateFlow<Expense> = _purchase
 
-    private val _users: MutableStateFlow<List<User>> = MutableStateFlow(listOf())
-    val users get(): StateFlow<List<User>> = _users
+    private val _users: MutableStateFlow<List<UserBuyed>> = MutableStateFlow(emptyList())
+    val users get(): StateFlow<List<UserBuyed>> = _users
 
     private val _mapShopCoordinates: MutableStateFlow<List<LatLng>> =
         MutableStateFlow(emptyList())
@@ -71,7 +72,15 @@ class ExpenseViewModel(router: FeatureRouter) : BackViewModel(router) {
             userList.map { it to false }.toMap(),
             Shop(1, "fsdfsdf", 59.986505, 30.348305, listOf())
         )
-        _users.value = userList
+        val list = _purchase.value.users.map { UserBuyed(it.key, it.value) }
+        // TODO DELETE. this for test
+        _users.value = list.mapIndexed { index, userBuyed ->
+            if (index == 1) {
+                userBuyed.copy(isBought = true)
+            } else {
+                userBuyed
+            }
+        }
         _mapShopCoordinates.value = listOf(
             LatLng(
                 _purchase.value.purchaseShop.latitude,

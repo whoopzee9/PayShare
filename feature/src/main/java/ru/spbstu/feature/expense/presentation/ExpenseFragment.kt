@@ -3,7 +3,6 @@ package ru.spbstu.feature.expense.presentation
 import android.os.Bundle
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Toast
 import androidx.lifecycle.lifecycleScope
 import com.google.android.gms.maps.CameraUpdateFactory
 import com.google.android.gms.maps.GoogleMap
@@ -21,7 +20,7 @@ import ru.spbstu.feature.databinding.FragmentExpenseBinding
 import ru.spbstu.feature.di.FeatureApi
 import ru.spbstu.feature.di.FeatureComponent
 import ru.spbstu.feature.domain.model.Expense
-import ru.spbstu.feature.shared_adapters.ParticipantUserAdapter
+import ru.spbstu.feature.expense.presentation.adapter.PayedUserAdapter
 import java.time.format.DateTimeFormatter
 
 class ExpenseFragment :
@@ -36,11 +35,7 @@ class ExpenseFragment :
     private lateinit var mMap: GoogleMap
 
     private val participantUserAdapter by lazy {
-        ParticipantUserAdapter(onItemClick = {
-            Toast.makeText(requireContext(), "On user click", Toast.LENGTH_SHORT).show()
-        }, onDeleteClick = {
-            Toast.makeText(requireContext(), "On delete user click", Toast.LENGTH_SHORT).show()
-        })
+        PayedUserAdapter()
     }
 
     override fun getToolbarLayout(): ViewGroup = binding.frgExpenseLayoutToolbar.root
