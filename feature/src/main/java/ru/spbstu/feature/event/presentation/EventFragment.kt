@@ -25,6 +25,7 @@ import ru.spbstu.feature.domain.model.Expense
 import ru.spbstu.feature.event.presentation.adapter.ParticipantUserAdapter
 import ru.spbstu.feature.event.presentation.adapter.PurchaseAdapter
 import ru.spbstu.feature.event.presentation.dialog.PurchaseOptionsDialogFragment
+import ru.spbstu.feature.shared_adapters.DeleteDialogFragment
 import java.time.LocalDate
 
 class EventFragment : ToolbarFragment<EventViewModel>(
@@ -45,6 +46,8 @@ class EventFragment : ToolbarFragment<EventViewModel>(
             showPurchaseOptionsDialog(it)
         })
     }
+
+    private var deleteFileDialogFragment: DeleteDialogFragment? = null
 
     // TODO delete tosts
     private val participantUserAdapter by lazy {
@@ -69,7 +72,7 @@ class EventFragment : ToolbarFragment<EventViewModel>(
             if (viewModel.toolbarState.value == EventViewModel.ToolbarState.Initial) {
                 viewModel.selectAllPurchases()
             } else {
-                // todo delete dialog
+                showDeleteRoomDialog()
             }
         }
         binding.frgEventFabAdd.setDebounceClickListener {
@@ -214,6 +217,26 @@ class EventFragment : ToolbarFragment<EventViewModel>(
         }
     }
 
+    private fun showDeleteRoomDialog() {
+        if (deleteFileDialogFragment == null) {
+            deleteFileDialogFragment =
+                DeleteDialogFragment.newInstance(getString(R.string.delete_room))
+        }
+        val dialog = deleteFileDialogFragment
+        if (dialog != null) {
+            dialog.setDialogWarningText(getString(R.string.delete_room))
+            dialog.setOnOkClickListener {
+                Toast.makeText(requireContext(), "Удаляю", Toast.LENGTH_SHORT).show()
+                dialog.dismiss()
+            }
+            dialog.setOnCancelClickListener {
+                Toast.makeText(requireContext(), "Не Удаляю", Toast.LENGTH_SHORT).show()
+                dialog.dismiss()
+            }
+            dialog.show(parentFragmentManager, DELETE_DIALOG_TAG)
+        }
+    }
+
     override fun inject() {
         FeatureUtils.getFeature<FeatureComponent>(this, FeatureApi::class.java)
             .eventComponentFactory()
@@ -226,6 +249,7 @@ class EventFragment : ToolbarFragment<EventViewModel>(
         val BUNDLE_KEY = "${TAG}_BUNDLE_KEY"
         private val DATE_DIALOG_TAG = "${TAG}_DATE_DIALOG"
         private val PURCHASE_OPTIONS_DIALOG_TAG = "${TAG}_PURCHASE_OPTIONS_DIALOG_TAG"
+        private val DELETE_DIALOG_TAG = "${TAG}DELETE_DIALOG_TAG"
 
         // TODO add parcel to class Event
         fun makeBundle(): Bundle {

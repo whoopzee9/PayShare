@@ -120,6 +120,39 @@
         <item name="android:background">?attr/selectableItemBackground</item>
     </style>
 
+    <style name="ShapeAppearance.Dialog.Left" parent="ShapeAppearance.MaterialComponents.MediumComponent">
+        <item name="cornerFamily">rounded</item>
+        <item name="cornerSizeBottomLeft">@dimen/dp_20</item>
+        <item name="cornerSizeBottomRight">@dimen/dp_0</item>
+        <item name="cornerSizeTopRight">@dimen/dp_0</item>
+        <item name="cornerSizeTopLeft">@dimen/dp_0</item>
+    </style>
+
+    <style name="ShapeAppearance.Dialog.Right" parent="ShapeAppearance.MaterialComponents.MediumComponent">
+        <item name="cornerFamily">rounded</item>
+        <item name="cornerSizeBottomRight">@dimen/dp_20</item>
+        <item name="cornerSizeBottomLeft">@dimen/dp_0</item>
+        <item name="cornerSizeTopRight">@dimen/dp_0</item>
+        <item name="cornerSizeTopLeft">@dimen/dp_0</item>
+    </style>
+
+    <style name="Button.Dialog.Delete.Left" parent="Widget.MaterialComponents.Button">
+        <item name="android:textColor">@color/text_color_primary_dark</item>
+        <item name="android:fontFamily">@font/work_sans_regular</item>
+        <item name="android:textSize">@dimen/sp_18</item>
+        <item name="android:elevation">@dimen/dp_4</item>
+        <item name="textAllCaps">false</item>
+        <item name="strokeColor">@color/stroke_color_secondary</item>
+        <item name="strokeWidth">@dimen/dp_1</item>
+        <item name="backgroundTint">@color/button_tint_secondary</item>
+        <item name="shapeAppearanceOverlay">@style/ShapeAppearance.Dialog.Left</item>
+        <item name="rippleColor">@color/background_secondary</item>
+    </style>
+
+    <style name="Button.Dialog.Delete.Right" parent="Button.Dialog.Delete.Left">
+        <item name="shapeAppearanceOverlay">@style/ShapeAppearance.Dialog.Right</item>
+    </style>
+
 
     <style name="BottomSheet.Style" parent="Widget.Design.BottomSheet.Modal">
         <item name="android:background">@drawable/background_rounded_top</item>
