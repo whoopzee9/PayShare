@@ -22,7 +22,7 @@ class PayedUserAdapter() : BaseAdapter<UserBuyed, PayedUserAdapter.PayedUserView
             this.item = item
             binding.itemUserIbDelete.setImageResource(R.drawable.ic_paid_24)
             binding.itemUserIbDelete.isVisible = item.isBought
-            binding.itemUserIv.load(item.user.photoLink) {
+            binding.itemUserIv.load(item.user.imageUrl) {
                 transformations(CircleCropTransformation())
             }
         }
