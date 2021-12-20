@@ -53,4 +53,5 @@
     <string name="history">История</string>
     <string name="total_debt_template">Долг:\n%.2f руб</string>
     <string name="debts">Долги</string>
+    <string name="unknown_error">Неизвестная ошибка, повторите позднее</string>
 </resources>

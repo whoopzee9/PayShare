@@ -19,12 +19,12 @@ android {
 
     buildTypes {
         debug {
-            buildConfigField "String", "ENDPOINT", "\"\""
-            buildConfigField "String", "REFRESH_ENDPOINT", "\"\""
+            buildConfigField "String", "ENDPOINT", "\"http://ec2-16-171-24-84.eu-north-1.compute.amazonaws.com\""
+            buildConfigField "String", "REFRESH_ENDPOINT", "\"http://ec2-16-171-24-84.eu-north-1.compute.amazonaws.com/auth/refresh\""
         }
         release {
-            buildConfigField "String", "ENDPOINT", "\"\""
-            buildConfigField "String", "REFRESH_ENDPOINT", "\"\""
+            buildConfigField "String", "ENDPOINT", "\"http://ec2-16-171-24-84.eu-north-1.compute.amazonaws.com\""
+            buildConfigField "String", "REFRESH_ENDPOINT", "\"http://ec2-16-171-24-84.eu-north-1.compute.amazonaws.com/auth/refresh\""
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
         }
@@ -62,6 +62,7 @@ dependencies {
     kapt metadataKapt
 
     implementation okHttpDep
+    implementation okHttpLoggingDep
     implementation retrofitDep
     implementation retrofitAdapterDep
     implementation rxJavaDep

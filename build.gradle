@@ -94,6 +94,7 @@ buildscript {
         legacyDep = "androidx.legacy:legacy-support-v4:$legacySupportVersion"
 
         okHttpDep = "com.squareup.okhttp3:okhttp:$okhttpVersion"
+        okHttpLoggingDep = "com.squareup.okhttp3:logging-interceptor:$okhttpVersion"
         retrofitDep ="com.squareup.retrofit2:retrofit:$retrofitVersion"
         retrofitAdapterDep = "com.squareup.retrofit2:adapter-rxjava2:$retrofitVersion"
         rxJavaDep = "io.reactivex.rxjava2:rxjava:$rxjavaVersion"

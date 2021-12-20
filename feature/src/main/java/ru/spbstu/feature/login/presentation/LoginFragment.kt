@@ -1,6 +1,6 @@
 package ru.spbstu.feature.login.presentation
 
-import android.util.Log
+import android.view.View
 import androidx.activity.result.contract.ActivityResultContracts
 import com.google.android.gms.auth.api.signin.GoogleSignIn
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions
@@ -17,6 +17,7 @@ import ru.spbstu.common.extenstions.setDebounceClickListener
 import ru.spbstu.common.extenstions.setLightStatusBar
 import ru.spbstu.common.extenstions.setStatusBarColor
 import ru.spbstu.common.extenstions.viewBinding
+import ru.spbstu.common.model.EventState
 import ru.spbstu.feature.R
 import ru.spbstu.feature.databinding.FragmentLoginBinding
 import ru.spbstu.feature.di.FeatureApi
@@ -75,8 +76,7 @@ class LoginFragment: BaseFragment<LoginViewModel>(
 
     @Subscribe(threadMode = ThreadMode.MAIN)
     fun onEvent(event: VkAuthEvent) {
-        //TODO send token to backend
-        viewModel.openMainFragment()
+        viewModel.authWithVK(event.token)
     }
 
     override fun inject() {
@@ -88,6 +88,22 @@ class LoginFragment: BaseFragment<LoginViewModel>(
 
     override fun subscribe() {
         super.subscribe()
+        viewModel.eventState.observe {
+            when (it) {
+                EventState.Initial -> {
+                    binding.frgLoginPbProgress.visibility = View.GONE
+                }
+                EventState.Progress -> {
+                    binding.frgLoginPbProgress.visibility = View.VISIBLE
+                }
+                EventState.Success -> {
+                    binding.frgLoginPbProgress.visibility = View.GONE
+                }
+                is EventState.Failure -> {
+                    binding.frgLoginPbProgress.visibility = View.GONE
+                }
+            }
+        }
     }
 
     companion object {
