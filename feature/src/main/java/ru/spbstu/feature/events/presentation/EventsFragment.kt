@@ -61,6 +61,7 @@ class EventsFragment : ToolbarFragment<EventsViewModel>(
         setToolbar(firstClickListener = {
         }, secondClickListener = {
         })
+        viewModel.getEvents()
 
         // search
         binding.frgEventsLayoutToolbar.includeToolbarIbSecondButton.setDebounceClickListener {
@@ -112,6 +113,7 @@ class EventsFragment : ToolbarFragment<EventsViewModel>(
         }
         searchEventDialog = dialogFragment
         dialogFragment.setOnOKClickListener {
+            viewModel.joinEvent(it)
         }
         dialogFragment.setOnQRClickListener {
             viewModel.openQrCodeScanner()
@@ -133,7 +135,11 @@ class EventsFragment : ToolbarFragment<EventsViewModel>(
                 calendarFragment.show(parentFragmentManager, DATE_DIALOG_TAG)
             }
             dialogBinding.frgAddEventDialogMbSave.setDebounceClickListener {
+                val date =
+                    "${dialogBinding.frgAddEventDialogEtDate.text} ${dialogBinding.frgAddEventDialogEtTime.text}"
+                viewModel.createEvent(dialogBinding.frgAddEventDialogEtTitle.text.toString(), date)
             }
+
             viewModel.bundleDataWrapper.bundleData.observe {
                 val text = (it.get(CalendarFragment.DATA_KEY) as? CalendarDateRange)?.startDate
                     ?: LocalDate.now().toString()

@@ -11,7 +11,7 @@ import ru.spbstu.feature.databinding.ItemEventsBinding
 import ru.spbstu.feature.domain.model.Event
 import java.time.format.DateTimeFormatter
 
-class EventsAdapter(val onItemClick: (Event) -> Unit) : BaseAdapter<Event, EventsAdapter.EventsViewHolder>() {
+class EventsAdapter(val onItemClick: (Long) -> Unit) : BaseAdapter<Event, EventsAdapter.EventsViewHolder>() {
 
     inner class EventsViewHolder(parent: ViewGroup) :
         BaseViewHolder<Event, ItemEventsBinding>(parent.viewBinding(ItemEventsBinding::inflate)) {
@@ -21,7 +21,7 @@ class EventsAdapter(val onItemClick: (Event) -> Unit) : BaseAdapter<Event, Event
 
         init {
             binding.itemEventsCardViewLayout.setDebounceClickListener {
-                onItemClick(item)
+                onItemClick(item.id)
             }
         }
 

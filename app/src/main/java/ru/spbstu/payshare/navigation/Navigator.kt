@@ -7,7 +7,6 @@ import androidx.navigation.NavDestination
 import org.greenrobot.eventbus.EventBus
 import ru.spbstu.common.events.SetBottomNavVisibility
 import ru.spbstu.feature.FeatureRouter
-import ru.spbstu.feature.domain.model.Event
 import ru.spbstu.feature.domain.model.Expense
 import ru.spbstu.feature.event.presentation.EventFragment
 import ru.spbstu.feature.expense.presentation.ExpenseFragment
@@ -74,17 +73,21 @@ class Navigator : FeatureRouter {
         clearBackStackAndOpenLogin()
     }
 
-    override fun openEventFragment(event: Event) {
-        // todo send bundle
+    override fun openEventFragment(id: Long) {
+        val bundle = EventFragment.makeBundle(id)
         when (navController?.currentDestination?.id) {
-            R.id.qrCodeFragment -> navController?.navigate(R.id.action_qrCodeFragment_to_eventFragment)
-            R.id.eventsFragment -> {
-                val bundle = EventFragment.makeBundle()
-                navController?.navigate(
-                    R.id.action_eventsFragment_to_eventFragment, bundle
-                )
-            }
-            R.id.historyFragment -> navController?.navigate(R.id.action_historyFragment_to_eventFragment)
+            R.id.qrCodeFragment -> navController?.navigate(
+                R.id.action_qrCodeFragment_to_eventFragment,
+                bundle
+            )
+            R.id.eventsFragment -> navController?.navigate(
+                R.id.action_eventsFragment_to_eventFragment,
+                bundle
+            )
+            R.id.historyFragment -> navController?.navigate(
+                R.id.action_historyFragment_to_eventFragment,
+                bundle
+            )
         }
     }
 
