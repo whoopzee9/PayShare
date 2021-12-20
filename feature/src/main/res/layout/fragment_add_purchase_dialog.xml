@@ -1,0 +1,152 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    app:layout_behavior="com.google.android.material.bottomsheet.BottomSheetBehavior">
+
+    <View
+        android:id="@+id/frg_add_purchase_dialog__top_view"
+        android:layout_width="@dimen/dp_26"
+        android:layout_height="@dimen/dp_2"
+        android:layout_marginTop="10dp"
+        android:layout_marginBottom="@dimen/dp_10"
+        android:background="@color/top_view_color"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/frg_add_purchase_dialog__tv_title"
+        style="@style/TextView.SubTitle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/dp_28"
+        android:gravity="center"
+        android:text="@string/new_purchase"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/frg_add_purchase_dialog__top_view" />
+
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/frg_add_purchase_dialog__et_title_layout"
+        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginHorizontal="@dimen/dp_18"
+        android:layout_marginTop="@dimen/dp_18"
+        android:hint="@string/title"
+        android:textColorHint="@color/text_color_hint_primary"
+        app:boxStrokeColor="@color/button_tint_primary"
+        app:hintTextColor="@color/text_color_hint_primary"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/frg_add_purchase_dialog__tv_title">
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/frg_add_purchase_dialog__et_title"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:fontFamily="@font/montserrat_medium"
+            android:textColor="@color/text_color_primary"
+            android:textColorHint="@color/text_color_hint_primary"
+            android:textSize="@dimen/sp_14" />
+    </com.google.android.material.textfield.TextInputLayout>
+
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/frg_add_purchase_dialog__et_price_layout"
+        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginHorizontal="@dimen/dp_18"
+        android:layout_marginTop="@dimen/dp_18"
+        android:hint="@string/price"
+        android:textColorHint="@color/text_color_hint_primary"
+        app:boxStrokeColor="@color/button_tint_primary"
+        app:hintTextColor="@color/text_color_hint_primary"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/frg_add_purchase_dialog__et_title_layout">
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/frg_add_purchase_dialog__et_price"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:fontFamily="@font/montserrat_medium"
+            android:inputType="numberDecimal"
+            android:textColor="@color/text_color_primary"
+            android:textColorHint="@color/text_color_hint_primary"
+            android:textSize="@dimen/sp_14" />
+    </com.google.android.material.textfield.TextInputLayout>
+
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/frg_add_purchase_dialog__et_date_layout"
+        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginHorizontal="@dimen/dp_18"
+        android:layout_marginTop="@dimen/dp_18"
+        android:focusable="false"
+        android:hint="@string/date"
+        android:textColorHint="@color/text_color_hint_primary"
+        app:boxStrokeColor="@color/button_tint_primary"
+        app:endIconDrawable="@drawable/ic_calendar_24"
+        app:endIconMode="custom"
+        app:endIconTint="@color/button_disabled_tint"
+        app:hintTextColor="@color/text_color_hint_primary"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/frg_add_purchase_dialog__et_price_layout">
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/frg_add_purchase_dialog__et_date"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:focusable="false"
+            android:fontFamily="@font/montserrat_medium"
+            android:textColor="@color/text_color_primary"
+            android:textSize="@dimen/sp_14" />
+    </com.google.android.material.textfield.TextInputLayout>
+
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/frg_add_purchase_dialog__et_shop_layout"
+        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginHorizontal="@dimen/dp_18"
+        android:layout_marginTop="@dimen/dp_18"
+        android:focusable="false"
+        android:hint="@string/shop"
+        android:textColorHint="@color/text_color_hint_primary"
+        app:boxStrokeColor="@color/button_tint_primary"
+        app:hintTextColor="@color/text_color_hint_primary"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/frg_add_purchase_dialog__et_date_layout">
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/frg_add_purchase_dialog__et_shop"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:fontFamily="@font/montserrat_medium"
+            android:textColor="@color/text_color_primary"
+            android:textSize="@dimen/sp_14"
+            app:endIconTint="@color/button_disabled_tint" />
+    </com.google.android.material.textfield.TextInputLayout>
+
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/frg_add_purchase_dialog__mb_save"
+        style="@style/Button.Save"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginHorizontal="@dimen/dp_18"
+        android:layout_marginTop="@dimen/dp_60"
+        android:layout_marginBottom="@dimen/dp_20"
+        android:text="@string/save"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/frg_add_purchase_dialog__et_shop_layout" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>
