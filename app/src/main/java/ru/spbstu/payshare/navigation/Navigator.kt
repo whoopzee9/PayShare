@@ -82,7 +82,8 @@ class Navigator : FeatureRouter {
     private companion object {
         val navBarHiddenIdsList = listOf(
             R.id.loginFragment,
-            R.id.qrCodeFragment
+            R.id.qrCodeFragment,
+            R.id.expenseFragment
         )
     }
 }

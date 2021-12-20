@@ -43,9 +43,20 @@
     <string name="event_date">Дата события</string>
     <string name="end_date">Дата окончания</string>
     <string name="select_start_date">Выберите дату начала</string>
+
+    <string name="total_amount">Общая сумма:</string>
+    <string name="participants">Участвуют</string>
+    <string name="buy">Скидываемся</string>
+
+    <string name="new_purchase">Добавление расхода</string>
+    <string name="price">Стоимость</string>
+    <string name="shop">Магазин</string>
+    <string name="join">Присоединиться</string>
     <string name="scanning">Сканирование</string>
     <string name="need_permissions">Необходимо предоставить разрешения для использования камеры</string>
-    <string name="join">Присоединиться</string>
+    <string name="buyer">Покупатель</string>
+    <string name="purchase_date">Дата:</string>
     <string name="no_history">История событий пуста</string>
     <string name="history">История</string>
+    <string name="empty_toolbar" />
 </resources>
