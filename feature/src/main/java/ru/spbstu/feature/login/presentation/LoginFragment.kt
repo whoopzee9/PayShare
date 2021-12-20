@@ -1,6 +1,5 @@
 package ru.spbstu.feature.login.presentation
 
-import android.util.Log
 import androidx.activity.result.contract.ActivityResultContracts
 import com.google.android.gms.auth.api.signin.GoogleSignIn
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions
@@ -75,8 +74,7 @@ class LoginFragment: BaseFragment<LoginViewModel>(
 
     @Subscribe(threadMode = ThreadMode.MAIN)
     fun onEvent(event: VkAuthEvent) {
-        //TODO send token to backend
-        viewModel.openMainFragment()
+        viewModel.authWithVK(event.token)
     }
 
     override fun inject() {

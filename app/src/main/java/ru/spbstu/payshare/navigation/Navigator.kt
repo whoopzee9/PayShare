@@ -9,6 +9,7 @@ import ru.spbstu.common.events.SetBottomNavVisibility
 import ru.spbstu.feature.FeatureRouter
 import ru.spbstu.feature.domain.model.Event
 import ru.spbstu.payshare.R
+import timber.log.Timber
 
 class Navigator : FeatureRouter {
 
@@ -43,6 +44,16 @@ class Navigator : FeatureRouter {
         navController = null
     }
 
+    fun clearBackStackAndOpenLogin() {
+        if (navController?.currentDestination?.id == R.id.loginFragment) {
+            return
+        }
+        while (navController?.popBackStack() == true) {
+            Timber.tag(TAG).d("Skipped backstack entry")
+        }
+        navController?.navigate(R.id.open_login_fragment)
+    }
+
     override fun openMainFragment() {
         when (navController?.currentDestination?.id) {
             R.id.loginFragment -> navController?.navigate(R.id.action_loginFragment_to_eventsFragment)
@@ -56,9 +67,7 @@ class Navigator : FeatureRouter {
     }
 
     override fun openLoginFragment() {
-        when (navController?.currentDestination?.id) {
-            R.id.eventsFragment -> navController?.navigate(R.id.action_eventsFragment_to_loginFragment)
-        }
+        clearBackStackAndOpenLogin()
     }
 
     override fun openEventFragment(event: Event) {
@@ -80,6 +89,7 @@ class Navigator : FeatureRouter {
     }
 
     private companion object {
+        val TAG = Navigator::class.simpleName
         val navBarHiddenIdsList = listOf(
             R.id.loginFragment,
             R.id.qrCodeFragment
