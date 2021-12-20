@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+    <string name="google_key">21785242227-92ltgj80elv9rubipna6t6hdmjmienmo.apps.googleusercontent.com</string>
 
     <string name="error_unknown">Неизвестная ошибка, попробуйте позднее.</string>
     <string name="error_connection">Ошибка подключения к серверу, попробуйте позднее.</string>

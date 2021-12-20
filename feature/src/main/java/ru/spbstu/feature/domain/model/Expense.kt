@@ -4,17 +4,17 @@ import ru.spbstu.common.base.BaseModel
 import java.time.LocalDateTime
 
 data class Expense(
-    override val id: Long,
-    val name: String,
-    val description: String,
-    val isBought: Boolean,
-    val buyer: User,
-    val date: LocalDateTime,
-    val price: Double,
-    val users: List<User>,
-    val purchaseShop: Shop,
-    val isPaid: Boolean, //todo: subject to change, change to what comrs from back
-    val isSharing: Boolean //todo: subject to change, maybe check users list if current user is present (need to get curr user)
+    override val id: Long = 0,
+    val name: String = "",
+    val description: String = "",
+    val isBought: Boolean = false,
+    val buyer: User = User(),
+    val date: LocalDateTime = LocalDateTime.now(),
+    val price: Double = 0.0,
+    val users: List<User> = listOf(),
+    val purchaseShop: Shop = Shop(),
+    val isPaid: Boolean = false, //todo: subject to change, change to what comrs from back
+    val isSharing: Boolean = false //todo: subject to change, maybe check users list if current user is present (need to get curr user)
 ) : BaseModel(id) {
     override fun isContentEqual(other: BaseModel): Boolean {
         return other is Expense && this.name == other.name && this.description == other.description &&

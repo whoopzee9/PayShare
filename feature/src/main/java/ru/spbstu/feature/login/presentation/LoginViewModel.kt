@@ -7,7 +7,6 @@ import ru.spbstu.feature.FeatureRouter
 class LoginViewModel(val router: FeatureRouter) : BackViewModel(router) {
 
     fun authWithGoogle(account: GoogleSignInAccount) {
-        //TODO send token to back
     }
 
     fun openMainFragment() {
