@@ -51,4 +51,5 @@
     <string name="no_history">История событий пуста</string>
     <string name="history">История</string>
     <string name="total_debt_template">Долг:\n%.2f руб</string>
+    <string name="debts">Долги</string>
 </resources>
