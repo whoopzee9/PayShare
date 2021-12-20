@@ -26,7 +26,7 @@ class ParticipantUserAdapter(
         override fun bind(item: User) {
             this.item = item
             binding.itemUserIbDelete.isVisible = isEditMode
-            binding.itemUserIv.load(item.photoLink) {
+            binding.itemUserIv.load(item.imageUrl) {
                 transformations(CircleCropTransformation())
             }
             binding.itemUserIv.setDebounceClickListener {
