@@ -73,13 +73,18 @@ class EventFragment : ToolbarFragment<EventViewModel>(
         binding.frgEventFabAdd.setDebounceClickListener {
             showPurchaseItemAddingDialog()
         }
+        binding.frgEventLayoutToolbar.includeToolbarIbSecondButton.setDebounceClickListener {
+            viewModel.shareRoomCode()
+        }
         initPurchaseOptionsDialog()
     }
 
     override fun subscribe() {
         super.subscribe()
 
-        viewModel.purchases.observe {
+        viewModel.purchases.observe { it ->
+            binding.frgEventTvPurchaseSumValue.text =
+                it.sumOf { purchase -> purchase.price }.toString()
             purchaseAdapter.bindData(it)
         }
         viewModel.users.observe {
@@ -123,6 +128,7 @@ class EventFragment : ToolbarFragment<EventViewModel>(
                     textTitle.text.toString(), textPrice.text.toString(),
                     textDate.text.toString(), textShop.text.toString()
                 )
+                // TODO fix clearing when edit opened after adding action
                 textTitle.text?.clear()
                 textPrice.text?.clear()
                 textShop.text?.clear()
@@ -133,7 +139,6 @@ class EventFragment : ToolbarFragment<EventViewModel>(
                     ?: LocalDate.now().toString()
                 dialogBinding.frgAddPurchaseDialogEtDate.setText(text.toString())
             }
-
             purchaseItemAddingDialog?.setContentView(dialogBinding.root)
             purchaseItemAddingDialog?.behavior?.state = BottomSheetBehavior.STATE_EXPANDED
         }
@@ -151,7 +156,7 @@ class EventFragment : ToolbarFragment<EventViewModel>(
         )
     }
 
-    fun initPurchaseOptionsDialog() {
+    private fun initPurchaseOptionsDialog() {
         if (purchaseOptionsDialog == null) {
             purchaseOptionsDialog = PurchaseOptionsDialogFragment.newInstance()
         }
@@ -160,18 +165,18 @@ class EventFragment : ToolbarFragment<EventViewModel>(
     private fun showPurchaseOptionsDialog(expense: Expense) {
         val dialog = purchaseOptionsDialog
         if (dialog != null) {
-            dialog.setOnDeletePurchaseClick() {
+            dialog.setOnDeletePurchaseClick {
                 dialog.dismiss()
             }
-            dialog.setOnEditPurchaseClick() {
+            dialog.setOnEditPurchaseClick {
                 dialog.dismiss()
                 showPurchaseItemAddingDialog(expense)
             }
-            dialog.setOnInfoPurchaseClick() {
+            dialog.setOnInfoPurchaseClick {
                 dialog.dismiss()
                 viewModel.openPurchase(expense)
             }
-            dialog.setOnCLosePurchaseClick() {
+            dialog.setOnCLosePurchaseClick {
                 dialog.dismiss()
             }
             dialog.show(parentFragmentManager, PURCHASE_OPTIONS_DIALOG_TAG)

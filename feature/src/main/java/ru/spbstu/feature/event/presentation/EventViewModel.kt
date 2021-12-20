@@ -10,7 +10,7 @@ import ru.spbstu.feature.domain.model.Shop
 import ru.spbstu.feature.domain.model.User
 import java.time.LocalDateTime
 
-class EventViewModel(router: FeatureRouter, val bundleDataWrapper: BundleDataWrapper) :
+class EventViewModel(val router: FeatureRouter, val bundleDataWrapper: BundleDataWrapper) :
     BackViewModel(router) {
     private val _purchases: MutableStateFlow<List<Expense>> = MutableStateFlow(listOf())
     val purchases get(): StateFlow<List<Expense>> = _purchases
@@ -140,6 +140,10 @@ class EventViewModel(router: FeatureRouter, val bundleDataWrapper: BundleDataWra
     }
 
     fun openPurchase(expense: Expense) {
+    }
+
+    fun shareRoomCode() {
+        router.openQrCodeSharingFragment("12588")
     }
 
     companion object {

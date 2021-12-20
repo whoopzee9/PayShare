@@ -1,7 +1,5 @@
 package ru.spbstu.feature.qr_code.presentation
 
-import android.os.Handler
-import android.os.Looper
 import android.view.View
 import android.view.ViewGroup
 import com.google.android.material.bottomsheet.BottomSheetBehavior
@@ -24,7 +22,6 @@ import ru.spbstu.feature.di.FeatureApi
 import ru.spbstu.feature.di.FeatureComponent
 import timber.log.Timber
 import java.time.format.DateTimeFormatter
-
 
 class QrCodeFragment : ToolbarFragment<QrCodeViewModel>(
     R.layout.fragment_qr_code,
@@ -55,7 +52,6 @@ class QrCodeFragment : ToolbarFragment<QrCodeViewModel>(
 
     override fun subscribe() {
         super.subscribe()
-
     }
 
     private fun initCamera() {
@@ -160,7 +156,6 @@ class QrCodeFragment : ToolbarFragment<QrCodeViewModel>(
             eventDetailsDialog?.show()
         }
     }
-
 
     companion object {
         private const val STATUS_DELAY: Long = 3000

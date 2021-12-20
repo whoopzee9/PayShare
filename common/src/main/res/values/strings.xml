@@ -58,5 +58,6 @@
     <string name="edit">Изменить</string>
     <string name="info">Информация</string>
     <string name="close_purchase">Закрыть расход</string>
+    <string name="share">Поделиться</string>
 
 </resources>

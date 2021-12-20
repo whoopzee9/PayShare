@@ -8,4 +8,5 @@ interface FeatureRouter : BaseBackRouter {
     fun openQrCodeFragment()
     fun openLoginFragment()
     fun openEventFragment(event: Event)
+    fun openQrCodeSharingFragment(code: String)
 }
