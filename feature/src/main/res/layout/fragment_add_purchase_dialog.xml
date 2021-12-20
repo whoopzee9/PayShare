@@ -132,6 +132,7 @@
             android:fontFamily="@font/montserrat_medium"
             android:textColor="@color/text_color_primary"
             android:textSize="@dimen/sp_14"
+            android:focusable="false"
             app:endIconTint="@color/button_disabled_tint" />
     </com.google.android.material.textfield.TextInputLayout>
 
