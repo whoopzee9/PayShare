@@ -66,15 +66,24 @@ class EventFragment : ToolbarFragment<EventViewModel>(
         binding.frgEventRvPurchases.adapter = purchaseAdapter
         binding.frgEventRvUsers.adapter = participantUserAdapter
         binding.frgEventLayoutToolbar.includeToolbarIbFirstButton.setDebounceClickListener {
-            viewModel.selectAllPurchases()
-        }
-        binding.frgEventLayoutToolbar.includeToolbarIbSecondButton.setDebounceClickListener {
+            if (viewModel.toolbarState.value == EventViewModel.ToolbarState.Initial) {
+                viewModel.selectAllPurchases()
+            } else {
+                // todo delete dialog
+            }
         }
         binding.frgEventFabAdd.setDebounceClickListener {
             showPurchaseItemAddingDialog()
         }
         binding.frgEventLayoutToolbar.includeToolbarIbSecondButton.setDebounceClickListener {
-            viewModel.shareRoomCode()
+            if (viewModel.toolbarState.value == EventViewModel.ToolbarState.Initial) {
+                viewModel.shareRoomCode()
+            } else {
+                // todo delete dialog
+            }
+        }
+        binding.frgEventFabEdit.setDebounceClickListener {
+            handleEditButtonClick()
         }
         initPurchaseOptionsDialog()
     }
@@ -90,6 +99,28 @@ class EventFragment : ToolbarFragment<EventViewModel>(
         viewModel.users.observe {
             participantUserAdapter.bindData(it)
         }
+        viewModel.toolbarState.observe {
+            handleToolbarState(it)
+        }
+    }
+
+    private fun handleToolbarState(state: EventViewModel.ToolbarState) {
+        when (state) {
+            is EventViewModel.ToolbarState.Initial -> {
+                binding.frgEventLayoutToolbar.includeToolbarIbFirstButton.setImageResource(R.drawable.ic_is_select_all_24)
+                binding.frgEventLayoutToolbar.includeToolbarIbSecondButton.setImageResource(R.drawable.ic_info_24)
+                binding.frgEventFabEdit.setImageResource(R.drawable.ic_edit_24)
+            }
+            is EventViewModel.ToolbarState.EditMode -> {
+                binding.frgEventLayoutToolbar.includeToolbarIbFirstButton.setImageResource(R.drawable.ic_is_delete_2_24)
+                binding.frgEventLayoutToolbar.includeToolbarIbSecondButton.setImageResource(R.drawable.ic_close_24)
+                binding.frgEventFabEdit.setImageResource(R.drawable.ic_close_24)
+            }
+        }
+    }
+
+    private fun handleEditButtonClick() {
+        viewModel.changeToolbarState()
     }
 
     private fun showPurchaseItemAddingDialog(expense: Expense = Expense()) {

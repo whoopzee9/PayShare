@@ -18,6 +18,10 @@ class EventViewModel(val router: FeatureRouter, val bundleDataWrapper: BundleDat
     private val _users: MutableStateFlow<List<User>> = MutableStateFlow(listOf())
     val users get(): StateFlow<List<User>> = _users
 
+    private val _toolbarState: MutableStateFlow<ToolbarState> =
+        MutableStateFlow(ToolbarState.Initial)
+    val toolbarState get(): StateFlow<ToolbarState> = _toolbarState
+
     init {
         _purchases.value = listOf(
             Expense(
@@ -144,6 +148,18 @@ class EventViewModel(val router: FeatureRouter, val bundleDataWrapper: BundleDat
 
     fun shareRoomCode() {
         router.openQrCodeSharingFragment("12588")
+    }
+
+    fun changeToolbarState() {
+        when(_toolbarState.value){
+            is ToolbarState.Initial -> _toolbarState.value = ToolbarState.EditMode
+            is ToolbarState.EditMode -> _toolbarState.value = ToolbarState.Initial
+        }
+    }
+
+    sealed class ToolbarState {
+        object Initial : ToolbarState()
+        object EditMode : ToolbarState()
     }
 
     companion object {
