@@ -27,7 +27,6 @@ class DeleteDialogFragment : DialogFragment() {
 
         dialog?.window?.setDimAmount(DIM_ALPHA)
         dialog?.window?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
-        dialog?.window?.setLayout(400,100)
 
         setupDialogView()
         return binding.root

@@ -15,6 +15,7 @@
         android:layout_marginTop="@dimen/dp_20"
         android:textColor="@color/text_color_primary_dark"
         android:textSize="@dimen/sp_18"
+        android:textAlignment="center"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"

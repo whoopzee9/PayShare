@@ -151,10 +151,26 @@ class EventViewModel(val router: FeatureRouter, val bundleDataWrapper: BundleDat
     }
 
     fun changeToolbarState() {
-        when(_toolbarState.value){
+        when (_toolbarState.value) {
             is ToolbarState.Initial -> _toolbarState.value = ToolbarState.EditMode
             is ToolbarState.EditMode -> _toolbarState.value = ToolbarState.Initial
         }
+    }
+
+    // TODO Delete success if user room owner
+    fun deleteRoom() {
+    }
+
+    // TODO leave from room
+    fun leaveFromRoom() {
+    }
+
+    // TODO add method to delete purchase from list
+    fun deletePurchase(expense: Expense) {
+    }
+
+    // TODO add method to close purchase
+    fun closePurchase(expense: Expense) {
     }
 
     sealed class ToolbarState {

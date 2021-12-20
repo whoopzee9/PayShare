@@ -59,7 +59,9 @@
     <string name="info">Информация</string>
     <string name="close_purchase">Закрыть расход</string>
     <string name="share">Поделиться</string>
-    <string name="delete_room">Вы точно хотите удалить комнату?</string>
+    <string name="delete_room">Вы точно хотите удалить \n комнату?</string>
+    <string name="leave_room">Вы точно хотите покинуть \n комнату?</string>
+    <string name="delete_purchase_item">Вы точно хотите удалить \n покупку?</string>
     <string name="warning_delete">Вы точно хотите удалить?</string>
 
 </resources>
