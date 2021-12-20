@@ -4,8 +4,13 @@ import android.os.Bundle
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
+import androidx.lifecycle.lifecycleScope
+import com.google.android.gms.maps.CameraUpdateFactory
 import com.google.android.gms.maps.GoogleMap
 import com.google.android.gms.maps.OnMapReadyCallback
+import com.google.android.gms.maps.model.LatLng
+import com.google.android.gms.maps.model.MarkerOptions
+import kotlinx.coroutines.launch
 import ru.spbstu.common.di.FeatureUtils
 import ru.spbstu.common.extenstions.viewBinding
 import ru.spbstu.common.utils.ToolbarFragment
@@ -17,13 +22,16 @@ import ru.spbstu.feature.domain.model.Expense
 import ru.spbstu.feature.shared_adapters.ParticipantUserAdapter
 import java.time.format.DateTimeFormatter
 
-class ExpenseFragment : ToolbarFragment<ExpenseViewModel>(
-    R.layout.fragment_expense,
-    R.string.empty_toolbar,
-    ToolbarType.BACK
-), OnMapReadyCallback {
+class ExpenseFragment :
+    ToolbarFragment<ExpenseViewModel>(
+        R.layout.fragment_expense,
+        R.string.empty_toolbar,
+        ToolbarType.BACK
+    ),
+    OnMapReadyCallback {
 
     override val binding by viewBinding(FragmentExpenseBinding::bind)
+    private lateinit var mMap: GoogleMap
 
     private val participantUserAdapter by lazy {
         ParticipantUserAdapter(onItemClick = {
@@ -40,6 +48,7 @@ class ExpenseFragment : ToolbarFragment<ExpenseViewModel>(
         binding.frgExpenseRvUsers.adapter = participantUserAdapter
         binding.includeCarStatisticsMap.getMapAsync(this)
     }
+
     override fun onResume() {
         super.onResume()
         binding.includeCarStatisticsMap.onResume()
@@ -48,7 +57,6 @@ class ExpenseFragment : ToolbarFragment<ExpenseViewModel>(
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         binding.includeCarStatisticsMap.onCreate(savedInstanceState)
-
     }
 
     override fun subscribe() {
@@ -62,8 +70,30 @@ class ExpenseFragment : ToolbarFragment<ExpenseViewModel>(
         }
     }
 
-    override fun onMapReady(p0: GoogleMap) {
+    override fun onMapReady(googleMap: GoogleMap) {
+        mMap = googleMap
 
+        mMap.setOnMarkerClickListener { marker ->
+            mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(marker.position, MAP_ZOOM_NEAR))
+            if (marker.isInfoWindowShown) {
+                marker.hideInfoWindow()
+            } else {
+                marker.showInfoWindow()
+            }
+            true
+        }
+        lifecycleScope.launch {
+            viewModel.mapShopCoordinates.observe {
+                pinMarkerOnMap(it)
+            }
+        }
+    }
+
+    private fun pinMarkerOnMap(list: List<LatLng>) {
+        list.forEach {
+            mMap.addMarker(MarkerOptions().position(it))
+            mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(it, MAP_ZOOM_NEAR))
+        }
     }
 
     private fun setPurchaseInfo(expense: Expense) {
@@ -80,5 +110,11 @@ class ExpenseFragment : ToolbarFragment<ExpenseViewModel>(
             .expenseComponentFactory()
             .create(this)
             .inject(this)
+    }
+
+    companion object {
+        private const val MAP_ZOOM_FAR = 10F
+        private const val MAP_ZOOM_NEAR = 15F
+        private const val KEYBOARD_DELAY = 50L
     }
 }

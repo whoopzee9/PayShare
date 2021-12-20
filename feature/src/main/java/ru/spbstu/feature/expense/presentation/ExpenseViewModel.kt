@@ -1,5 +1,6 @@
 package ru.spbstu.feature.expense.presentation
 
+import com.google.android.gms.maps.model.LatLng
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import ru.spbstu.common.utils.BackViewModel
@@ -16,6 +17,10 @@ class ExpenseViewModel(router: FeatureRouter) : BackViewModel(router) {
 
     private val _users: MutableStateFlow<List<User>> = MutableStateFlow(listOf())
     val users get(): StateFlow<List<User>> = _users
+
+    private val _mapShopCoordinates: MutableStateFlow<List<LatLng>> =
+        MutableStateFlow(emptyList())
+    val mapShopCoordinates: MutableStateFlow<List<LatLng>> get() = _mapShopCoordinates
 
     init {
         val userList = listOf(
@@ -64,9 +69,15 @@ class ExpenseViewModel(router: FeatureRouter) : BackViewModel(router) {
             LocalDateTime.now(),
             512.55,
             userList,
-            Shop(1, "fsdfsdf", 12.0, 23.9, listOf())
+            Shop(1, "fsdfsdf", 59.986505, 30.348305, listOf())
         )
         _users.value = userList
+        _mapShopCoordinates.value = listOf(
+            LatLng(
+                _purchase.value.purchaseShop.latitude,
+                _purchase.value.purchaseShop.longitude
+            )
+        )
     }
 
     companion object {
