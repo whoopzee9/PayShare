@@ -1,10 +1,59 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
 
     <include
         android:id="@+id/frg_debt__layout_toolbar"
         layout="@layout/include_toolbar" />
+
+    <ImageView
+        android:id="@+id/frg_debt__iv_share"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:src="@drawable/ic_share_100"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/frg_debt__tv_no_debts"
+        style="@style/TextView.Text"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/no_history"
+        android:textAlignment="center"
+        android:textColor="@color/text_color_hint"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/frg_debt__iv_share" />
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/frg_debt__rv_debts"
+        android:layout_width="@dimen/dp_0"
+        android:layout_height="@dimen/dp_0"
+        android:overScrollMode="never"
+        android:clipToPadding="false"
+        app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+        app:layout_constraintBottom_toTopOf="@id/frg_debt__tv_total_debt"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/frg_debt__layout_toolbar"
+        tools:listitem="@layout/item_purchase_info" />
+
+    <TextView
+        android:id="@+id/frg_debt__tv_total_debt"
+        style="@style/TextView.SubTitle"
+        android:textColor="@color/text_color_primary_dark"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/total_debt_template"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        android:layout_marginBottom="@dimen/dp_56"
+        android:layout_marginStart="@dimen/dp_24"/>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -2,6 +2,7 @@ package ru.spbstu.feature.events.presentation
 
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
+import ru.spbstu.common.token.TokenRepository
 import ru.spbstu.common.utils.BackViewModel
 import ru.spbstu.common.utils.BundleDataWrapper
 import ru.spbstu.feature.FeatureRouter
@@ -12,13 +13,21 @@ import ru.spbstu.feature.domain.model.User
 import java.time.LocalDateTime
 
 
-class EventsViewModel(val router: FeatureRouter, val bundleDataWrapper: BundleDataWrapper) : BackViewModel(router) {
+class EventsViewModel(
+    private val router: FeatureRouter,
+    val bundleDataWrapper: BundleDataWrapper,
+    val tokenRepository: TokenRepository
+) : BackViewModel(router) {
 
     private val _events: MutableStateFlow<List<Event>> = MutableStateFlow(listOf())
     val events get() :StateFlow<List<Event>> = _events
 
     fun setEvents(events: List<Event>) {
         _events.value = events
+    }
+
+    fun openLogin() {
+        router.openLoginFragment()
     }
 
     fun openEvent(event: Event) {

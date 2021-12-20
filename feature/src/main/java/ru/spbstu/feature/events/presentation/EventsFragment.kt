@@ -53,6 +53,9 @@ class EventsFragment : ToolbarFragment<EventsViewModel>(
 
     override fun setupViews() {
         super.setupViews()
+        if (viewModel.tokenRepository.getToken() == null) {
+            viewModel.openLogin()
+        }
         requireActivity().setStatusBarColor(R.color.toolbar_background_color_primary)
         requireView().clearLightStatusBar()
         initAdapter()

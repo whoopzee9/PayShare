@@ -55,6 +55,7 @@ dependencies {
     kapt metadataKapt
 
     implementation okHttpDep
+    implementation okHttpLoggingDep
     implementation retrofitDep
     implementation retrofitAdapterDep
     implementation rxJavaDep
@@ -89,17 +90,13 @@ dependencies {
 
     implementation calendarViewDep
 
-    implementation coilDep
-
-    implementation wheelPickerDep
-
-    implementation calendarViewDep
-
     implementation barcodeScanningDep
 
     api cameraViewDep
 
     implementation dexterDep
+
+    implementation coilDep
 
     implementation googleMapKitDep
     implementation googleLocationServicesDep
