@@ -16,7 +16,7 @@ class ParticipantUserAdapter(
     val onDeleteClick: (User) -> Unit
 ) :
     BaseAdapter<User, ParticipantUserAdapter.ParticipantUserViewHolder>() {
-    private var isEditMode: Boolean = true
+    private var isEditMode: Boolean = false
 
     inner class ParticipantUserViewHolder(parent: ViewGroup) :
         BaseViewHolder<User, ItemUserBinding>(parent.viewBinding(ItemUserBinding::inflate)) {

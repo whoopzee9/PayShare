@@ -54,5 +54,9 @@
     <string name="join">Присоединиться</string>
     <string name="scanning">Сканирование</string>
     <string name="need_permissions">Необходимо предоставить разрешения для использования камеры</string>
+    <string name="delete">Удалить</string>
+    <string name="edit">Изменить</string>
+    <string name="info">Информация</string>
+    <string name="close_purchase">Закрыть расход</string>
 
 </resources>

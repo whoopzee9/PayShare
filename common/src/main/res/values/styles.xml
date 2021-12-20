@@ -107,6 +107,20 @@
         <item name="cornerRadius">@dimen/dp_10</item>
     </style>
 
+    <style name="TextView.CardPlainText" parent="Widget.MaterialComponents.TextView">
+        <item name="fontFamily">@font/work_sans_medium</item>
+        <item name="android:textSize">@dimen/sp_16</item>
+        <item name="android:textColor">@color/text_color_primary_dark</item>
+    </style>
+
+    <style name="TextView.TextButton" parent="TextView.CardPlainText">
+        <item name="android:colorControlHighlight">@color/text_color_primary_dark</item>
+        <item name="android:theme">@style/SelectableItemTheme</item>
+        <item name="fontFamily">@font/montserrat_regular</item>
+        <item name="android:background">?attr/selectableItemBackground</item>
+    </style>
+
+
     <style name="BottomSheet.Style" parent="Widget.Design.BottomSheet.Modal">
         <item name="android:background">@drawable/background_rounded_top</item>
     </style>

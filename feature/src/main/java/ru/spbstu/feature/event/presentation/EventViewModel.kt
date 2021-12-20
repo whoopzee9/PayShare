@@ -115,10 +115,41 @@ class EventViewModel(router: FeatureRouter, val bundleDataWrapper: BundleDataWra
         textDate: String,
         textShop: String
     ) {
+        // TODO send info by useCase
+        _purchases.value = _purchases.value + Expense(
+            444,
+            "",
+            textTitle,
+            false,
+            currentUser,
+            LocalDateTime.now(),
+            textPrice.toDouble(),
+            emptyList(),
+            Shop(1, "fsdfsdf", 12.0, 23.9, listOf())
+        )
+        updateUsers()
+    }
+
+    private fun updateUsers() {
+        _users.value = _purchases.value.map { it.users }.flatten().distinctBy { it.id }
     }
 
     fun selectAllPurchases() {
         // TODO select all and send by usecase
         _purchases.value = _purchases.value.map { it.copy(isBought = true) }
+    }
+
+    fun openPurchase(expense: Expense) {
+    }
+
+    companion object {
+        // TODO add method to get current user
+        val currentUser = User(
+            11,
+            "Tolstolobik",
+            "Georgiy",
+            "tolstolobik1337@bk.ru",
+            "https://avt-19.foto.mail.ru/mail/gt230800/_avatar180?1479972314&mrim=1"
+        )
     }
 }

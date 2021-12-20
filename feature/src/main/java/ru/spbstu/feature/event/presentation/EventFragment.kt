@@ -21,8 +21,10 @@ import ru.spbstu.feature.di.FeatureApi
 import ru.spbstu.feature.di.FeatureComponent
 import ru.spbstu.feature.domain.model.CalendarDateRange
 import ru.spbstu.feature.domain.model.CalendarSelectionMode
+import ru.spbstu.feature.domain.model.Expense
 import ru.spbstu.feature.event.presentation.adapter.ParticipantUserAdapter
 import ru.spbstu.feature.event.presentation.adapter.PurchaseAdapter
+import ru.spbstu.feature.event.presentation.dialog.PurchaseOptionsDialogFragment
 import java.time.LocalDate
 
 class EventFragment : ToolbarFragment<EventViewModel>(
@@ -30,6 +32,8 @@ class EventFragment : ToolbarFragment<EventViewModel>(
     R.string.error_connection,
     ToolbarType.ROOM
 ) {
+    private var purchaseOptionsDialog: PurchaseOptionsDialogFragment? = null
+
     private var purchaseItemAddingDialog: BottomSheetDialog? = null
 
     private val calendarFragment by lazy { CalendarFragment(CalendarSelectionMode.SINGLE_DAY) }
@@ -38,7 +42,7 @@ class EventFragment : ToolbarFragment<EventViewModel>(
         PurchaseAdapter(onItemClick = {
             viewModel.setBoughtStatus(it)
         }, onLongItemClick = {
-            Toast.makeText(requireContext(), "Long press", Toast.LENGTH_SHORT).show()
+            showPurchaseOptionsDialog(it)
         })
     }
 
@@ -69,10 +73,7 @@ class EventFragment : ToolbarFragment<EventViewModel>(
         binding.frgEventFabAdd.setDebounceClickListener {
             showPurchaseItemAddingDialog()
         }
-        setAddPurchaseCompleteListener()
-    }
-
-    private fun setAddPurchaseCompleteListener() {
+        initPurchaseOptionsDialog()
     }
 
     override fun subscribe() {
@@ -86,7 +87,7 @@ class EventFragment : ToolbarFragment<EventViewModel>(
         }
     }
 
-    private fun showPurchaseItemAddingDialog() {
+    private fun showPurchaseItemAddingDialog(expense: Expense = Expense()) {
         if (purchaseItemAddingDialog == null) {
             purchaseItemAddingDialog =
                 BottomSheetDialog(requireContext(), R.style.BottomSheetDialog_Theme)
@@ -95,9 +96,12 @@ class EventFragment : ToolbarFragment<EventViewModel>(
             dialogBinding.frgAddPurchaseDialogEtDate.setDebounceClickListener {
                 calendarFragment.show(parentFragmentManager, DATE_DIALOG_TAG)
             }
-            dialogBinding.frgAddPurchaseDialogMbSave.setDebounceClickListener {
-            }
             changeSavePurchaseButtonIsClickable(dialogBinding)
+            dialogBinding.frgAddPurchaseDialogEtTitle.setText(expense.description)
+            dialogBinding.frgAddPurchaseDialogEtPrice.setText(expense.price.toString())
+            dialogBinding.frgAddPurchaseDialogEtDate.setText(expense.date.toString())
+            dialogBinding.frgAddPurchaseDialogEtShop.setText(expense.purchaseShop.name)
+
             dialogBinding.frgAddPurchaseDialogEtTitle.setTextLengthWatcher(
                 runOnTextEntered = { changeSavePurchaseButtonIsClickable(dialogBinding) }
             )
@@ -111,11 +115,18 @@ class EventFragment : ToolbarFragment<EventViewModel>(
                 runOnTextEntered = { changeSavePurchaseButtonIsClickable(dialogBinding) }
             )
             dialogBinding.frgAddPurchaseDialogMbSave.setDebounceClickListener {
-                val textTitle = dialogBinding.frgAddPurchaseDialogEtTitle.text.toString()
-                val textPrice = dialogBinding.frgAddPurchaseDialogEtPrice.text.toString()
-                val textDate = dialogBinding.frgAddPurchaseDialogEtDate.text.toString()
-                val textShop = dialogBinding.frgAddPurchaseDialogEtShop.text.toString()
-                viewModel.createNewPurchase(textTitle, textPrice, textDate, textShop)
+                val textTitle = dialogBinding.frgAddPurchaseDialogEtTitle
+                val textPrice = dialogBinding.frgAddPurchaseDialogEtPrice
+                val textDate = dialogBinding.frgAddPurchaseDialogEtDate
+                val textShop = dialogBinding.frgAddPurchaseDialogEtShop
+                viewModel.createNewPurchase(
+                    textTitle.text.toString(), textPrice.text.toString(),
+                    textDate.text.toString(), textShop.text.toString()
+                )
+                textTitle.text?.clear()
+                textPrice.text?.clear()
+                textShop.text?.clear()
+                purchaseItemAddingDialog?.dismiss()
             }
             viewModel.bundleDataWrapper.bundleData.observe {
                 val text = (it.get(CalendarFragment.DATA_KEY) as? CalendarDateRange)?.startDate
@@ -140,6 +151,33 @@ class EventFragment : ToolbarFragment<EventViewModel>(
         )
     }
 
+    fun initPurchaseOptionsDialog() {
+        if (purchaseOptionsDialog == null) {
+            purchaseOptionsDialog = PurchaseOptionsDialogFragment.newInstance()
+        }
+    }
+
+    private fun showPurchaseOptionsDialog(expense: Expense) {
+        val dialog = purchaseOptionsDialog
+        if (dialog != null) {
+            dialog.setOnDeletePurchaseClick() {
+                dialog.dismiss()
+            }
+            dialog.setOnEditPurchaseClick() {
+                dialog.dismiss()
+                showPurchaseItemAddingDialog(expense)
+            }
+            dialog.setOnInfoPurchaseClick() {
+                dialog.dismiss()
+                viewModel.openPurchase(expense)
+            }
+            dialog.setOnCLosePurchaseClick() {
+                dialog.dismiss()
+            }
+            dialog.show(parentFragmentManager, PURCHASE_OPTIONS_DIALOG_TAG)
+        }
+    }
+
     override fun inject() {
         FeatureUtils.getFeature<FeatureComponent>(this, FeatureApi::class.java)
             .eventComponentFactory()
@@ -151,6 +189,7 @@ class EventFragment : ToolbarFragment<EventViewModel>(
         private val TAG = EventFragment::class.java.simpleName
         val BUNDLE_KEY = "${TAG}_BUNDLE_KEY"
         private val DATE_DIALOG_TAG = "${TAG}_DATE_DIALOG"
+        private val PURCHASE_OPTIONS_DIALOG_TAG = "${TAG}_PURCHASE_OPTIONS_DIALOG_TAG"
 
         // TODO add parcel to class Event
         fun makeBundle(): Bundle {
