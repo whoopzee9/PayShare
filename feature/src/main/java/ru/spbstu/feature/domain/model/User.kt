@@ -11,7 +11,11 @@ data class User(
 ) : BaseModel(id) {
     override fun isContentEqual(other: BaseModel): Boolean {
         return other is User && this.firstName == other.firstName &&
-                this.lastName == other.lastName && this.email == other.email &&
-                this.imageUrl == other.imageUrl
+            this.lastName == other.lastName && this.email == other.email &&
+            this.imageUrl == other.imageUrl
+    }
+
+    fun getFullName(): String {
+        return "$lastName $firstName"
     }
 }

@@ -72,4 +72,6 @@
     <string name="leave_room">Вы точно хотите покинуть \n комнату?</string>
     <string name="delete_purchase_item">Вы точно хотите удалить \n покупку?</string>
     <string name="warning_delete">Вы точно хотите удалить?</string>
+
+    <string name="empty_toolbar" />
 </resources>
