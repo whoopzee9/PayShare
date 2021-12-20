@@ -29,6 +29,7 @@ abstract class ToolbarFragment<T : BackViewModel> constructor(
     }
 
     override fun onDestroy() {
+        viewModel.disposable.clear()
         _layoutToolbarBinding = null
         super.onDestroy()
     }

@@ -30,8 +30,9 @@ class ProfileFragment: ToolbarFragment<ProfileViewModel>(
         requireView().setLightStatusBar()
         binding.frgProfileIvPicture.clipToOutline = true
         binding.frgProfileLayoutToolbar.includeToolbarIbSecondButton.setDebounceClickListener {
-            viewModel.logOut()
+            viewModel.logout()
         }
+        viewModel.getUserInfo()
     }
 
     override fun inject() {
@@ -44,7 +45,9 @@ class ProfileFragment: ToolbarFragment<ProfileViewModel>(
     override fun subscribe() {
         super.subscribe()
         viewModel.user.observe {
-            binding.frgProfileIvPicture.load(it.imageUrl)
+            binding.frgProfileIvPicture.load(it.imageUrl) {
+                placeholder(R.drawable.ic_avatar_default_56)
+            }
             binding.frgProfileTvName.text = "${it.firstName} ${it.lastName}"
         }
     }
