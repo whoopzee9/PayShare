@@ -218,8 +218,7 @@ class EventFragment : ToolbarFragment<EventViewModel>(
                         viewModel.openPurchase(expense)
                     }
                     dialog.setOnCLosePurchaseClick {
-                        viewModel.
-                        closePurchase(expense)
+                        viewModel.closePurchase(expense)
                         dialog.dismiss()
                     }
                     dialog.show(parentFragmentManager, PURCHASE_OPTIONS_DIALOG_TAG)

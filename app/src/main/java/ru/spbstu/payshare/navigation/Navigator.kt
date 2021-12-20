@@ -8,7 +8,9 @@ import org.greenrobot.eventbus.EventBus
 import ru.spbstu.common.events.SetBottomNavVisibility
 import ru.spbstu.feature.FeatureRouter
 import ru.spbstu.feature.domain.model.Event
+import ru.spbstu.feature.domain.model.Expense
 import ru.spbstu.feature.event.presentation.EventFragment
+import ru.spbstu.feature.expense.presentation.ExpenseFragment
 import ru.spbstu.feature.qr_code_sharing.presentation.QrCodeSharingFragment
 import ru.spbstu.payshare.R
 import timber.log.Timber
@@ -92,6 +94,17 @@ class Navigator : FeatureRouter {
                 val bundle = QrCodeSharingFragment.makeBundle(code)
                 navController?.navigate(
                     R.id.action_eventFragment_to_shareQrCodeFragment, bundle
+                )
+            }
+        }
+    }
+
+    override fun openExpenseFragment(expense: Expense) {
+        when (navController?.currentDestination?.id) {
+            R.id.eventFragment -> {
+                val bundle = ExpenseFragment.makeBundle(expense)
+                navController?.navigate(
+                    R.id.action_eventFragment_to_expenseFragment, bundle
                 )
             }
         }

@@ -3,6 +3,7 @@ package ru.spbstu.feature.expense.presentation
 import android.os.Bundle
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.view.isVisible
 import androidx.lifecycle.lifecycleScope
 import com.google.android.gms.maps.CameraUpdateFactory
 import com.google.android.gms.maps.GoogleMap
@@ -102,6 +103,7 @@ class ExpenseFragment :
         binding.frgExpenseLayoutPurchaseInfo.itemPurchaseInfoTvDate.text =
             expense.date.format(DateTimeFormatter.ofPattern("dd.MM.yyyy"))
         binding.frgExpenseLayoutPurchaseInfo.itemPurchaseInfoTvDescription.text = expense.name
+        binding.frgExpenseLayoutPurchaseInfo.itemPurchaseInfoCbPaid.isVisible = false
     }
 
     override fun inject() {
@@ -115,5 +117,11 @@ class ExpenseFragment :
         private const val MAP_ZOOM_FAR = 10F
         private const val MAP_ZOOM_NEAR = 15F
         private const val KEYBOARD_DELAY = 50L
+
+        // TODO set bundle
+        fun makeBundle(expense: Expense): Bundle {
+            val bundle = Bundle()
+            return bundle
+        }
     }
 }
