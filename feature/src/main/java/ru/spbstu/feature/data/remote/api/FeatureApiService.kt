@@ -33,4 +33,7 @@ interface FeatureApiService {
 
     @POST("/user/room/join")
     fun joinEvent(@Body eventJoinBody: EventJoinBody): Single<Response<EventIdResponse>>
+
+    @GET("/user/room/closed")
+    fun getHistory(): Single<Response<RoomWrapper>>
 }

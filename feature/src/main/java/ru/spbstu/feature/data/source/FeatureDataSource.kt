@@ -13,4 +13,5 @@ interface FeatureDataSource {
     fun getEvents(): Single<PayShareResult<List<Event>>>
     fun createEvent(name: String, date: String): Single<PayShareResult<Long>>
     fun joinEvent(code: String): Single<PayShareResult<Long>>
+    fun getHistory(): Single<PayShareResult<List<Event>>>
 }

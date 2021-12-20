@@ -134,6 +134,28 @@ class FeatureDataSourceImpl @Inject constructor(private val featureApiService: F
         }
     }
 
+    override fun getHistory(): Single<PayShareResult<List<Event>>> {
+        return featureApiService.getHistory().map {
+            when {
+                it.isSuccessful -> {
+                    val res = it.body()
+                    if (res != null) {
+                        if (res.rooms != null) {
+                            PayShareResult.Success(res.rooms.map { response -> response.toEvent() })
+                        } else {
+                            PayShareResult.Success(listOf())
+                        }
+                    } else {
+                        PayShareResult.Error(EventError.UnknownError)
+                    }
+                }
+                else -> {
+                    PayShareResult.Error(EventError.UnknownError)
+                }
+            }
+        }
+    }
+
     private companion object {
         private val TAG = FeatureDataSourceImpl::class.simpleName
     }
