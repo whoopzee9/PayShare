@@ -67,6 +67,8 @@ buildscript {
         googleMapKitVersion = '17.0.1'
         googleLocationServicesVersion = '18.0.0'
 
+        qrCodeGeneratorVersion = '4.3.0'
+
 
         kotlinDep = "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlinVersion"
 
@@ -137,6 +139,8 @@ buildscript {
 
         googleMapKitDep = "com.google.android.gms:play-services-maps:$googleMapKitVersion"
         googleLocationServicesDep = "com.google.android.gms:play-services-location:$googleLocationServicesVersion"
+
+        qrCodeGeneratorDep ="com.journeyapps:zxing-android-embedded:$qrCodeGeneratorVersion"
     }
 
     ext.kotlin_version = "1.5.30"
