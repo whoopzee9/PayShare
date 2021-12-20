@@ -3,6 +3,8 @@ package ru.spbstu.feature.debt.presentation
 import android.view.View
 import android.view.ViewGroup
 import ru.spbstu.common.di.FeatureUtils
+import ru.spbstu.common.extenstions.setLightStatusBar
+import ru.spbstu.common.extenstions.setStatusBarColor
 import ru.spbstu.common.extenstions.viewBinding
 import ru.spbstu.common.utils.ToolbarFragment
 import ru.spbstu.feature.R
@@ -26,6 +28,9 @@ class DebtFragment: ToolbarFragment<DebtViewModel>(
 
     override fun setupViews() {
         super.setupViews()
+        requireActivity().setStatusBarColor(R.color.background_primary)
+        requireView().setLightStatusBar()
+        initAdapter()
     }
 
     override fun inject() {
@@ -36,7 +41,7 @@ class DebtFragment: ToolbarFragment<DebtViewModel>(
     }
 
     private fun initAdapter() {
-        adapter = DebtAdapter()
+        adapter = DebtAdapter(viewModel::onDebtChecked)
         binding.frgDebtRvDebts.adapter = adapter
     }
 
@@ -53,7 +58,13 @@ class DebtFragment: ToolbarFragment<DebtViewModel>(
                 binding.frgDebtTvNoDebts.visibility = View.GONE
                 binding.frgDebtRvDebts.visibility = View.VISIBLE
                 binding.frgDebtTvTotalDebt.visibility = View.VISIBLE
-                binding.frgDebtTvTotalDebt
+                var total = 0.0
+                it.forEach { expense ->
+                    if (expense.isSharing && !expense.isPaid) {
+                        total += expense.price / expense.users.size
+                    }
+                }
+                binding.frgDebtTvTotalDebt.text = getString(R.string.total_debt_template, total)
             }
             adapter.bindData(it)
         }

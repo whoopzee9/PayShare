@@ -14,4 +14,8 @@ class DebtViewModel(router: FeatureRouter) : BackViewModel(router) {
     fun setDebts(debts: List<Expense>) {
         _debts.value = debts
     }
+
+    fun onDebtChecked(item: Expense, isChecked: Boolean) {
+
+    }
 }

@@ -1,5 +1,6 @@
 package ru.spbstu.feature.debt.presentation.adapter
 
+import android.view.View
 import android.view.ViewGroup
 import ru.spbstu.common.base.BaseAdapter
 import ru.spbstu.common.base.BaseViewHolder
@@ -8,7 +9,7 @@ import ru.spbstu.feature.databinding.ItemPurchaseInfoBinding
 import ru.spbstu.feature.domain.model.Expense
 import java.time.format.DateTimeFormatter
 
-class DebtAdapter : BaseAdapter<Expense, DebtAdapter.DebtViewHolder>() {
+class DebtAdapter(val onChecked: (Expense, Boolean) -> Unit) : BaseAdapter<Expense, DebtAdapter.DebtViewHolder>() {
 
     inner class DebtViewHolder(parent: ViewGroup) :
         BaseViewHolder<Expense, ItemPurchaseInfoBinding>(parent.viewBinding(ItemPurchaseInfoBinding::inflate)) {
@@ -16,6 +17,7 @@ class DebtAdapter : BaseAdapter<Expense, DebtAdapter.DebtViewHolder>() {
         private lateinit var item: Expense
 
         init {
+
         }
 
         override fun bind(item: Expense) {
@@ -27,6 +29,12 @@ class DebtAdapter : BaseAdapter<Expense, DebtAdapter.DebtViewHolder>() {
             binding.itemPurchaseInfoPrice.isClickable = false
             val price = item.price / item.users.size
             binding.itemPurchaseInfoPrice.text = price.toString()
+            binding.itemPurchaseInfoCbPaid.visibility = if (item.isSharing) View.VISIBLE else View.GONE
+            binding.itemPurchaseInfoCbPaid.setOnCheckedChangeListener(null)
+            binding.itemPurchaseInfoCbPaid.isChecked = item.isPaid
+            binding.itemPurchaseInfoCbPaid.setOnCheckedChangeListener { compoundButton, b ->
+                onChecked(item, b)
+            }
         }
     }
 
