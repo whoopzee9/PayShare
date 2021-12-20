@@ -8,6 +8,8 @@ import ru.spbstu.feature.FeatureRouter
 import ru.spbstu.feature.domain.model.Expense
 import ru.spbstu.feature.domain.model.Shop
 import ru.spbstu.feature.domain.model.User
+import ru.spbstu.feature.mapSelect.ShopMapFragment
+import timber.log.Timber
 import java.time.LocalDateTime
 
 class EventViewModel(val router: FeatureRouter, val bundleDataWrapper: BundleDataWrapper) :
@@ -119,6 +121,14 @@ class EventViewModel(val router: FeatureRouter, val bundleDataWrapper: BundleDat
         textDate: String,
         textShop: String
     ) {
+
+        val shop =
+            (bundleDataWrapper.bundleData.value.getParcelable<Shop>(ShopMapFragment.DATA_KEY))
+
+        if (shop != null) {
+            Timber.i("???? ${shop.latitude}, ${shop.longitude}}")
+        }
+
         // TODO send info by useCase
         _purchases.value = _purchases.value + Expense(
             444,
