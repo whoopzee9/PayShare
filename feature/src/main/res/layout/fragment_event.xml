@@ -1,10 +1,120 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:background="@color/background_third">
 
     <include
         android:id="@+id/frg_event__layout_toolbar"
         layout="@layout/include_toolbar" />
+
+    <TextView
+        android:id="@+id/frg__event__title"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/dp_20"
+        android:layout_marginTop="@dimen/dp_14"
+        android:text="@string/participants"
+        android:textColor="@color/text_color_third_dark"
+        android:textSize="@dimen/sp_12"
+        android:textStyle="bold"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/frg_event__layout_toolbar" />
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/frg_event__rv_users"
+        android:layout_width="@dimen/dp_0"
+        android:layout_height="wrap_content"
+        android:clipToPadding="false"
+        android:orientation="horizontal"
+        android:overScrollMode="never"
+        android:visibility="visible"
+        android:paddingStart="@dimen/dp_16"
+        app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/frg__event__title"
+        tools:listitem="@layout/item_user" />
+
+    <TextView
+        android:id="@+id/frg__event__title_purchase"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/dp_20"
+        android:text="@string/buy"
+        android:textColor="@color/text_color_third_dark"
+        android:textSize="@dimen/sp_12"
+        android:textStyle="bold"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/frg_event__rv_users" />
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/frg_event__rv_purchases"
+        android:layout_width="@dimen/dp_0"
+        android:layout_height="@dimen/dp_0"
+        android:clipToPadding="false"
+        android:overScrollMode="never"
+        android:visibility="visible"
+        app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+        app:layout_constraintBottom_toTopOf="@id/frg__event__tv_purchase_sum"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/frg__event__title_purchase"
+        tools:listitem="@layout/item_purchase" />
+
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:id="@+id/frg_event__fab_add"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="@dimen/dp_16"
+        android:layout_marginBottom="@dimen/dp_24"
+        android:backgroundTint="@color/fab_color_secondary"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:srcCompat="@drawable/ic_add_24"
+        app:tint="@android:color/transparent"
+        app:tintMode="add" />
+
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:id="@+id/frg_event__fab_edit"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="@dimen/dp_16"
+        android:layout_marginBottom="@dimen/dp_24"
+        android:background="@android:color/white"
+        android:src="@drawable/ic_edit_24"
+        app:backgroundTint="@color/fab_color_secondary"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintEnd_toStartOf="@id/frg_event__fab_add"
+        app:tint="@android:color/white" />
+
+    <TextView
+        android:id="@+id/frg__event__tv_purchase_sum"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/dp_20"
+        android:layout_marginBottom="@dimen/dp_52"
+        android:text="@string/total_amount"
+        android:textColor="@color/text_color_primary_dark"
+        android:textSize="@dimen/sp_18"
+        android:textStyle="bold"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <TextView
+        android:id="@+id/frg__event__tv_purchase_sum_value"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/dp_2"
+        android:includeFontPadding="false"
+        android:textColor="@color/text_color_primary_dark"
+        android:textSize="@dimen/sp_18"
+        android:textStyle="bold"
+        app:layout_constraintStart_toStartOf="@+id/frg__event__tv_purchase_sum"
+        app:layout_constraintTop_toBottomOf="@+id/frg__event__tv_purchase_sum"
+        tools:text="1488 руб" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

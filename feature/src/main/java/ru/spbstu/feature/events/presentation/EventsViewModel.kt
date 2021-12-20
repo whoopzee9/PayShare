@@ -38,6 +38,7 @@ class EventsViewModel(
         router.openQrCodeFragment()
     }
 
+
     init {
         _events.value = listOf(
             Event(
@@ -54,7 +55,7 @@ class EventsViewModel(
                         User(1, "dasd", "dasd", "dasd"),
                         LocalDateTime.now(),
                         123.0,
-                        listOf(),
+                        emptyMap(),
                         Shop(1, "fsdfsdf", 12.0, 23.9, listOf())
                     ),
                     Expense(
@@ -65,7 +66,7 @@ class EventsViewModel(
                         User(1, "dasd", "dasd", "dasd"),
                         LocalDateTime.now(),
                         1230.0,
-                        listOf(),
+                        emptyMap(),
                         Shop(1, "fsdfsdf", 12.0, 23.9, listOf())
                     )
                 ),
@@ -86,7 +87,7 @@ class EventsViewModel(
                         User(1, "dasd", "dasd", "dasd"),
                         LocalDateTime.now(),
                         13.0,
-                        listOf(),
+                        emptyMap(),
                         Shop(1, "fsdfsdf", 12.0, 23.9, listOf())
                     )
                 ),
@@ -98,9 +99,7 @@ class EventsViewModel(
                 code = "sdfsdf",
                 "qweqwe",
                 LocalDateTime.now(),
-                expenses = listOf(
-
-                ),
+                expenses = listOf(),
                 users = listOf(),
                 false
             )

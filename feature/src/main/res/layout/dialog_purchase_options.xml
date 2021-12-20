@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/dialog_purchase_options__wrapper"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:background="@drawable/background_rounded_dialog"
+    android:orientation="vertical">
+
+    <TextView
+        android:id="@+id/dialog_purchase_options__tb_delete_file"
+        style="@style/TextView.TextButton"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/dp_20"
+        android:drawablePadding="@dimen/dp_12"
+        android:paddingVertical="@dimen/dp_10"
+        android:paddingStart="@dimen/dp_20"
+        android:paddingEnd="@dimen/dp_50"
+        android:text="@string/delete"
+        app:drawableLeftCompat="@drawable/ic_delete_24"
+        app:drawableTint="@color/button_tint_primary" />
+
+    <TextView
+        android:id="@+id/dialog_purchase_options__tb_edit_file"
+        style="@style/TextView.TextButton"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/dp_10"
+        android:drawablePadding="@dimen/dp_12"
+        android:paddingVertical="@dimen/dp_10"
+        android:paddingStart="@dimen/dp_20"
+        android:text="@string/edit"
+        app:drawableLeftCompat="@drawable/ic_edit_24"
+        app:drawableTint="@color/button_tint_primary" />
+
+    <TextView
+        android:id="@+id/dialog_purchase_options__tb_ib_info"
+        style="@style/TextView.TextButton"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/dp_10"
+        android:drawablePadding="@dimen/dp_12"
+        android:paddingVertical="@dimen/dp_10"
+        android:paddingStart="@dimen/dp_20"
+        android:paddingEnd="@dimen/dp_50"
+        android:text="@string/info"
+        app:drawableLeftCompat="@drawable/ic_info_24"
+        app:drawableTint="@color/button_tint_primary" />
+
+    <TextView
+        android:id="@+id/dialog_purchase_options__tb_ib_close_purchase"
+        style="@style/TextView.TextButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/dp_10"
+        android:layout_marginBottom="@dimen/dp_20"
+        android:drawablePadding="@dimen/dp_12"
+        android:paddingVertical="@dimen/dp_10"
+        android:paddingStart="@dimen/dp_20"
+        android:paddingEnd="@dimen/dp_50"
+        android:text="@string/close_purchase"
+        app:drawableLeftCompat="@drawable/ic_close_24"
+        app:drawableTint="@color/button_tint_primary" />
+</LinearLayout>

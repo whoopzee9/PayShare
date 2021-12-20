@@ -8,6 +8,10 @@ import org.greenrobot.eventbus.EventBus
 import ru.spbstu.common.events.SetBottomNavVisibility
 import ru.spbstu.feature.FeatureRouter
 import ru.spbstu.feature.domain.model.Event
+import ru.spbstu.feature.domain.model.Expense
+import ru.spbstu.feature.event.presentation.EventFragment
+import ru.spbstu.feature.expense.presentation.ExpenseFragment
+import ru.spbstu.feature.qr_code_sharing.presentation.QrCodeSharingFragment
 import ru.spbstu.payshare.R
 import timber.log.Timber
 
@@ -71,11 +75,38 @@ class Navigator : FeatureRouter {
     }
 
     override fun openEventFragment(event: Event) {
-        //todo send bundle
+        // todo send bundle
         when (navController?.currentDestination?.id) {
             R.id.qrCodeFragment -> navController?.navigate(R.id.action_qrCodeFragment_to_eventFragment)
-            R.id.eventsFragment -> navController?.navigate(R.id.action_eventsFragment_to_eventFragment)
+            R.id.eventsFragment -> {
+                val bundle = EventFragment.makeBundle()
+                navController?.navigate(
+                    R.id.action_eventsFragment_to_eventFragment, bundle
+                )
+            }
             R.id.historyFragment -> navController?.navigate(R.id.action_historyFragment_to_eventFragment)
+        }
+    }
+
+    override fun openQrCodeSharingFragment(code: String) {
+        when (navController?.currentDestination?.id) {
+            R.id.eventFragment -> {
+                val bundle = QrCodeSharingFragment.makeBundle(code)
+                navController?.navigate(
+                    R.id.action_eventFragment_to_shareQrCodeFragment, bundle
+                )
+            }
+        }
+    }
+
+    override fun openExpenseFragment(expense: Expense) {
+        when (navController?.currentDestination?.id) {
+            R.id.eventFragment -> {
+                val bundle = ExpenseFragment.makeBundle(expense)
+                navController?.navigate(
+                    R.id.action_eventFragment_to_expenseFragment, bundle
+                )
+            }
         }
     }
 
@@ -92,7 +123,10 @@ class Navigator : FeatureRouter {
         val TAG = Navigator::class.simpleName
         val navBarHiddenIdsList = listOf(
             R.id.loginFragment,
-            R.id.qrCodeFragment
+            R.id.qrCodeFragment,
+            R.id.eventFragment,
+            R.id.shareQrCodeFragment,
+            R.id.expenseFragment
         )
     }
 }
