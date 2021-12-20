@@ -121,11 +121,10 @@ class EventViewModel(val router: FeatureRouter, val bundleDataWrapper: BundleDat
         textDate: String,
         textShop: String
     ) {
-        Timber.i("????")
 
         val shop =
             (bundleDataWrapper.bundleData.value.getParcelable<Shop>(ShopMapFragment.DATA_KEY))
-        Timber.i("???? $shop")
+
         if (shop != null) {
             Timber.i("???? ${shop.latitude}, ${shop.longitude}}")
         }
