@@ -16,7 +16,7 @@ data class PurchasesResponse(
     @SerializedName("locate")
     val location: LocationResponse,
     @SerializedName("cost")
-    val cost: Double
+    val cost: Int
 )
 
 fun PurchasesResponse.toExpense(): Expense {
@@ -26,7 +26,7 @@ fun PurchasesResponse.toExpense(): Expense {
         description = location.description,
         buyer = User(id = ownerId),
         date = LocalDateTime.parse(location.date, DateTimeFormatter.ofPattern("dd.MM.yy HH:mm")),
-        price = cost,
+        price = cost / 100.0,
         purchaseShop = location.toShop()
     )
 }
