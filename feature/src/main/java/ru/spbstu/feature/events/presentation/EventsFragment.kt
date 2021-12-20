@@ -28,7 +28,6 @@ import java.time.LocalDate
 import java.time.LocalTime
 import kotlin.math.ceil
 
-
 class EventsFragment : ToolbarFragment<EventsViewModel>(
     R.layout.fragment_events,
     R.string.purchases,
@@ -60,16 +59,14 @@ class EventsFragment : ToolbarFragment<EventsViewModel>(
         requireView().clearLightStatusBar()
         initAdapter()
         setToolbar(firstClickListener = {
-
         }, secondClickListener = {
-
         })
 
-        //search
+        // search
         binding.frgEventsLayoutToolbar.includeToolbarIbSecondButton.setDebounceClickListener {
             showSearchEventDialog()
         }
-        //QrCode
+        // QrCode
         binding.frgEventsLayoutToolbar.includeToolbarIbFirstButton.setDebounceClickListener {
             viewModel.openQrCodeScanner()
         }
@@ -111,11 +108,10 @@ class EventsFragment : ToolbarFragment<EventsViewModel>(
         if (dialogFragment == null) {
             dialogFragment = SearchEventDialogFragment.newInstance()
         } else {
-            //setup dialog views, if necessary
+            // setup dialog views, if necessary
         }
         searchEventDialog = dialogFragment
         dialogFragment.setOnOKClickListener {
-
         }
         dialogFragment.setOnQRClickListener {
             viewModel.openQrCodeScanner()
@@ -137,7 +133,6 @@ class EventsFragment : ToolbarFragment<EventsViewModel>(
                 calendarFragment.show(parentFragmentManager, DATE_DIALOG_TAG)
             }
             dialogBinding.frgAddEventDialogMbSave.setDebounceClickListener {
-
             }
             viewModel.bundleDataWrapper.bundleData.observe {
                 val text = (it.get(CalendarFragment.DATA_KEY) as? CalendarDateRange)?.startDate

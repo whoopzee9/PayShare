@@ -54,4 +54,22 @@
     <string name="total_debt_template">Долг:\n%.2f руб</string>
     <string name="debts">Долги</string>
     <string name="unknown_error">Неизвестная ошибка, повторите позднее</string>
+
+    <string name="total_amount">Общая сумма:</string>
+    <string name="participants">Участвуют</string>
+    <string name="buy">Скидываемся</string>
+
+    <string name="new_purchase">Добавление расхода</string>
+    <string name="price">Стоимость</string>
+    <string name="shop">Магазин</string>
+
+    <string name="delete">Удалить</string>
+    <string name="edit">Изменить</string>
+    <string name="info">Информация</string>
+    <string name="close_purchase">Закрыть расход</string>
+    <string name="share">Поделиться</string>
+    <string name="delete_room">Вы точно хотите удалить \n комнату?</string>
+    <string name="leave_room">Вы точно хотите покинуть \n комнату?</string>
+    <string name="delete_purchase_item">Вы точно хотите удалить \n покупку?</string>
+    <string name="warning_delete">Вы точно хотите удалить?</string>
 </resources>

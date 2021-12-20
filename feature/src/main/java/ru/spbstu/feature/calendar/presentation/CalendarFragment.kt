@@ -191,9 +191,9 @@ class CalendarFragment(
     @SuppressLint("NewApi")
     private fun setDoneButtonIsClickable(calendarDateRange: CalendarDateRange) {
         if (calendarDateRange.endDate != null || (
-            calendarDateRange.startDate != null &&
-                viewModel.calendarMode == CalendarSelectionMode.SINGLE_DAY
-            )
+                    calendarDateRange.startDate != null &&
+                            viewModel.calendarMode == CalendarSelectionMode.SINGLE_DAY
+                    )
         ) {
             binding.frgCalendarMbDone.isEnabled = true
             binding.frgCalendarMbDone.setBackgroundColor(

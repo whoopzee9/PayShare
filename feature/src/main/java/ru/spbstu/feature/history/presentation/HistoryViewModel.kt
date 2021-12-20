@@ -12,7 +12,7 @@ import java.time.LocalDateTime
 
 class HistoryViewModel(val router: FeatureRouter) : BackViewModel(router) {
     private val _events: MutableStateFlow<List<Event>> = MutableStateFlow(listOf())
-    val events get() :StateFlow<List<Event>> = _events
+    val events get(): StateFlow<List<Event>> = _events
 
     fun setEvents(events: List<Event>) {
         _events.value = events
@@ -38,8 +38,8 @@ class HistoryViewModel(val router: FeatureRouter) : BackViewModel(router) {
                         User(1, "dasd", "dasd", "dasd"),
                         LocalDateTime.now(),
                         123.0,
-                        listOf(),
-                        Shop(1,"fsdfsdf", 12.0, 23.9, listOf())
+                        emptyMap(),
+                        Shop(1, "fsdfsdf", 12.0, 23.9, listOf())
                     ),
                     Expense(
                         id = 2,
@@ -49,8 +49,8 @@ class HistoryViewModel(val router: FeatureRouter) : BackViewModel(router) {
                         User(1, "dasd", "dasd", "dasd"),
                         LocalDateTime.now(),
                         1230.0,
-                        listOf(),
-                        Shop(1,"fsdfsdf", 12.0, 23.9, listOf())
+                        emptyMap(),
+                        Shop(1, "fsdfsdf", 12.0, 23.9, listOf())
                     )
                 ),
                 users = listOf(),
@@ -70,8 +70,8 @@ class HistoryViewModel(val router: FeatureRouter) : BackViewModel(router) {
                         User(1, "dasd", "dasd", "dasd"),
                         LocalDateTime.now(),
                         13.0,
-                        listOf(),
-                        Shop(1,"fsdfsdf", 12.0, 23.9, listOf())
+                        emptyMap(),
+                        Shop(1, "fsdfsdf", 12.0, 23.9, listOf())
                     )
                 ),
                 users = listOf(),
@@ -82,9 +82,7 @@ class HistoryViewModel(val router: FeatureRouter) : BackViewModel(router) {
                 code = "sdfsdf",
                 "qweqwe",
                 LocalDateTime.now(),
-                expenses = listOf(
-
-                ),
+                expenses = listOf(),
                 users = listOf(),
                 false
             )
