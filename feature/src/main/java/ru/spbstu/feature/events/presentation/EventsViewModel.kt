@@ -11,11 +11,11 @@ import ru.spbstu.feature.domain.model.Shop
 import ru.spbstu.feature.domain.model.User
 import java.time.LocalDateTime
 
-
-class EventsViewModel(val router: FeatureRouter, val bundleDataWrapper: BundleDataWrapper) : BackViewModel(router) {
+class EventsViewModel(val router: FeatureRouter, val bundleDataWrapper: BundleDataWrapper) :
+    BackViewModel(router) {
 
     private val _events: MutableStateFlow<List<Event>> = MutableStateFlow(listOf())
-    val events get() :StateFlow<List<Event>> = _events
+    val events get(): StateFlow<List<Event>> = _events
 
     fun setEvents(events: List<Event>) {
         _events.value = events
@@ -45,8 +45,8 @@ class EventsViewModel(val router: FeatureRouter, val bundleDataWrapper: BundleDa
                         User(1, "dasd", "dasd", "dasd"),
                         LocalDateTime.now(),
                         123.0,
-                        listOf(),
-                        Shop(1,"fsdfsdf", 12.0, 23.9, listOf())
+                        emptyMap(),
+                        Shop(1, "fsdfsdf", 12.0, 23.9, listOf())
                     ),
                     Expense(
                         id = 2,
@@ -56,8 +56,8 @@ class EventsViewModel(val router: FeatureRouter, val bundleDataWrapper: BundleDa
                         User(1, "dasd", "dasd", "dasd"),
                         LocalDateTime.now(),
                         1230.0,
-                        listOf(),
-                        Shop(1,"fsdfsdf", 12.0, 23.9, listOf())
+                        emptyMap(),
+                        Shop(1, "fsdfsdf", 12.0, 23.9, listOf())
                     )
                 ),
                 users = listOf(),
@@ -77,8 +77,8 @@ class EventsViewModel(val router: FeatureRouter, val bundleDataWrapper: BundleDa
                         User(1, "dasd", "dasd", "dasd"),
                         LocalDateTime.now(),
                         13.0,
-                        listOf(),
-                        Shop(1,"fsdfsdf", 12.0, 23.9, listOf())
+                        emptyMap(),
+                        Shop(1, "fsdfsdf", 12.0, 23.9, listOf())
                     )
                 ),
                 users = listOf(),
@@ -89,9 +89,7 @@ class EventsViewModel(val router: FeatureRouter, val bundleDataWrapper: BundleDa
                 code = "sdfsdf",
                 "qweqwe",
                 LocalDateTime.now(),
-                expenses = listOf(
-
-                ),
+                expenses = listOf(),
                 users = listOf(),
                 false
             )

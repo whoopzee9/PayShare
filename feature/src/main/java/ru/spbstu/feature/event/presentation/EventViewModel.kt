@@ -37,7 +37,7 @@ class EventViewModel(val router: FeatureRouter, val bundleDataWrapper: BundleDat
                         2, "Egor", "Egorov", "dasd",
                         "https://images.pexels.com/photos/4556737/pexels-photo-4556737.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=750&w=1260"
                     ),
-                ),
+                ).map { it to false }.toMap(),
                 Shop(1, "fsdfsdf", 12.0, 23.9, listOf())
             ),
             Expense(
@@ -92,11 +92,11 @@ class EventViewModel(val router: FeatureRouter, val bundleDataWrapper: BundleDat
                         "dasd",
                         "https://images.pexels.com/photos/2743754/pexels-photo-2743754.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=750&w=1260"
                     ),
-                ),
+                ).map { it to false }.toMap(),
                 Shop(1, "fsdfsdf", 12.0, 23.9, listOf())
             )
         )
-        _users.value = _purchases.value.map { it.users }.flatten().distinctBy { it.id }
+        _users.value = _purchases.value.map { it.users.keys }.flatten().distinctBy { it.id }
     }
 
     fun setBoughtStatus(purchase: Expense) {
@@ -124,14 +124,14 @@ class EventViewModel(val router: FeatureRouter, val bundleDataWrapper: BundleDat
             currentUser,
             LocalDateTime.now(),
             textPrice.toDouble(),
-            emptyList(),
+            emptyMap(),
             Shop(1, "fsdfsdf", 12.0, 23.9, listOf())
         )
         updateUsers()
     }
 
     private fun updateUsers() {
-        _users.value = _purchases.value.map { it.users }.flatten().distinctBy { it.id }
+        _users.value = _purchases.value.map { it.users.keys }.flatten().distinctBy { it.id }
     }
 
     fun selectAllPurchases() {
