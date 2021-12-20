@@ -10,7 +10,7 @@ data class EventResponse(
     @SerializedName("room")
     val room: RoomResponse,
     @SerializedName("purchases")
-    val purchases: List<PurchasesResponse>,
+    val purchases: List<PurchasesResponse>?,
     @SerializedName("is_your")
     val isYours: Boolean
 )
@@ -21,7 +21,7 @@ fun EventResponse.toEvent(): Event {
         id = room.id,
         name = room.name,
         date = LocalDateTime.parse(room.date, DateTimeFormatter.ofPattern("dd.MM.yy HH:mm")),
-        expenses = purchases.map { it.toExpense() },
+        expenses = purchases?.map { it.toExpense() } ?: listOf(),
         isClosed = room.isClosed,
         isYours = isYours
     )

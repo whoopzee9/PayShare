@@ -82,7 +82,11 @@ class FeatureDataSourceImpl @Inject constructor(private val featureApiService: F
                 it.isSuccessful -> {
                     val res = it.body()
                     if (res != null) {
-                        PayShareResult.Success(res.map { response -> response.toEvent() })
+                        if (res.rooms != null) {
+                            PayShareResult.Success(res.rooms.map { response -> response.toEvent() })
+                        } else {
+                            PayShareResult.Success(listOf())
+                        }
                     } else {
                         PayShareResult.Error(EventError.UnknownError)
                     }
@@ -124,7 +128,7 @@ class FeatureDataSourceImpl @Inject constructor(private val featureApiService: F
                     }
                 }
                 else -> {
-                    PayShareResult.Error(EventError.UnknownError)
+                    PayShareResult.Error(EventError.EventNotFound)
                 }
             }
         }

@@ -17,7 +17,6 @@ class EventsAdapter(val onItemClick: (Long) -> Unit) : BaseAdapter<Event, Events
         BaseViewHolder<Event, ItemEventsBinding>(parent.viewBinding(ItemEventsBinding::inflate)) {
 
         private lateinit var item: Event
-        private var prevFavourite = true
 
         init {
             binding.itemEventsCardViewLayout.setDebounceClickListener {
@@ -55,22 +54,8 @@ class EventsAdapter(val onItemClick: (Long) -> Unit) : BaseAdapter<Event, Events
                 }
             }
 
-            if (absoluteAdapterPosition == 0) {
-                if (item.isFavourite) {
-                    binding.itemEventsIvStar.visibility = View.VISIBLE
-                    binding.itemEventsTvAll.visibility = View.GONE
-                } else {
-                    binding.itemEventsIvStar.visibility = View.GONE
-                    binding.itemEventsTvAll.visibility = View.VISIBLE
-                }
-            } else if (item.isFavourite != prevFavourite) {
-                binding.itemEventsIvStar.visibility = View.GONE
-                binding.itemEventsTvAll.visibility = View.VISIBLE
-            } else {
-                binding.itemEventsIvStar.visibility = View.GONE
-                binding.itemEventsTvAll.visibility = View.GONE
-            }
-            prevFavourite = item.isFavourite
+            binding.itemEventsIvStar.visibility = View.GONE
+            binding.itemEventsTvAll.visibility = View.GONE
 
         }
     }

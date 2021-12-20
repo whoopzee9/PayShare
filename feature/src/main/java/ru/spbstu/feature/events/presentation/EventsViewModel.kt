@@ -51,7 +51,7 @@ class EventsViewModel(
             .addTo(disposable)
     }
 
-    fun createEvent(name: String, date: String) {
+    fun createEvent(name: String, date: String, callback: () -> Unit) {
         setEventState(EventState.Progress)
         createEventUseCase.invoke(name, date)
             .subscribeOn(Schedulers.io())
@@ -60,6 +60,7 @@ class EventsViewModel(
                 when (it) {
                     is PayShareResult.Success -> {
                         setEventState(EventState.Success)
+                        callback()
                         openEvent(it.data)
                     }
                     is PayShareResult.Error -> {
