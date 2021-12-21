@@ -148,7 +148,8 @@ class EventViewModel(val router: FeatureRouter, val bundleDataWrapper: BundleDat
     }
 
     fun openPurchase(expense: Expense) {
-        router.openExpenseFragment(expense)
+        //TODO pass roomID
+        //router.openExpenseFragment(expense)
     }
 
     fun shareRoomCode() {

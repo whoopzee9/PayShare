@@ -9,6 +9,7 @@ import dagger.multibindings.IntoMap
 import ru.spbstu.common.di.viewmodel.ViewModelKey
 import ru.spbstu.common.di.viewmodel.ViewModelModule
 import ru.spbstu.feature.FeatureRouter
+import ru.spbstu.feature.domain.usecase.GetEventInfoUseCase
 import ru.spbstu.feature.expense.presentation.ExpenseViewModel
 
 
@@ -22,8 +23,11 @@ class ExpenseModule {
     @Provides
     @IntoMap
     @ViewModelKey(ExpenseViewModel::class)
-    fun provideViewModel(router: FeatureRouter): ViewModel {
-        return ExpenseViewModel(router)
+    fun provideViewModel(
+        router: FeatureRouter,
+        getEventInfoUseCase: GetEventInfoUseCase
+    ): ViewModel {
+        return ExpenseViewModel(router, getEventInfoUseCase)
     }
 
     @Provides

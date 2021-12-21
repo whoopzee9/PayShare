@@ -18,6 +18,7 @@ import ru.spbstu.common.extenstions.viewBinding
 import ru.spbstu.common.utils.ToolbarFragment
 import ru.spbstu.feature.R
 import ru.spbstu.feature.databinding.FragmentExpenseBinding
+import ru.spbstu.feature.debt.presentation.DebtFragment
 import ru.spbstu.feature.di.FeatureApi
 import ru.spbstu.feature.di.FeatureComponent
 import ru.spbstu.feature.domain.model.Expense
@@ -52,6 +53,13 @@ class ExpenseFragment :
     override fun onResume() {
         super.onResume()
         binding.includeCarStatisticsMap.onResume()
+    }
+
+    override fun setupFromArguments(args: Bundle) {
+        super.setupFromArguments(args)
+        val roomId = args.getLong(BUNDLE_KEY_ROOM)
+        val expenseId = args.getLong(BUNDLE_KEY_EXPENSE)
+        viewModel.getData(roomId, expenseId)
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -118,9 +126,14 @@ class ExpenseFragment :
         private const val MAP_ZOOM_NEAR = 15F
         private const val KEYBOARD_DELAY = 50L
 
-        // TODO set bundle
-        fun makeBundle(expense: Expense): Bundle {
+        private val TAG = ExpenseFragment::class.java.simpleName
+        val BUNDLE_KEY_EXPENSE = "${TAG}_BUNDLE_KEY_EXPENSE"
+        val BUNDLE_KEY_ROOM = "${TAG}_BUNDLE_KEY_ROOM"
+
+        fun makeBundle(roomId: Long, expenseId: Long): Bundle {
             val bundle = Bundle()
+            bundle.putLong(BUNDLE_KEY_EXPENSE, expenseId)
+            bundle.putLong(BUNDLE_KEY_ROOM, roomId)
             return bundle
         }
     }
