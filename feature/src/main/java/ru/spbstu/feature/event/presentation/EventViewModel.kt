@@ -1,6 +1,7 @@
 package ru.spbstu.feature.event.presentation
 
 import android.os.Build
+import android.util.Log
 import androidx.annotation.RequiresApi
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.rxkotlin.addTo
@@ -18,7 +19,9 @@ import ru.spbstu.feature.domain.model.Shop
 import ru.spbstu.feature.domain.model.User
 import ru.spbstu.feature.domain.usecase.CreatePurchaseUseCase
 import ru.spbstu.feature.domain.usecase.GetEventInfoUseCase
+import ru.spbstu.feature.domain.usecase.GetRoomCodeUseCase
 import ru.spbstu.feature.mapSelect.ShopMapFragment
+import timber.log.Timber
 import java.time.LocalDateTime
 
 @RequiresApi(Build.VERSION_CODES.O)
@@ -26,7 +29,8 @@ class EventViewModel(
     val router: FeatureRouter,
     val bundleDataWrapper: BundleDataWrapper,
     private val createPurchaseUseCase: CreatePurchaseUseCase,
-    private val getEventInfoUseCase: GetEventInfoUseCase
+    private val getEventInfoUseCase: GetEventInfoUseCase,
+    private val getRoomCodeUseCase: GetRoomCodeUseCase
 ) :
     BackViewModel(router) {
     var roomId = 0L
@@ -118,7 +122,25 @@ class EventViewModel(
     }
 
     fun shareRoomCode() {
-        router.openQrCodeSharingFragment("12588")
+        getRoomCodeUseCase.invoke(roomId)
+            .subscribeOn(Schedulers.io())
+            .observeOn(AndroidSchedulers.mainThread())
+            .subscribe({
+                when (it) {
+                    is PayShareResult.Success -> {
+                        setEventState(EventState.Success)
+                        Timber.i("CODE:${it.data}")
+                        Log.d("CODE","${it.data}")
+                        router.openQrCodeSharingFragment(it.data.toString())
+                    }
+                    is PayShareResult.Error -> {
+                        setEventState(EventState.Failure(it.error))
+                    }
+                }
+            }, {
+                setEventState(EventState.Failure(EventError.ConnectionError))
+            })
+            .addTo(disposable)
     }
 
     fun changeToolbarState() {

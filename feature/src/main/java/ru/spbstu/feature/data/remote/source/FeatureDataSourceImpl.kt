@@ -1,6 +1,5 @@
 package ru.spbstu.feature.data.remote.source
 
-import android.util.Log
 import io.reactivex.Single
 import ru.spbstu.common.error.PayShareResult
 import ru.spbstu.common.model.EventError
@@ -180,17 +179,7 @@ class FeatureDataSourceImpl @Inject constructor(private val featureApiService: F
             when {
                 it.isSuccessful -> {
                     val res = it.body()
-                    Log.d("eeee", "Load purchases $res")
                     if (res != null) {
-                        Log.d("eeee2", "Load purchases $res")
-                        try {
-                            val res2 = res.toEventInfo()
-
-                        }catch (e:Exception){
-                            Log.d("eeee3", "Load purchases $e")
-                        }
-
-
                         PayShareResult.Success(res.toEventInfo())
                     } else {
                         PayShareResult.Error(EventError.UnknownError)
@@ -239,6 +228,23 @@ class FeatureDataSourceImpl @Inject constructor(private val featureApiService: F
         }
     }
 
+    override fun getRoomCode(id: Long): Single<PayShareResult<Long>> {
+        return featureApiService.getRoomCode(id).map {
+            when {
+                it.isSuccessful -> {
+                    val res = it.body()
+                    if (res != null) {
+                        PayShareResult.Success(res.code)
+                    } else {
+                        PayShareResult.Error(EventError.UnknownError)
+                    }
+                }
+                else -> {
+                    PayShareResult.Error(EventError.UnknownError)
+                }
+            }
+        }
+    }
 
     private companion object {
         private val TAG = FeatureDataSourceImpl::class.simpleName

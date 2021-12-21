@@ -25,4 +25,5 @@ interface FeatureRepository {
         isPaid: Boolean
     ): Single<PayShareResult<Any>>
     fun createPurchase(roomId: Long, expense: Expense): Single<PayShareResult<Any>>
+    fun getRoomCode(id: Long): Single<PayShareResult<Long>>
 }

@@ -15,6 +15,7 @@ import ru.spbstu.feature.data.remote.model.body.PurchasesBody
 import ru.spbstu.feature.data.remote.model.body.SetPurchasePaidBody
 import ru.spbstu.feature.data.remote.model.response.EventIdResponse
 import ru.spbstu.feature.data.remote.model.response.EventInfoResponse
+import ru.spbstu.feature.data.remote.model.response.RoomCodeResponse
 import ru.spbstu.feature.data.remote.model.response.RoomQRWrapper
 import ru.spbstu.feature.data.remote.model.response.RoomWrapper
 import ru.spbstu.feature.data.remote.model.response.TokensResponse
@@ -57,5 +58,8 @@ interface FeatureApiService {
 
     @POST("/user/room/{room_id}/purchase")
     fun createPurchase(@Path("room_id") roomId: Long, @Body purchaseBody: PurchasesBody):
-            Single<Response<Void>>
+        Single<Response<Void>>
+
+    @POST("/user/room/{room_id}/code")
+    fun getRoomCode(@Path("room_id") roomId: Long): Single<Response<RoomCodeResponse>>
 }

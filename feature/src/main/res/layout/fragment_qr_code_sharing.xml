@@ -17,7 +17,7 @@
         app:layout_constraintBottom_toTopOf="@id/frg_qr_code_sharing__mb_share"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        android:src="@drawable/qr_code"/>
+        />
 
     <com.google.android.material.button.MaterialButton
         android:id="@+id/frg_qr_code_sharing__mb_share"

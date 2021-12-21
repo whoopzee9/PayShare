@@ -61,4 +61,8 @@ class FeatureRepositoryImpl @Inject constructor(private val featureDataSource: F
     override fun createPurchase(roomId: Long, expense: Expense): Single<PayShareResult<Any>> {
         return featureDataSource.createPurchase(roomId, expense)
     }
+
+    override fun getRoomCode(id: Long): Single<PayShareResult<Long>> {
+        return featureDataSource.getRoomCode(id)
+    }
 }
