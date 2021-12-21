@@ -133,7 +133,8 @@ class EventViewModel(
     }
 
     fun openPurchase(expense: Expense) {
-        router.openExpenseFragment(expense)
+        //TODO pass roomID
+        //router.openExpenseFragment(expense)
     }
 
     fun shareRoomCode() {

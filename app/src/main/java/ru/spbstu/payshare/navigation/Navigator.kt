@@ -102,10 +102,10 @@ class Navigator : FeatureRouter {
         }
     }
 
-    override fun openExpenseFragment(expense: Expense) {
+    override fun openExpenseFragment(roomId:Long, expense: Expense) {
         when (navController?.currentDestination?.id) {
             R.id.eventFragment -> {
-                val bundle = ExpenseFragment.makeBundle(expense)
+                val bundle = ExpenseFragment.makeBundle(roomId, expense.id)
                 navController?.navigate(
                     R.id.action_eventFragment_to_expenseFragment, bundle
                 )
