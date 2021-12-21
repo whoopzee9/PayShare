@@ -14,6 +14,8 @@ import ru.spbstu.common.model.EventState
 import ru.spbstu.common.utils.BackViewModel
 import ru.spbstu.common.utils.BundleDataWrapper
 import ru.spbstu.feature.FeatureRouter
+import ru.spbstu.feature.domain.model.Event
+import ru.spbstu.feature.domain.model.EventInfo
 import ru.spbstu.feature.domain.model.Expense
 import ru.spbstu.feature.domain.model.Shop
 import ru.spbstu.feature.domain.model.User
@@ -22,6 +24,7 @@ import ru.spbstu.feature.domain.usecase.DeletePurchaseUseCase
 import ru.spbstu.feature.domain.usecase.DeleteRoomUseCase
 import ru.spbstu.feature.domain.usecase.GetEventInfoUseCase
 import ru.spbstu.feature.domain.usecase.GetRoomCodeUseCase
+import ru.spbstu.feature.domain.usecase.SetPurchaseJoinUseCase
 import ru.spbstu.feature.mapSelect.ShopMapFragment
 import timber.log.Timber
 import java.time.LocalDateTime
@@ -34,10 +37,15 @@ class EventViewModel(
     private val getEventInfoUseCase: GetEventInfoUseCase,
     private val getRoomCodeUseCase: GetRoomCodeUseCase,
     private val deleteRoomUseCase: DeleteRoomUseCase,
-    private val deletePurchaseUseCase: DeletePurchaseUseCase
+    private val deletePurchaseUseCase: DeletePurchaseUseCase,
+    private val setPurchaseJoinUseCase: SetPurchaseJoinUseCase
 ) :
     BackViewModel(router) {
     var roomId = 0L
+
+    var event: EventInfo = EventInfo()
+    var title: String = ""
+
     private val _purchases: MutableStateFlow<List<Expense>> = MutableStateFlow(listOf())
     val purchases get(): StateFlow<List<Expense>> = _purchases
 
@@ -55,6 +63,7 @@ class EventViewModel(
             .subscribe({
                 when (it) {
                     is PayShareResult.Success -> {
+                        event = it.data
                         _purchases.value = it.data.purchases
                         _users.value = it.data.participants
                         setEventState(EventState.Success)
@@ -69,14 +78,31 @@ class EventViewModel(
             .addTo(disposable)
     }
 
-    fun setBoughtStatus(purchase: Expense) {
-        _purchases.value = _purchases.value.map {
-            if (it.isContentEqual(purchase)) {
-                it.copy(isBought = !purchase.isBought)
-            } else {
-                it
-            }
-        }
+    fun setBoughtStatus(purchase: Expense, isClicked: Boolean) {
+        setPurchaseJoinUseCase.invoke(roomId, purchase.id, event.yourParticipantId, isClicked)
+            .subscribeOn(Schedulers.io())
+            .observeOn(AndroidSchedulers.mainThread())
+            .subscribe({
+                when (it) {
+                    is PayShareResult.Success -> {
+                        loadPurchases()
+                        setEventState(EventState.Success)
+                    }
+                    is PayShareResult.Error -> {
+                        setEventState(EventState.Failure(it.error))
+                    }
+                }
+            }, {
+                setEventState(EventState.Failure(EventError.ConnectionError))
+            })
+            .addTo(disposable)
+//        _purchases.value = _purchases.value.map {
+//            if (it.isContentEqual(purchase)) {
+//                it.copy(isBought = !purchase.isBought)
+//            } else {
+//                it
+//            }
+//        }
     }
 
     fun createNewPurchase(
@@ -122,7 +148,7 @@ class EventViewModel(
 
     fun openPurchase(expense: Expense) {
         // TODO pass roomID
-        router.openExpenseFragment(roomId, expense)
+        router.openExpenseFragment(roomId, expense, title)
     }
 
     fun shareRoomCode() {

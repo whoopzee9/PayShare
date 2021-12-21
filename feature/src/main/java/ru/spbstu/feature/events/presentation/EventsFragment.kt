@@ -117,7 +117,7 @@ class EventsFragment : ToolbarFragment<EventsViewModel>(
         searchEventDialog = dialogFragment
         dialogFragment.setOnOKClickListener {
             viewModel.showJoinEvent(it) { event ->
-                viewModel.joinEvent(event.id)
+                viewModel.joinEvent(event)
             }
         }
         dialogFragment.setOnQRClickListener {

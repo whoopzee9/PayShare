@@ -69,7 +69,9 @@ class DebtFragment: ToolbarFragment<DebtViewModel>(
                 binding.frgDebtTvTotalDebt.visibility = View.VISIBLE
                 var total = 0.0
                 it.purchases.forEach { expense ->
-                    if (expense.users.containsKey(it.yourParticipantId) && expense.users[it.yourParticipantId] == false) {
+                    if (expense.users.containsKey(it.yourParticipantId) &&
+                        expense.users[it.yourParticipantId] == false &&
+                        expense.buyer.id != viewModel.debts.value.yourParticipantId) {
                         total += expense.price / expense.users.size
                     }
                 }

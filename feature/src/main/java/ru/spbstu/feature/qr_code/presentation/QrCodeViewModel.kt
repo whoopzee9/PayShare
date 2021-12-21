@@ -18,16 +18,16 @@ class QrCodeViewModel(
     private val showJoinEventUseCase: ShowJoinEventUseCase
 ) : BackViewModel(router) {
 
-    fun joinEvent(id: Long) {
+    fun joinEvent(event: Event) {
         setEventState(EventState.Progress)
-        joinEventUseCase.invoke(id)
+        joinEventUseCase.invoke(event.id)
             .subscribeOn(Schedulers.io())
             .observeOn(AndroidSchedulers.mainThread())
             .subscribe({
                 when (it) {
                     is PayShareResult.Success -> {
                         setEventState(EventState.Success)
-                        openEventFragment(id)
+                        openEventFragment(event.id, event.name)
                     }
                     is PayShareResult.Error -> {
                         setEventState(EventState.Failure(it.error))
@@ -60,7 +60,7 @@ class QrCodeViewModel(
             .addTo(disposable)
     }
 
-    fun openEventFragment(id: Long) {
-        router.openEventFragment(id)
+    fun openEventFragment(id: Long, title: String) {
+        router.openEventFragment(id, title)
     }
 }

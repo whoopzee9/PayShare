@@ -26,7 +26,7 @@ fun PurchasesInfoResponse.toExpense(): Expense {
         id = id,
         name = name,
         description = location.description,
-        buyer = User(id = ownerId),
+        buyer = User(ownerId, "", "", ""),
         date = LocalDateTime.parse(location.date, DateTimeFormatter.ofPattern("dd.MM.yy HH:mm")),
         price = cost / 100.0,
         purchaseShop = location.toShop(),

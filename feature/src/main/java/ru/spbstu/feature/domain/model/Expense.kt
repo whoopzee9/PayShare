@@ -39,6 +39,6 @@ fun Expense.toPurchaseBody(): PurchasesBody {
             date = date.format(DateTimeFormatter.ofPattern("dd.MM.yy HH:mm")),
             description
         ),
-        cost = price.roundToInt()
+        cost = (price * 100).roundToInt()
     )
 }

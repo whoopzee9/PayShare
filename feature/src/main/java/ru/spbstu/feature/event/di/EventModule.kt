@@ -15,6 +15,7 @@ import ru.spbstu.feature.domain.usecase.DeletePurchaseUseCase
 import ru.spbstu.feature.domain.usecase.DeleteRoomUseCase
 import ru.spbstu.feature.domain.usecase.GetEventInfoUseCase
 import ru.spbstu.feature.domain.usecase.GetRoomCodeUseCase
+import ru.spbstu.feature.domain.usecase.SetPurchaseJoinUseCase
 import ru.spbstu.feature.event.presentation.EventViewModel
 
 @Module(
@@ -34,7 +35,8 @@ class EventModule {
         getEventInfoUseCase: GetEventInfoUseCase,
         getRoomCodeUseCase: GetRoomCodeUseCase,
         deleteRoomUseCase: DeleteRoomUseCase,
-        deletePurchaseUseCase: DeletePurchaseUseCase
+        deletePurchaseUseCase: DeletePurchaseUseCase,
+        setPurchaseJoinUseCase: SetPurchaseJoinUseCase
     ): ViewModel {
         return EventViewModel(
             router,
@@ -43,7 +45,8 @@ class EventModule {
             getEventInfoUseCase,
             getRoomCodeUseCase,
             deleteRoomUseCase,
-            deletePurchaseUseCase
+            deletePurchaseUseCase,
+            setPurchaseJoinUseCase
         )
     }
 

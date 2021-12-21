@@ -1,6 +1,7 @@
 package ru.spbstu.feature.expense.presentation
 
 import android.os.Bundle
+import android.util.Log
 import android.view.View
 import android.view.ViewGroup
 import androidx.core.view.isVisible
@@ -18,7 +19,6 @@ import ru.spbstu.common.extenstions.viewBinding
 import ru.spbstu.common.utils.ToolbarFragment
 import ru.spbstu.feature.R
 import ru.spbstu.feature.databinding.FragmentExpenseBinding
-import ru.spbstu.feature.debt.presentation.DebtFragment
 import ru.spbstu.feature.di.FeatureApi
 import ru.spbstu.feature.di.FeatureComponent
 import ru.spbstu.feature.domain.model.Expense
@@ -59,7 +59,13 @@ class ExpenseFragment :
         super.setupFromArguments(args)
         val roomId = args.getLong(BUNDLE_KEY_ROOM)
         val expenseId = args.getLong(BUNDLE_KEY_EXPENSE)
-        viewModel.getData(roomId, expenseId)
+        viewModel.getData(roomId, expenseId) {
+            binding.frgExpenseLayoutPurchaseInfo.itemPurchaseInfoTvBuyerName.text =
+                viewModel.eventInfo.participants.first { it.id == viewModel.purchase.value.buyer.id }.getFullName()
+        }
+        args.getString(BUNDLE_KEY_TITLE)?.let {
+            binding.frgExpenseLayoutToolbar.includeToolbarTvTitle.text = it
+        }
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -106,8 +112,10 @@ class ExpenseFragment :
 
     private fun setPurchaseInfo(expense: Expense) {
         binding.frgExpenseLayoutPurchaseInfo.itemPurchaseInfoPrice.text = expense.price.toString()
-        binding.frgExpenseLayoutPurchaseInfo.itemPurchaseInfoTvBuyerName.text =
-            expense.buyer.getFullName()
+        Log.d("qwerty", "participants: ${viewModel.eventInfo}")
+        Log.d("qwerty", "buyerid: ${expense}")
+//        binding.frgExpenseLayoutPurchaseInfo.itemPurchaseInfoTvBuyerName.text =
+//            viewModel.eventInfo.participants.first { it.id == expense.buyer.id }.getFullName()
         binding.frgExpenseLayoutPurchaseInfo.itemPurchaseInfoTvDate.text =
             expense.date.format(DateTimeFormatter.ofPattern("dd.MM.yyyy"))
         binding.frgExpenseLayoutPurchaseInfo.itemPurchaseInfoTvDescription.text = expense.name
@@ -129,11 +137,13 @@ class ExpenseFragment :
         private val TAG = ExpenseFragment::class.java.simpleName
         val BUNDLE_KEY_EXPENSE = "${TAG}_BUNDLE_KEY_EXPENSE"
         val BUNDLE_KEY_ROOM = "${TAG}_BUNDLE_KEY_ROOM"
+        val BUNDLE_KEY_TITLE = "${TAG}_BUNDLE_KEY_TITLE"
 
-        fun makeBundle(roomId: Long, expenseId: Long): Bundle {
+        fun makeBundle(roomId: Long, expenseId: Long, title: String): Bundle {
             val bundle = Bundle()
             bundle.putLong(BUNDLE_KEY_EXPENSE, expenseId)
             bundle.putLong(BUNDLE_KEY_ROOM, roomId)
+            bundle.putString(BUNDLE_KEY_TITLE, title)
             return bundle
         }
     }

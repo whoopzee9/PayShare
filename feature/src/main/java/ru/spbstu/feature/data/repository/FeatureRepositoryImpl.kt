@@ -73,4 +73,13 @@ class FeatureRepositoryImpl @Inject constructor(private val featureDataSource: F
     override fun deletePurchase(roomId: Long, purchaseId: Long): Single<PayShareResult<Any>> {
         return featureDataSource.deletePurchase(roomId, purchaseId)
     }
+
+    override fun setPurchaseJoin(
+        roomId: Long,
+        purchaseId: Long,
+        participantId: Long,
+        isJoined: Boolean
+    ): Single<PayShareResult<Any>> {
+        return featureDataSource.setPurchaseJoin(roomId, purchaseId, participantId, isJoined)
+    }
 }

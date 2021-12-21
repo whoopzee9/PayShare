@@ -74,8 +74,8 @@ class Navigator : FeatureRouter {
         clearBackStackAndOpenLogin()
     }
 
-    override fun openEventFragment(id: Long) {
-        val bundle = EventFragment.makeBundle(id)
+    override fun openEventFragment(id: Long, title: String) {
+        val bundle = EventFragment.makeBundle(id, title)
         when (navController?.currentDestination?.id) {
             R.id.qrCodeFragment -> navController?.navigate(
                 R.id.action_qrCodeFragment_to_eventFragment,
@@ -103,10 +103,10 @@ class Navigator : FeatureRouter {
         }
     }
 
-    override fun openExpenseFragment(roomId: Long, expense: Expense) {
+    override fun openExpenseFragment(roomId: Long, expense: Expense, title: String) {
         when (navController?.currentDestination?.id) {
             R.id.eventFragment -> {
-                val bundle = ExpenseFragment.makeBundle(roomId, expense.id)
+                val bundle = ExpenseFragment.makeBundle(roomId, expense.id, title)
                 navController?.navigate(
                     R.id.action_eventFragment_to_expenseFragment, bundle
                 )

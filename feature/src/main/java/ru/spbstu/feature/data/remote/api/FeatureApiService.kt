@@ -13,6 +13,7 @@ import ru.spbstu.feature.data.remote.model.body.AuthBody
 import ru.spbstu.feature.data.remote.model.body.EventBody
 import ru.spbstu.feature.data.remote.model.body.EventJoinBody
 import ru.spbstu.feature.data.remote.model.body.PurchasesBody
+import ru.spbstu.feature.data.remote.model.body.SetPurchaseJoinBody
 import ru.spbstu.feature.data.remote.model.body.SetPurchasePaidBody
 import ru.spbstu.feature.data.remote.model.response.EventIdResponse
 import ru.spbstu.feature.data.remote.model.response.EventInfoResponse
@@ -50,7 +51,7 @@ interface FeatureApiService {
     @GET("/user/room/{room_id}")
     fun getEvent(@Path("room_id") roomId: Long): Single<Response<EventInfoResponse>>
 
-    @PUT("/user/room/{room_id}/purchase/{purchase_id}")
+    @PUT("/user/room/{room_id}/purchase/{purchase_id}/paid")
     fun setPurchasePaid(
         @Path("room_id") roomId: Long,
         @Path("purchase_id") purchaseId: Long,
@@ -71,5 +72,12 @@ interface FeatureApiService {
     fun deletePurchase(
         @Path("room_id") roomId: Long,
         @Path("purchase_id") purchaseId: Long
+    ): Single<Response<Void>>
+
+    @PUT("/user/room/{room_id}/purchase/{purchase_id}/join")
+    fun setPurchaseJoin(
+        @Path("room_id") roomId: Long,
+        @Path("purchase_id") purchaseId: Long,
+        @Body setPurchaseJoinBody: SetPurchaseJoinBody
     ): Single<Response<Void>>
 }

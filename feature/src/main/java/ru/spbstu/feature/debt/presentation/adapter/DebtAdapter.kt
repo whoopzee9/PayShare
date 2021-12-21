@@ -30,7 +30,7 @@ class DebtAdapter(var yourId: Long, val onChecked: (Expense, Boolean) -> Unit) :
                 item.date.format(DateTimeFormatter.ofPattern("dd.MM.yy"))
             binding.itemPurchaseInfoTvDescription.text = item.name
             binding.itemPurchaseInfoPrice.isClickable = false
-            val price = item.price / item.users.size
+            val price = if (item.users.isEmpty()) 0 else item.price / item.users.size
             binding.itemPurchaseInfoPrice.text = price.toString()
             binding.itemPurchaseInfoCbPaid.visibility =
                 if (item.users.containsKey(yourId)) View.VISIBLE else View.GONE

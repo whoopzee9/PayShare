@@ -46,6 +46,7 @@ class QrCodeSharingFragment : ToolbarFragment<QrCodeSharingViewModel>(
 
     private fun setupQrCodeFromArguments() {
         requireArguments().getString(BUNDLE_KEY)?.let { viewModel.setupRoomCode(it) }
+        binding.frgQrCodeSharingTvCode.text = viewModel.code
     }
 
     private fun setupQrCodeGenerator() {

@@ -8,8 +8,8 @@ interface FeatureRouter : BaseBackRouter {
     fun openMainFragment()
     fun openQrCodeFragment()
     fun openLoginFragment()
-    fun openEventFragment(id: Long)
+    fun openEventFragment(id: Long, title: String)
     fun openQrCodeSharingFragment(code: String)
-    fun openExpenseFragment(roomId:Long, expense: Expense)
+    fun openExpenseFragment(roomId:Long, expense: Expense, title: String)
     fun openDebtFragment(roomId: Long)
 }

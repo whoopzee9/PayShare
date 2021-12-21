@@ -11,7 +11,7 @@ import ru.spbstu.feature.databinding.ItemEventsBinding
 import ru.spbstu.feature.domain.model.Event
 import java.time.format.DateTimeFormatter
 
-class HistoryAdapter(val onItemClick: (Long) -> Unit) : BaseAdapter<Event, HistoryAdapter.HistoryViewHolder>() {
+class HistoryAdapter(val onItemClick: (Long, String) -> Unit) : BaseAdapter<Event, HistoryAdapter.HistoryViewHolder>() {
 
     inner class HistoryViewHolder(parent: ViewGroup) :
         BaseViewHolder<Event, ItemEventsBinding>(parent.viewBinding(ItemEventsBinding::inflate)) {
@@ -20,7 +20,7 @@ class HistoryAdapter(val onItemClick: (Long) -> Unit) : BaseAdapter<Event, Histo
 
         init {
             binding.itemEventsCardViewLayout.setDebounceClickListener {
-                onItemClick(item.id)
+                onItemClick(item.id, item.name)
             }
         }
 

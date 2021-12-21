@@ -9,6 +9,7 @@ import ru.spbstu.feature.data.remote.api.FeatureApiService
 import ru.spbstu.feature.data.remote.model.body.AuthBody
 import ru.spbstu.feature.data.remote.model.body.EventBody
 import ru.spbstu.feature.data.remote.model.body.EventJoinBody
+import ru.spbstu.feature.data.remote.model.body.SetPurchaseJoinBody
 import ru.spbstu.feature.data.remote.model.body.SetPurchasePaidBody
 import ru.spbstu.feature.data.remote.model.response.toEvent
 import ru.spbstu.feature.data.remote.model.response.toEventInfo
@@ -266,6 +267,28 @@ class FeatureDataSourceImpl @Inject constructor(private val featureApiService: F
                 }
                 else -> {
                     PayShareResult.Error(EventError.UnknownError)
+                }
+            }
+        }
+    }
+
+    override fun setPurchaseJoin(
+        roomId: Long,
+        purchaseId: Long,
+        participantId: Long,
+        isJoined: Boolean
+    ): Single<PayShareResult<Any>> {
+        return featureApiService.setPurchaseJoin(
+            roomId,
+            purchaseId,
+            SetPurchaseJoinBody(participantId, isJoined)
+        ).map {
+            when {
+                it.isSuccessful -> {
+                    PayShareResult.Success(it)
+                }
+                else -> {
+                    PayShareResult.Error(EventError.EventNotFound)
                 }
             }
         }
