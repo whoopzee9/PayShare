@@ -10,9 +10,11 @@ import ru.spbstu.feature.data.remote.model.body.AuthBody
 import ru.spbstu.feature.data.remote.model.body.EventBody
 import ru.spbstu.feature.data.remote.model.body.EventJoinBody
 import ru.spbstu.feature.data.remote.model.response.toEvent
+import ru.spbstu.feature.data.remote.model.response.toEventInfo
 import ru.spbstu.feature.data.remote.model.response.toUser
 import ru.spbstu.feature.data.source.FeatureDataSource
 import ru.spbstu.feature.domain.model.Event
+import ru.spbstu.feature.domain.model.EventInfo
 import ru.spbstu.feature.domain.model.Tokens
 import ru.spbstu.feature.domain.model.User
 import timber.log.Timber
@@ -145,6 +147,24 @@ class FeatureDataSourceImpl @Inject constructor(private val featureApiService: F
                         } else {
                             PayShareResult.Success(listOf())
                         }
+                    } else {
+                        PayShareResult.Error(EventError.UnknownError)
+                    }
+                }
+                else -> {
+                    PayShareResult.Error(EventError.UnknownError)
+                }
+            }
+        }
+    }
+
+    override fun getEvent(id: Long): Single<PayShareResult<EventInfo>> {
+        return featureApiService.getEvent(id).map {
+            when {
+                it.isSuccessful -> {
+                    val res = it.body()
+                    if (res != null) {
+                        PayShareResult.Success(res.toEventInfo())
                     } else {
                         PayShareResult.Error(EventError.UnknownError)
                     }

@@ -4,6 +4,7 @@ import io.reactivex.Single
 import ru.spbstu.common.error.PayShareResult
 import ru.spbstu.feature.data.source.FeatureDataSource
 import ru.spbstu.feature.domain.model.Event
+import ru.spbstu.feature.domain.model.EventInfo
 import ru.spbstu.feature.domain.model.Tokens
 import ru.spbstu.feature.domain.model.User
 import ru.spbstu.feature.domain.repository.FeatureRepository
@@ -37,5 +38,9 @@ class FeatureRepositoryImpl @Inject constructor(private val featureDataSource: F
 
     override fun getHistory(): Single<PayShareResult<List<Event>>> {
         return featureDataSource.getHistory()
+    }
+
+    override fun getEvent(id: Long): Single<PayShareResult<EventInfo>> {
+        return featureDataSource.getEvent(id)
     }
 }
