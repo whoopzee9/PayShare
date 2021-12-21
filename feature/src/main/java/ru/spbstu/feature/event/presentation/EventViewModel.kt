@@ -18,6 +18,7 @@ import ru.spbstu.feature.domain.model.Expense
 import ru.spbstu.feature.domain.model.Shop
 import ru.spbstu.feature.domain.model.User
 import ru.spbstu.feature.domain.usecase.CreatePurchaseUseCase
+import ru.spbstu.feature.domain.usecase.DeleteRoomUseCase
 import ru.spbstu.feature.domain.usecase.GetEventInfoUseCase
 import ru.spbstu.feature.domain.usecase.GetRoomCodeUseCase
 import ru.spbstu.feature.mapSelect.ShopMapFragment
@@ -30,7 +31,8 @@ class EventViewModel(
     val bundleDataWrapper: BundleDataWrapper,
     private val createPurchaseUseCase: CreatePurchaseUseCase,
     private val getEventInfoUseCase: GetEventInfoUseCase,
-    private val getRoomCodeUseCase: GetRoomCodeUseCase
+    private val getRoomCodeUseCase: GetRoomCodeUseCase,
+    private val deleteRoomUseCase: DeleteRoomUseCase
 ) :
     BackViewModel(router) {
     var roomId = 0L
@@ -152,6 +154,23 @@ class EventViewModel(
 
     // TODO Delete success if user room owner
     fun deleteRoom() {
+        deleteRoomUseCase.invoke(roomId)
+            .subscribeOn(Schedulers.io())
+            .observeOn(AndroidSchedulers.mainThread())
+            .subscribe({
+                when (it) {
+                    is PayShareResult.Success -> {
+                        router.back()
+                        setEventState(EventState.Success)
+                    }
+                    is PayShareResult.Error -> {
+                        setEventState(EventState.Failure(it.error))
+                    }
+                }
+            }, {
+                setEventState(EventState.Failure(EventError.ConnectionError))
+            })
+            .addTo(disposable)
     }
 
     // TODO leave from room

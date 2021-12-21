@@ -3,6 +3,7 @@ package ru.spbstu.feature.data.remote.api
 import io.reactivex.Single
 import retrofit2.Response
 import retrofit2.http.Body
+import retrofit2.http.DELETE
 import retrofit2.http.GET
 import retrofit2.http.POST
 import retrofit2.http.PUT
@@ -62,4 +63,7 @@ interface FeatureApiService {
 
     @POST("/user/room/{room_id}/code")
     fun getRoomCode(@Path("room_id") roomId: Long): Single<Response<RoomCodeResponse>>
+
+    @DELETE("/user/room/{room_id}")
+    fun deleteRoom(@Path("room_id") roomId: Long): Single<Response<Void>>
 }

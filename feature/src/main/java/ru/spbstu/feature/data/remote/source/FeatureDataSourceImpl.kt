@@ -246,6 +246,20 @@ class FeatureDataSourceImpl @Inject constructor(private val featureApiService: F
         }
     }
 
+    override fun deleteRoom(roomId: Long): Single<PayShareResult<Any>> {
+        return featureApiService.deleteRoom(roomId).map {
+            when {
+                it.isSuccessful -> {
+                    tokenRepositoryImpl.clearTokens()
+                    PayShareResult.Success(it)
+                }
+                else -> {
+                    PayShareResult.Error(EventError.UnknownError)
+                }
+            }
+        }
+    }
+
     private companion object {
         private val TAG = FeatureDataSourceImpl::class.simpleName
     }
