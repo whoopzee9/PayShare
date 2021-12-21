@@ -1,6 +1,7 @@
 package ru.spbstu.feature.event.presentation
 
-import android.util.Log
+import android.os.Build
+import androidx.annotation.RequiresApi
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.rxkotlin.addTo
 import io.reactivex.schedulers.Schedulers
@@ -20,6 +21,7 @@ import ru.spbstu.feature.domain.usecase.GetEventInfoUseCase
 import ru.spbstu.feature.mapSelect.ShopMapFragment
 import java.time.LocalDateTime
 
+@RequiresApi(Build.VERSION_CODES.O)
 class EventViewModel(
     val router: FeatureRouter,
     val bundleDataWrapper: BundleDataWrapper,
@@ -27,6 +29,7 @@ class EventViewModel(
     private val getEventInfoUseCase: GetEventInfoUseCase
 ) :
     BackViewModel(router) {
+    var roomId = 0L
     private val _purchases: MutableStateFlow<List<Expense>> = MutableStateFlow(listOf())
     val purchases get(): StateFlow<List<Expense>> = _purchases
 
@@ -38,7 +41,6 @@ class EventViewModel(
     val toolbarState get(): StateFlow<ToolbarState> = _toolbarState
 
     fun loadPurchases() {
-        val roomId = 2L
         getEventInfoUseCase.invoke(roomId)
             .subscribeOn(Schedulers.io())
             .observeOn(AndroidSchedulers.mainThread())
@@ -74,7 +76,6 @@ class EventViewModel(
         textPrice: String,
         textDate: String
     ) {
-        val roomId = 2L
         val shop =
             (bundleDataWrapper.bundleData.value.getParcelable<Shop>(ShopMapFragment.DATA_KEY))
         if (shop != null) {
@@ -113,7 +114,7 @@ class EventViewModel(
 
     fun openPurchase(expense: Expense) {
         // TODO pass roomID
-        // router.openExpenseFragment(expense)
+        router.openExpenseFragment(roomId, expense)
     }
 
     fun shareRoomCode() {
@@ -141,6 +142,10 @@ class EventViewModel(
 
     // TODO add method to close purchase
     fun closePurchase(expense: Expense) {
+    }
+
+    fun setupRoomId(id: Long) {
+        roomId = id
     }
 
     sealed class ToolbarState {
