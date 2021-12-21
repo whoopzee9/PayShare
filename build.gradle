@@ -4,19 +4,20 @@ buildscript {
     ext {
 
         minSdkVersion = 21
-        targetSdkVersion = 30
+        targetSdkVersion = 31
         versionCode = 1
         versionName = "1.0.0"
-        compileSdkVersion = 30
+        compileSdkVersion = 31
         buildToolsVersion = "30.0.2"
 
-        kotlinVersion = '1.5.0'
+        kotlinVersion = '1.5.21'
 
+        materialVersion = '1.5.0-alpha02'
         legacySupportVersion = '1.0.0'
         supportVersion = '1.3.0'
         recyclerVersion = '1.2.0'
         cardViewVersion = '1.0.0'
-        constraintVersion = '2.0.4'
+        constraintVersion = '2.1.0'
         daggerVersion = '2.36'
         navControllerVersion = '2.3.5'
         architectureComponentVersion = '2.3.1'
@@ -45,6 +46,30 @@ buildscript {
 
         crashlyticsGradleVersion = '2.7.1'
 
+        googleAuthVersion = '19.2.0'
+
+        vkAuthVersion = '3.4.1'
+
+        pinEditTextVersion = '1.2.6'
+
+        wheelPickerVersion = '1.0.1'
+
+        calendarViewVersion = '1.0.4'
+
+        barcodeScanningVersion = '17.0.0'
+
+        cameraViewVersion = '2.7.2'
+
+        dexterVersion = '6.2.3'
+
+        coilVersion = '1.3.2'
+
+        googleMapKitVersion = '17.0.1'
+        googleLocationServicesVersion = '18.0.0'
+
+        qrCodeGeneratorVersion = '4.3.0'
+
+
         kotlinDep = "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlinVersion"
 
         androidxCoreDep = "androidx.core:core-ktx:$coreVersion"
@@ -52,7 +77,7 @@ buildscript {
         cardViewDep = "androidx.cardview:cardview:$cardViewVersion"
         recyclerViewDep = "androidx.recyclerview:recyclerview:$recyclerVersion"
         constraintDep = "androidx.constraintlayout:constraintlayout:$constraintVersion"
-        materialDep = "com.google.android.material:material:$supportVersion"
+        materialDep = "com.google.android.material:material:$materialVersion"
         timberDep = "com.jakewharton.timber:timber:$timberVersion"
 
         daggerDep = "com.google.dagger:dagger:$daggerVersion"
@@ -74,6 +99,7 @@ buildscript {
         legacyDep = "androidx.legacy:legacy-support-v4:$legacySupportVersion"
 
         okHttpDep = "com.squareup.okhttp3:okhttp:$okhttpVersion"
+        okHttpLoggingDep = "com.squareup.okhttp3:logging-interceptor:$okhttpVersion"
         retrofitDep ="com.squareup.retrofit2:retrofit:$retrofitVersion"
         retrofitAdapterDep = "com.squareup.retrofit2:adapter-rxjava2:$retrofitVersion"
         rxJavaDep = "io.reactivex.rxjava2:rxjava:$rxjavaVersion"
@@ -91,6 +117,30 @@ buildscript {
         firebaseBomDep = "com.google.firebase:firebase-bom:$firebaseVersion"
         firebaseAnalyticsDep = 'com.google.firebase:firebase-analytics-ktx'
         firebaseCrashlyticsDep = 'com.google.firebase:firebase-crashlytics-ktx'
+
+        googleAuthDep = "com.google.android.gms:play-services-auth:$googleAuthVersion"
+
+        vkSdkCodeDep = "com.vk:android-sdk-core:$vkAuthVersion"
+        vkSdkApiDep = "com.vk:android-sdk-api:$vkAuthVersion"
+
+        pinEditTextDep = "com.github.poovamraj:PinEditTextField:$pinEditTextVersion"
+
+        wheelPickerDep = "studio.clapp:wheelpicker:$wheelPickerVersion"
+
+        calendarViewDep = "com.github.kizitonwose:CalendarView:$calendarViewVersion"
+
+        barcodeScanningDep = "com.google.mlkit:barcode-scanning:$barcodeScanningVersion"
+
+        cameraViewDep = "com.otaliastudios:cameraview:$cameraViewVersion"
+
+        dexterDep = "com.karumi:dexter:$dexterVersion"
+
+        coilDep = "io.coil-kt:coil:$coilVersion"
+
+        googleMapKitDep = "com.google.android.gms:play-services-maps:$googleMapKitVersion"
+        googleLocationServicesDep = "com.google.android.gms:play-services-location:$googleLocationServicesVersion"
+
+        qrCodeGeneratorDep ="com.journeyapps:zxing-android-embedded:$qrCodeGeneratorVersion"
     }
 
     ext.kotlin_version = "1.5.30"
@@ -99,10 +149,9 @@ buildscript {
         mavenCentral()
     }
     dependencies {
-        classpath 'com.android.tools.build:gradle:4.2.2'
+        classpath 'com.android.tools.build:gradle:7.0.4'
         classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlin_version"
         classpath 'com.google.gms:google-services:4.3.10'
-        classpath "com.google.firebase:firebase-crashlytics-gradle:$crashlyticsGradleVersion"
     }
 }
 

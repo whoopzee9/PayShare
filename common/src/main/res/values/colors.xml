@@ -2,17 +2,62 @@
 <resources>
     <color name="ic_launcher_background">#FFFFFF</color>
 
-    <color name="background_secondary">#FFFFFF</color>
-    <color name="background_primary">#F3F2F7</color>
-    <color name="button_tint_primary">#0091C9</color>
+    <color name="background_primary">#FFFFFF</color>
+    <color name="background_secondary">#E5E5E5</color>
+    <color name="background_secondary_dark">#A3A3A3</color>
+    <color name="background_third">#FAFAFA</color>
+
+    <color name="button_tint_primary">#4385F6</color>
+    <color name="button_tint_secondary">#FFFFFF</color>
     <color name="button_disabled_tint">#A3A2A7</color>
+    <color name="button_tint_disabled">#A3A2A7</color>
+
+    <color name="black">#000000</color>
+    <color name="white">#FFFFFF</color>
 
     <color name="text_color_primary">#161616</color>
     <color name="text_color_secondary">#FFFFFF</color>
-    <color name="text_color_hint_primary">#A3A2A7</color>
+    <color name="text_color_secondary_dark">#A3A3A3</color>
+    <color name="text_color_third">#A3A3A3</color>
+    <color name="text_color_hint">#0C85B8</color>
+    <color name="text_color_amount">#4E6F66</color>
+    <color name="text_color_hint_primary">#4385F6</color>
+    <color name="text_color_third_dark">#898989</color>
+    <color name="text_color_primary_dark">#1F5281</color>
+
+    <color name="shadow_color_primary">#261F5281</color>
 
     <color name="menu_icon_color_primary">#161616</color>
     <color name="menu_icon_color_secondary">#000000</color>
 
     <color name="toolbar_background">#FFFFFF</color>
+
+    <color name="stroke_color_primary">#000000</color>
+
+    <color name="bottom_nav_selected_color">#FFFFFF</color>
+    <color name="bottom_nav_unselected_color">#CEDFFD</color>
+    <color name="bottom_nav_background_color">#4385F6</color>
+
+    <color name="toolbar_background_color_primary">#4385F6</color>
+    <color name="toolbar_background_color_secondary">#FFFFFF</color>
+
+    <color name="fab_color">#FF2121</color>
+    <color name="fab_color_secondary">#4385f6</color>
+
+    <color name="divider_color">#EBEBEB</color>
+
+    <color name="top_view_color">#C4C4C4</color>
+
+    <color name="calendar_days_header_tint">#6D6D6D</color>
+    <color name="divider_color_secondary">#EBEBEB</color>
+
+    <color name="stroke_color_secondary">#0C85B8</color>
+    <color name="stroke_color_primary_dark">#1F5281</color>
+
+    <color name="background_shadow">#CD000000</color>
+    <color name="calendar_range_selection_color">#EBEBEB</color>
+    <color name="calendar_day_color_disabled">#A3A3A3</color>
+    <color name="calendar_day_color_selected">#4385F6</color>
+    <color name="calendar_day_color_enabled">#000000</color>
+    <color name="highlight_color_primary">#A3A3A3</color>
 </resources>

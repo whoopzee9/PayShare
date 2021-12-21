@@ -3,7 +3,7 @@ plugins {
     id 'kotlin-android'
     id 'kotlin-kapt'
 //    id 'com.google.gms.google-services'
-    id 'com.google.firebase.crashlytics'
+//    id 'com.google.firebase.crashlytics'
     id 'kotlin-parcelize'
 }
 
@@ -26,10 +26,7 @@ android {
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
         }
         release {
-            minifyEnabled true
-            firebaseCrashlytics {
-                mappingFileUploadEnabled true
-            }
+            minifyEnabled false
             proguardFiles fileTree('proguard-rules').asList().toArray()
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
         }
@@ -73,6 +70,7 @@ dependencies {
     implementation coroutinesAndroidDep
 
     implementation okHttpDep
+    implementation okHttpLoggingDep
     implementation retrofitDep
     implementation retrofitAdapterDep
     implementation rxJavaDep
@@ -89,4 +87,23 @@ dependencies {
     implementation platform(firebaseBomDep)
     implementation firebaseAnalyticsDep
     implementation firebaseCrashlyticsDep
+
+    implementation googleAuthDep
+
+    implementation vkSdkCodeDep
+    implementation vkSdkApiDep
+
+    implementation pinEditTextDep
+
+    implementation wheelPickerDep
+
+    implementation calendarViewDep
+
+    implementation barcodeScanningDep
+
+    api cameraViewDep
+
+    implementation dexterDep
+
+    implementation coilDep
 }

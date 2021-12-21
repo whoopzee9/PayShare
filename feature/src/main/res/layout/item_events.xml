@@ -1,0 +1,174 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+
+    <ImageView
+        android:id="@+id/item_events__iv_star"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/dp_16"
+        android:layout_marginTop="@dimen/dp_16"
+        android:src="@drawable/ic_star_16"
+        app:layout_constraintBottom_toTopOf="@id/item_events__view"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/item_events__tv_all"
+        style="@style/TextView.Default"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/dp_16"
+        android:layout_marginTop="@dimen/dp_16"
+        android:text="@string/all"
+        app:layout_constraintBottom_toTopOf="@id/item_events__view"
+        app:layout_constraintStart_toEndOf="@id/item_events__iv_star"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <View
+        android:id="@+id/item_events__view"
+        android:layout_width="@dimen/dp_1"
+        android:layout_height="@dimen/dp_1"
+        android:layout_marginBottom="@dimen/dp_10"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintBottom_toTopOf="@id/item_events__card_view" />
+
+    <androidx.cardview.widget.CardView
+        android:id="@+id/item_events__card_view"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginHorizontal="@dimen/dp_16"
+        android:layout_marginBottom="@dimen/dp_10"
+        app:cardCornerRadius="@dimen/dp_10"
+        android:clickable="true"
+        android:focusable="true"
+        android:background="?selectableItemBackground"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/item_events__card_view_layout"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:clickable="true"
+            android:focusable="true"
+            android:background="?selectableItemBackground">
+
+            <TextView
+                android:id="@+id/item_events__tv_event_title"
+                style="@style/TextView.Text"
+                android:layout_width="@dimen/dp_0"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/dp_8"
+                android:layout_marginTop="@dimen/dp_8"
+                android:layout_marginEnd="@dimen/dp_10"
+                android:fontFamily="@font/montserrat_semi_bold"
+                android:textStyle="bold"
+                app:layout_constraintEnd_toStartOf="@id/item_events__tv_date"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                tools:text="Заголовок события" />
+
+            <TextView
+                android:id="@+id/item_events__tv_date"
+                style="@style/TextView.Small"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/dp_10"
+                android:layout_marginEnd="@dimen/dp_8"
+                android:textColor="@color/text_color_third"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                tools:text="21.11.21" />
+
+            <TextView
+                android:id="@+id/item_events__tv_time"
+                style="@style/TextView.Default"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="@dimen/dp_8"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/item_events__tv_date"
+                tools:text="21:11" />
+
+            <TextView
+                android:id="@+id/item_events__tv_purchase_1"
+                style="@style/TextView.Default"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/dp_8"
+                android:layout_marginTop="@dimen/dp_8"
+                android:drawablePadding="@dimen/dp_8"
+                android:fontFamily="@font/montserrat_regular"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/item_events__tv_event_title"
+                tools:text="Покупка"
+                app:drawableStartCompat="@drawable/ic_dot_6" />
+
+            <TextView
+                android:id="@+id/item_events__tv_purchase_2"
+                style="@style/TextView.Default"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/dp_8"
+                android:layout_marginTop="@dimen/dp_8"
+                android:drawablePadding="@dimen/dp_8"
+                android:fontFamily="@font/montserrat_regular"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/item_events__tv_purchase_1"
+                tools:text="Покупка"
+                app:drawableStartCompat="@drawable/ic_dot_6" />
+
+            <View
+                android:id="@+id/item_events__divider"
+                android:layout_width="@dimen/dp_0"
+                android:layout_height="1dp"
+                android:layout_marginHorizontal="@dimen/dp_10"
+                android:layout_marginTop="@dimen/dp_16"
+                android:background="@color/divider_color"
+                app:layout_constraintEnd_toStartOf="@id/item_events__tv_time"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/item_events__tv_purchase_2" />
+
+            <TextView
+                android:id="@+id/item_events__tv_total_price"
+                style="@style/TextView.Default"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginVertical="@dimen/dp_12"
+                android:layout_marginStart="@dimen/dp_12"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/item_events__divider"
+                tools:text="Итог: 200 руб" />
+
+            <ImageView
+                android:id="@+id/item_events__iv_amount"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="@dimen/dp_8"
+                android:layout_marginBottom="@dimen/dp_8"
+                android:src="@drawable/ic_ellipse_28"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent" />
+
+            <TextView
+                android:id="@+id/item_events__tv_total_amount"
+                style="@style/TextView.Small"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="@color/text_color_amount"
+                app:layout_constraintBottom_toBottomOf="@id/item_events__iv_amount"
+                app:layout_constraintEnd_toEndOf="@id/item_events__iv_amount"
+                app:layout_constraintStart_toStartOf="@id/item_events__iv_amount"
+                app:layout_constraintTop_toTopOf="@id/item_events__iv_amount"
+                tools:text="5" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+    </androidx.cardview.widget.CardView>
+
+</androidx.constraintlayout.widget.ConstraintLayout>
