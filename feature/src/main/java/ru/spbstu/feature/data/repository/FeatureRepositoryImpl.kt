@@ -32,8 +32,12 @@ class FeatureRepositoryImpl @Inject constructor(private val featureDataSource: F
         return featureDataSource.createEvent(name, date)
     }
 
-    override fun joinEvent(code: String): Single<PayShareResult<Long>> {
-        return featureDataSource.joinEvent(code)
+    override fun showJoinEvent(code: String): Single<PayShareResult<Event>> {
+        return featureDataSource.showJoinEvent(code)
+    }
+
+    override fun joinEvent(id: Long): Single<PayShareResult<Any>> {
+        return featureDataSource.joinEvent(id)
     }
 
     override fun getHistory(): Single<PayShareResult<List<Event>>> {

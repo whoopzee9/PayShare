@@ -14,6 +14,7 @@ import ru.spbstu.feature.FeatureRouter
 import ru.spbstu.feature.domain.usecase.CreateEventUseCase
 import ru.spbstu.feature.domain.usecase.GetEventsUseCase
 import ru.spbstu.feature.domain.usecase.JoinEventUseCase
+import ru.spbstu.feature.domain.usecase.ShowJoinEventUseCase
 import ru.spbstu.feature.events.presentation.EventsViewModel
 
 
@@ -33,7 +34,8 @@ class EventsModule {
         tokenRepository: TokenRepository,
         getEventsUseCase: GetEventsUseCase,
         createEventUseCase: CreateEventUseCase,
-        joinEventUseCase: JoinEventUseCase
+        joinEventUseCase: JoinEventUseCase,
+        showJoinEventUseCase: ShowJoinEventUseCase
     ): ViewModel {
         return EventsViewModel(
             router,
@@ -41,7 +43,8 @@ class EventsModule {
             tokenRepository,
             getEventsUseCase,
             createEventUseCase,
-            joinEventUseCase
+            joinEventUseCase,
+            showJoinEventUseCase
         )
     }
 

@@ -13,6 +13,7 @@ import ru.spbstu.feature.data.remote.model.body.EventJoinBody
 import ru.spbstu.feature.data.remote.model.response.EventIdResponse
 import ru.spbstu.feature.data.remote.model.response.EventInfoResponse
 import ru.spbstu.feature.data.remote.model.response.EventResponse
+import ru.spbstu.feature.data.remote.model.response.RoomQRWrapper
 import ru.spbstu.feature.data.remote.model.response.RoomWrapper
 import ru.spbstu.feature.data.remote.model.response.TokensResponse
 import ru.spbstu.feature.data.remote.model.response.UserResponse
@@ -34,7 +35,10 @@ interface FeatureApiService {
     fun createEvent(@Body eventBody: EventBody): Single<Response<EventIdResponse>>
 
     @POST("/user/room/join")
-    fun joinEvent(@Body eventJoinBody: EventJoinBody): Single<Response<EventIdResponse>>
+    fun showJoinEvent(@Body eventJoinBody: EventJoinBody): Single<Response<RoomQRWrapper>>
+
+    @POST("/user/room/join/{room_id}")
+    fun joinEvent(@Path("room_id") id: Long): Single<Response<Void>>
 
     @GET("/user/room/closed")
     fun getHistory(): Single<Response<RoomWrapper>>

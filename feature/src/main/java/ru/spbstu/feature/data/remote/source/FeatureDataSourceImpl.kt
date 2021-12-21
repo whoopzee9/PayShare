@@ -118,16 +118,29 @@ class FeatureDataSourceImpl @Inject constructor(private val featureApiService: F
         }
     }
 
-    override fun joinEvent(code: String): Single<PayShareResult<Long>> {
-        return featureApiService.joinEvent(EventJoinBody(code)).map {
+    override fun showJoinEvent(code: String): Single<PayShareResult<Event>> {
+        return featureApiService.showJoinEvent(EventJoinBody(code)).map {
             when {
                 it.isSuccessful -> {
                     val res = it.body()
                     if (res != null) {
-                        PayShareResult.Success(res.id)
+                        PayShareResult.Success(res.room.toEvent())
                     } else {
                         PayShareResult.Error(EventError.EventNotFound)
                     }
+                }
+                else -> {
+                    PayShareResult.Error(EventError.EventNotFound)
+                }
+            }
+        }
+    }
+
+    override fun joinEvent(id: Long): Single<PayShareResult<Any>> {
+        return featureApiService.joinEvent(id).map {
+            when {
+                it.isSuccessful -> {
+                    PayShareResult.Success(it)
                 }
                 else -> {
                     PayShareResult.Error(EventError.EventNotFound)
