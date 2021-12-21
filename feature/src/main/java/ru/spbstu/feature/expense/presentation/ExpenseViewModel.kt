@@ -1,96 +1,63 @@
 package ru.spbstu.feature.expense.presentation
 
 import com.google.android.gms.maps.model.LatLng
+import io.reactivex.android.schedulers.AndroidSchedulers
+import io.reactivex.rxkotlin.addTo
+import io.reactivex.schedulers.Schedulers
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
+import ru.spbstu.common.error.PayShareResult
+import ru.spbstu.common.model.EventError
+import ru.spbstu.common.model.EventState
 import ru.spbstu.common.utils.BackViewModel
 import ru.spbstu.feature.FeatureRouter
 import ru.spbstu.feature.domain.model.Expense
-import ru.spbstu.feature.domain.model.Shop
 import ru.spbstu.feature.domain.model.User
-import ru.spbstu.feature.domain.model.UserBuyed
-import java.time.LocalDateTime
+import ru.spbstu.feature.domain.usecase.GetEventInfoUseCase
 
-class ExpenseViewModel(router: FeatureRouter) : BackViewModel(router) {
+class ExpenseViewModel(
+    val router: FeatureRouter,
+    private val getEventInfoUseCase: GetEventInfoUseCase
+) : BackViewModel(router) {
 
     private val _purchase: MutableStateFlow<Expense> = MutableStateFlow(Expense())
     val purchase get(): StateFlow<Expense> = _purchase
 
-    private val _users: MutableStateFlow<List<UserBuyed>> = MutableStateFlow(emptyList())
-    val users get(): StateFlow<List<UserBuyed>> = _users
+    private val _users: MutableStateFlow<List<User>> = MutableStateFlow(listOf())
+    val users get(): StateFlow<List<User>> = _users
 
     private val _mapShopCoordinates: MutableStateFlow<List<LatLng>> =
-        MutableStateFlow(emptyList())
+        MutableStateFlow(listOf())
     val mapShopCoordinates: MutableStateFlow<List<LatLng>> get() = _mapShopCoordinates
 
-    init {
-//        val userList = listOf(
-//            User(
-//                3,
-//                "Anna",
-//                "Vatlin",
-//                "https://images.pexels.com/photos/1840608/pexels-photo-1840608.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=750&w=1260"
-//            ),
-//            User(
-//                4,
-//                "Veronika",
-//                "Zemskaya",
-//                "https://images.pexels.com/photos/2120114/pexels-photo-2120114.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=750&w=1260"
-//            ),
-//            User(
-//                5,
-//                "John",
-//                "Martin",
-//                "https://images.pexels.com/photos/2379005/pexels-photo-2379005.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=750&w=1260"
-//            ),
-//            User(
-//                6,
-//                "Demnos",
-//                "Luter",
-//                "https://images.pexels.com/photos/2071881/pexels-photo-2071881.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=750&w=1260"
-//            ),
-//            User(
-//                7,
-//                "Pavel",
-//                "Pauls",
-//                "https://images.pexels.com/photos/2743754/pexels-photo-2743754.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=750&w=1260"
-//            )
-//        )
-//        _purchase.value = Expense(
-//            10,
-//            "Фрукты",
-//            "",
-//            true,
-//            currentUser,
-//            LocalDateTime.now(),
-//            512.55,
-//            userList.map { it to false }.toMap(),
-//            Shop(1, "fsdfsdf", 59.986505, 30.348305, listOf())
-//        )
-//        val list = _purchase.value.users.map { UserBuyed(it.key, it.value) }
-//        // TODO DELETE. this for test
-//        _users.value = list.mapIndexed { index, userBuyed ->
-//            if (index == 1) {
-//                userBuyed.copy(isBought = true)
-//            } else {
-//                userBuyed
-//            }
-//        }
-//        _mapShopCoordinates.value = listOf(
-//            LatLng(
-//                _purchase.value.purchaseShop.latitude,
-//                _purchase.value.purchaseShop.longitude
-//            )
-//        )
+    fun getData(roomId: Long, expenseId: Long) {
+        getEventInfoUseCase.invoke(roomId)
+            .subscribeOn(Schedulers.io())
+            .observeOn(AndroidSchedulers.mainThread())
+            .subscribe({
+                when (it) {
+                    is PayShareResult.Success -> {
+                        _purchase.value =
+                            it.data.purchases.first { expense -> expense.id == expenseId }
+                        _users.value = it.data.participants.filter { user ->
+                            purchase.value.users.containsKey(user.id)
+                        }
+                        val shop = purchase.value.purchaseShop
+                        _mapShopCoordinates.value = listOf(LatLng(shop.latitude, shop.longitude))
+                        setEventState(EventState.Success)
+                    }
+                    is PayShareResult.Error -> {
+                        setEventState(EventState.Failure(it.error))
+                    }
+                }
+            }, {
+                setEventState(EventState.Failure(EventError.ConnectionError))
+            })
+            .addTo(disposable)
     }
 
     companion object {
         // TODO add method to get current user
-        val currentUser = User(
-            11,
-            "Толстолобиков",
-            "Григорий",
-            "https://avt-19.foto.mail.ru/mail/gt230800/_avatar180?1479972314&mrim=1"
-        )
+
     }
 }
