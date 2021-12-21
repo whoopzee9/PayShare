@@ -1,6 +1,7 @@
 package ru.spbstu.feature.event.presentation
 
 import android.os.Bundle
+import android.util.Log
 import android.view.ViewGroup
 import android.widget.Toast
 import com.google.android.material.bottomsheet.BottomSheetBehavior
@@ -22,10 +23,13 @@ import ru.spbstu.feature.di.FeatureComponent
 import ru.spbstu.feature.domain.model.CalendarDateRange
 import ru.spbstu.feature.domain.model.CalendarSelectionMode
 import ru.spbstu.feature.domain.model.Expense
+import ru.spbstu.feature.domain.model.Shop
 import ru.spbstu.feature.event.presentation.adapter.ParticipantUserAdapter
 import ru.spbstu.feature.event.presentation.adapter.PurchaseAdapter
 import ru.spbstu.feature.event.presentation.dialog.PurchaseOptionsDialogFragment
+import ru.spbstu.feature.mapSelect.ShopMapFragment
 import ru.spbstu.feature.shared_adapters.DeleteDialogFragment
+import timber.log.Timber
 import java.time.LocalDate
 
 class EventFragment : ToolbarFragment<EventViewModel>(
@@ -38,6 +42,8 @@ class EventFragment : ToolbarFragment<EventViewModel>(
     private var purchaseItemAddingDialog: BottomSheetDialog? = null
 
     private val calendarFragment by lazy { CalendarFragment(CalendarSelectionMode.SINGLE_DAY) }
+
+    private val shopFragment by lazy { ShopMapFragment() }
 
     private val purchaseAdapter by lazy {
         PurchaseAdapter(onItemClick = {
@@ -139,6 +145,9 @@ class EventFragment : ToolbarFragment<EventViewModel>(
                     dialogBinding.frgAddPurchaseDialogEtDate.setDebounceClickListener {
                         calendarFragment.show(parentFragmentManager, DATE_DIALOG_TAG)
                     }
+                    dialogBinding.frgAddPurchaseDialogEtShop.setDebounceClickListener {
+                        shopFragment.show(parentFragmentManager, SHOP_DIALOG_TAG)
+                    }
                     changeSavePurchaseButtonIsClickable(dialogBinding)
                     dialogBinding.frgAddPurchaseDialogEtTitle.setText(expense.description)
                     dialogBinding.frgAddPurchaseDialogEtPrice.setText(expense.price.toString())
@@ -162,6 +171,8 @@ class EventFragment : ToolbarFragment<EventViewModel>(
                         val textPrice = dialogBinding.frgAddPurchaseDialogEtPrice
                         val textDate = dialogBinding.frgAddPurchaseDialogEtDate
                         val textShop = dialogBinding.frgAddPurchaseDialogEtShop
+                        Timber.i("???? clicked")
+                        Log.d("TAGG","dfdjfdj")
                         viewModel.createNewPurchase(
                             textTitle.text.toString(), textPrice.text.toString(),
                             textDate.text.toString(), textShop.text.toString()
@@ -176,6 +187,12 @@ class EventFragment : ToolbarFragment<EventViewModel>(
                         val text = (it.get(CalendarFragment.DATA_KEY) as? CalendarDateRange)?.startDate
                             ?: LocalDate.now().toString()
                         dialogBinding.frgAddPurchaseDialogEtDate.setText(text.toString())
+                    }
+                    viewModel.bundleDataWrapper.bundleData.observe {
+                        val shop = (it.get(ShopMapFragment.DATA_KEY) as? Shop)
+                        dialogBinding.frgAddPurchaseDialogEtShop.setText(
+                            shop?.name
+                        )
                     }
                     purchaseItemAddingDialog?.setContentView(dialogBinding.root)
                     purchaseItemAddingDialog?.behavior?.state = BottomSheetBehavior.STATE_EXPANDED
@@ -207,66 +224,66 @@ class EventFragment : ToolbarFragment<EventViewModel>(
                         showDeleteDialog(actionOk = {
                             viewModel.deletePurchase(expense)
                         }, actionCancel = {}, text = getString(R.string.delete_purchase_item))
-                        dialog.dismiss()
+                            dialog.dismiss()
+                        }
+                        dialog.setOnEditPurchaseClick {
+                            dialog.dismiss()
+                            showPurchaseItemAddingDialog(expense)
+                        }
+                        dialog.setOnInfoPurchaseClick {
+                            dialog.dismiss()
+                            viewModel.openPurchase(expense)
+                        }
+                        dialog.setOnCLosePurchaseClick {
+                            viewModel.closePurchase(expense)
+                            dialog.dismiss()
+                        }
+                        dialog.show(parentFragmentManager, PURCHASE_OPTIONS_DIALOG_TAG)
                     }
-                    dialog.setOnEditPurchaseClick {
-                        dialog.dismiss()
-                        showPurchaseItemAddingDialog(expense)
+                }
+
+                private fun showDeleteDialog(actionOk: () -> Unit, actionCancel: () -> Unit, text: String) {
+                    if (deleteFileDialogFragment == null) {
+                        deleteFileDialogFragment =
+                            DeleteDialogFragment.newInstance(getString(R.string.delete_room))
                     }
-                    dialog.setOnInfoPurchaseClick {
-                        dialog.dismiss()
-                        viewModel.openPurchase(expense)
+                    val dialog = deleteFileDialogFragment
+                    if (dialog != null) {
+                        dialog.setDialogWarningText(text)
+                        dialog.setOnOkClickListener {
+                            Toast.makeText(requireContext(), "Выхожу", Toast.LENGTH_SHORT).show()
+                            actionOk.invoke()
+                            dialog.dismiss()
+                        }
+                        dialog.setOnCancelClickListener {
+                            Toast.makeText(requireContext(), "Не Выхожу", Toast.LENGTH_SHORT).show()
+                            actionCancel.invoke()
+                            dialog.dismiss()
+                        }
+                        dialog.show(parentFragmentManager, DELETE_DIALOG_TAG)
                     }
-                    dialog.setOnCLosePurchaseClick {
-                        viewModel.closePurchase(expense)
-                        dialog.dismiss()
+                }
+
+                override fun inject() {
+                    FeatureUtils.getFeature<FeatureComponent>(this, FeatureApi::class.java)
+                        .eventComponentFactory()
+                        .create(this)
+                        .inject(this)
+                }
+
+                companion object {
+                    private val TAG = EventFragment::class.java.simpleName
+                    val BUNDLE_KEY = "${TAG}_BUNDLE_KEY"
+                    private val DATE_DIALOG_TAG = "${TAG}_DATE_DIALOG"
+                    private val SHOP_DIALOG_TAG = "${TAG}_SHOP_DIALOG_TAG"
+                    private val PURCHASE_OPTIONS_DIALOG_TAG = "${TAG}_PURCHASE_OPTIONS_DIALOG_TAG"
+                    private val DELETE_DIALOG_TAG = "${TAG}DELETE_DIALOG_TAG"
+
+                    fun makeBundle(id: Long): Bundle {
+                        val bundle = Bundle()
+                        bundle.putLong(BUNDLE_KEY, id)
+                        return bundle
                     }
-                    dialog.show(parentFragmentManager, PURCHASE_OPTIONS_DIALOG_TAG)
                 }
             }
-
-            private fun showDeleteDialog(actionOk: () -> Unit, actionCancel: () -> Unit, text: String) {
-                if (deleteFileDialogFragment == null) {
-                    deleteFileDialogFragment =
-                        DeleteDialogFragment.newInstance(getString(R.string.delete_room))
-                }
-                val dialog = deleteFileDialogFragment
-                if (dialog != null) {
-                    dialog.setDialogWarningText(text)
-                    dialog.setOnOkClickListener {
-                        Toast.makeText(requireContext(), "Выхожу", Toast.LENGTH_SHORT).show()
-                        actionOk.invoke()
-                        dialog.dismiss()
-                    }
-                    dialog.setOnCancelClickListener {
-                        Toast.makeText(requireContext(), "Не Выхожу", Toast.LENGTH_SHORT).show()
-                        actionCancel.invoke()
-                        dialog.dismiss()
-                    }
-                    dialog.show(parentFragmentManager, DELETE_DIALOG_TAG)
-                }
-            }
-
-            override fun inject() {
-                FeatureUtils.getFeature<FeatureComponent>(this, FeatureApi::class.java)
-                    .eventComponentFactory()
-                    .create(this)
-                    .inject(this)
-            }
-
-            companion object {
-                private val TAG = EventFragment::class.java.simpleName
-                val BUNDLE_KEY = "${TAG}_BUNDLE_KEY"
-                private val DATE_DIALOG_TAG = "${TAG}_DATE_DIALOG"
-                private val PURCHASE_OPTIONS_DIALOG_TAG = "${TAG}_PURCHASE_OPTIONS_DIALOG_TAG"
-                private val DELETE_DIALOG_TAG = "${TAG}DELETE_DIALOG_TAG"
-
-
-                fun makeBundle(id: Long): Bundle {
-                    val bundle = Bundle()
-                    bundle.putLong(BUNDLE_KEY, id)
-                    return bundle
-                }
-            }
-        }
-        
+            
