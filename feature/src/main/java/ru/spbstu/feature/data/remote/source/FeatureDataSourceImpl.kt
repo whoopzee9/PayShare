@@ -188,7 +188,6 @@ class FeatureDataSourceImpl @Inject constructor(private val featureApiService: F
 
                         }catch (e:Exception){
                             Log.d("eeee3", "Load purchases $e")
-
                         }
 
 

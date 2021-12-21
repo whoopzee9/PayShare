@@ -38,7 +38,6 @@ class EventViewModel(
     val toolbarState get(): StateFlow<ToolbarState> = _toolbarState
 
     fun loadPurchases() {
-        Log.d("eFrg", "Load purchases")
         val roomId = 2L
         getEventInfoUseCase.invoke(roomId)
             .subscribeOn(Schedulers.io())
@@ -46,17 +45,15 @@ class EventViewModel(
             .subscribe({
                 when (it) {
                     is PayShareResult.Success -> {
-                        Log.d("eFrg", "Success")
                         _purchases.value = it.data.purchases
+                        _users.value = it.data.participants
                         setEventState(EventState.Success)
                     }
                     is PayShareResult.Error -> {
-                        Log.d("eFrg", "Error")
                         setEventState(EventState.Failure(it.error))
                     }
                 }
             }, {
-                Log.d("eFrg", "Error")
                 setEventState(EventState.Failure(EventError.ConnectionError))
             })
             .addTo(disposable)
@@ -95,11 +92,10 @@ class EventViewModel(
                 .subscribe({
                     when (it) {
                         is PayShareResult.Success -> {
-                            Log.d("EVentFRg", "Success")
+                            loadPurchases()
                             setEventState(EventState.Success)
                         }
                         is PayShareResult.Error -> {
-                            Log.d("EVentFRg", "Error")
                             setEventState(EventState.Failure(it.error))
                         }
                     }
@@ -107,24 +103,7 @@ class EventViewModel(
                     setEventState(EventState.Failure(EventError.ConnectionError))
                 })
                 .addTo(disposable)
-
-            _purchases.value = _purchases.value + Expense(
-                444,
-                "",
-                textTitle,
-                false,
-                currentUser,
-                LocalDateTime.now(),
-                textPrice.toDouble(),
-                emptyMap(),
-                Shop(1, "fsdfsdf", 12.0, 23.9, listOf())
-            )
-            updateUsers()
         }
-    }
-
-    private fun updateUsers() {
-        // _users.value = _purchases.value.map { it.users.keys }.flatten().distinctBy { it.id }
     }
 
     fun selectAllPurchases() {
@@ -133,8 +112,8 @@ class EventViewModel(
     }
 
     fun openPurchase(expense: Expense) {
-        //TODO pass roomID
-        //router.openExpenseFragment(expense)
+        // TODO pass roomID
+        // router.openExpenseFragment(expense)
     }
 
     fun shareRoomCode() {
@@ -171,11 +150,5 @@ class EventViewModel(
 
     companion object {
         // TODO add method to get current user
-        val currentUser = User(
-            11,
-            "Tolstolobik",
-            "Georgiy",
-            "https://avt-19.foto.mail.ru/mail/gt230800/_avatar180?1479972314&mrim=1"
-        )
     }
 }
