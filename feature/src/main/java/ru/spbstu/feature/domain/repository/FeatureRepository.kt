@@ -24,7 +24,9 @@ interface FeatureRepository {
         participantId: Long,
         isPaid: Boolean
     ): Single<PayShareResult<Any>>
+
     fun createPurchase(roomId: Long, expense: Expense): Single<PayShareResult<Any>>
     fun getRoomCode(id: Long): Single<PayShareResult<Long>>
     fun deleteRoom(roomId: Long): Single<PayShareResult<Any>>
+    fun deletePurchase(roomId: Long, purchaseId: Long): Single<PayShareResult<Any>>
 }

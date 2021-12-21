@@ -66,4 +66,10 @@ interface FeatureApiService {
 
     @DELETE("/user/room/{room_id}")
     fun deleteRoom(@Path("room_id") roomId: Long): Single<Response<Void>>
+
+    @DELETE("/user/room/{room_id}/purchase/{purchase_id}")
+    fun deletePurchase(
+        @Path("room_id") roomId: Long,
+        @Path("purchase_id") purchaseId: Long
+    ): Single<Response<Void>>
 }

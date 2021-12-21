@@ -18,6 +18,7 @@ import ru.spbstu.feature.domain.model.Expense
 import ru.spbstu.feature.domain.model.Shop
 import ru.spbstu.feature.domain.model.User
 import ru.spbstu.feature.domain.usecase.CreatePurchaseUseCase
+import ru.spbstu.feature.domain.usecase.DeletePurchaseUseCase
 import ru.spbstu.feature.domain.usecase.DeleteRoomUseCase
 import ru.spbstu.feature.domain.usecase.GetEventInfoUseCase
 import ru.spbstu.feature.domain.usecase.GetRoomCodeUseCase
@@ -32,7 +33,8 @@ class EventViewModel(
     private val createPurchaseUseCase: CreatePurchaseUseCase,
     private val getEventInfoUseCase: GetEventInfoUseCase,
     private val getRoomCodeUseCase: GetRoomCodeUseCase,
-    private val deleteRoomUseCase: DeleteRoomUseCase
+    private val deleteRoomUseCase: DeleteRoomUseCase,
+    private val deletePurchaseUseCase: DeletePurchaseUseCase
 ) :
     BackViewModel(router) {
     var roomId = 0L
@@ -179,6 +181,23 @@ class EventViewModel(
 
     // TODO add method to delete purchase from list
     fun deletePurchase(expense: Expense) {
+        deletePurchaseUseCase.invoke(roomId, expense.id)
+            .subscribeOn(Schedulers.io())
+            .observeOn(AndroidSchedulers.mainThread())
+            .subscribe({
+                when (it) {
+                    is PayShareResult.Success -> {
+                        loadPurchases()
+                        setEventState(EventState.Success)
+                    }
+                    is PayShareResult.Error -> {
+                        setEventState(EventState.Failure(it.error))
+                    }
+                }
+            }, {
+                setEventState(EventState.Failure(EventError.ConnectionError))
+            })
+            .addTo(disposable)
     }
 
     // TODO add method to close purchase

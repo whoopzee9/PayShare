@@ -218,7 +218,6 @@ class FeatureDataSourceImpl @Inject constructor(private val featureApiService: F
         return featureApiService.createPurchase(roomId, expense.toPurchaseBody()).map {
             when {
                 it.isSuccessful -> {
-                    tokenRepositoryImpl.clearTokens()
                     PayShareResult.Success(it)
                 }
                 else -> {
@@ -250,7 +249,19 @@ class FeatureDataSourceImpl @Inject constructor(private val featureApiService: F
         return featureApiService.deleteRoom(roomId).map {
             when {
                 it.isSuccessful -> {
-                    tokenRepositoryImpl.clearTokens()
+                    PayShareResult.Success(it)
+                }
+                else -> {
+                    PayShareResult.Error(EventError.UnknownError)
+                }
+            }
+        }
+    }
+
+    override fun deletePurchase(roomId:Long, purchaseId: Long): Single<PayShareResult<Any>> {
+        return featureApiService.deletePurchase(roomId, purchaseId).map {
+            when {
+                it.isSuccessful -> {
                     PayShareResult.Success(it)
                 }
                 else -> {

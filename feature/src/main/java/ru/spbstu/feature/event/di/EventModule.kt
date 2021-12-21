@@ -11,6 +11,7 @@ import ru.spbstu.common.di.viewmodel.ViewModelModule
 import ru.spbstu.common.utils.BundleDataWrapper
 import ru.spbstu.feature.FeatureRouter
 import ru.spbstu.feature.domain.usecase.CreatePurchaseUseCase
+import ru.spbstu.feature.domain.usecase.DeletePurchaseUseCase
 import ru.spbstu.feature.domain.usecase.DeleteRoomUseCase
 import ru.spbstu.feature.domain.usecase.GetEventInfoUseCase
 import ru.spbstu.feature.domain.usecase.GetRoomCodeUseCase
@@ -32,7 +33,8 @@ class EventModule {
         createPurchaseUseCase: CreatePurchaseUseCase,
         getEventInfoUseCase: GetEventInfoUseCase,
         getRoomCodeUseCase: GetRoomCodeUseCase,
-        deleteRoomUseCase: DeleteRoomUseCase
+        deleteRoomUseCase: DeleteRoomUseCase,
+        deletePurchaseUseCase: DeletePurchaseUseCase
     ): ViewModel {
         return EventViewModel(
             router,
@@ -40,7 +42,8 @@ class EventModule {
             createPurchaseUseCase,
             getEventInfoUseCase,
             getRoomCodeUseCase,
-            deleteRoomUseCase
+            deleteRoomUseCase,
+            deletePurchaseUseCase
         )
     }
 
