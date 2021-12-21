@@ -14,8 +14,15 @@ interface FeatureRepository {
     fun getUserInfo(): Single<PayShareResult<User>>
     fun getEvents(): Single<PayShareResult<List<Event>>>
     fun createEvent(name: String, date: String): Single<PayShareResult<Long>>
-    fun joinEvent(code: String): Single<PayShareResult<Long>>
+    fun showJoinEvent(code: String): Single<PayShareResult<Event>>
+    fun joinEvent(id: Long): Single<PayShareResult<Any>>
     fun getHistory(): Single<PayShareResult<List<Event>>>
     fun getEvent(id: Long): Single<PayShareResult<EventInfo>>
+    fun setPurchasePaid(
+        roomId: Long,
+        purchaseId: Long,
+        participantId: Long,
+        isPaid: Boolean
+    ): Single<PayShareResult<Any>>
     fun createPurchase(roomId: Long, expense: Expense): Single<PayShareResult<Any>>
 }

@@ -16,6 +16,7 @@ import ru.spbstu.feature.domain.model.Event
 import ru.spbstu.feature.domain.usecase.CreateEventUseCase
 import ru.spbstu.feature.domain.usecase.GetEventsUseCase
 import ru.spbstu.feature.domain.usecase.JoinEventUseCase
+import ru.spbstu.feature.domain.usecase.ShowJoinEventUseCase
 
 
 class EventsViewModel(
@@ -24,7 +25,8 @@ class EventsViewModel(
     val tokenRepository: TokenRepository,
     private val getEventsUseCase: GetEventsUseCase,
     private val createEventUseCase: CreateEventUseCase,
-    private val joinEventUseCase: JoinEventUseCase
+    private val joinEventUseCase: JoinEventUseCase,
+    private val showJoinEventUseCase: ShowJoinEventUseCase
 ) : BackViewModel(router) {
 
     private val _events: MutableStateFlow<List<Event>> = MutableStateFlow(listOf())
@@ -73,16 +75,37 @@ class EventsViewModel(
             .addTo(disposable)
     }
 
-    fun joinEvent(code: String) {
+    fun joinEvent(id: Long) {
         setEventState(EventState.Progress)
-        joinEventUseCase.invoke(code)
+        joinEventUseCase.invoke(id)
             .subscribeOn(Schedulers.io())
             .observeOn(AndroidSchedulers.mainThread())
             .subscribe({
                 when (it) {
                     is PayShareResult.Success -> {
                         setEventState(EventState.Success)
-                        openEvent(it.data)
+                        openEvent(id)
+                    }
+                    is PayShareResult.Error -> {
+                        setEventState(EventState.Failure(it.error))
+                    }
+                }
+            }, {
+                setEventState(EventState.Failure(EventError.ConnectionError))
+            })
+            .addTo(disposable)
+    }
+
+    fun showJoinEvent(code: String, callback: (Event) -> Unit) {
+        setEventState(EventState.Progress)
+        showJoinEventUseCase.invoke(code)
+            .subscribeOn(Schedulers.io())
+            .observeOn(AndroidSchedulers.mainThread())
+            .subscribe({
+                when (it) {
+                    is PayShareResult.Success -> {
+                        setEventState(EventState.Success)
+                        callback(it.data)
                     }
                     is PayShareResult.Error -> {
                         setEventState(EventState.Failure(it.error))

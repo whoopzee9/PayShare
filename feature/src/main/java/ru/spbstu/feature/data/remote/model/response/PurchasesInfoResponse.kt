@@ -6,7 +6,7 @@ import ru.spbstu.feature.domain.model.User
 import java.time.LocalDateTime
 import java.time.format.DateTimeFormatter
 
-data class PurchasesResponse(
+data class PurchasesInfoResponse(
     @SerializedName("id")
     val id: Long,
     @SerializedName("owner_id")
@@ -16,10 +16,12 @@ data class PurchasesResponse(
     @SerializedName("locate")
     val location: LocationResponse,
     @SerializedName("cost")
-    val cost: Int
+    val cost: Int,
+    @SerializedName("participants")
+    val participants: List<ParticipantPaidResponse> = listOf()
 )
 
-fun PurchasesResponse.toExpense(): Expense {
+fun PurchasesInfoResponse.toExpense(): Expense {
     return Expense(
         id = id,
         name = name,
@@ -27,6 +29,7 @@ fun PurchasesResponse.toExpense(): Expense {
         buyer = User(id = ownerId),
         date = LocalDateTime.parse(location.date, DateTimeFormatter.ofPattern("dd.MM.yy HH:mm")),
         price = cost / 100.0,
-        purchaseShop = location.toShop()
+        purchaseShop = location.toShop(),
+        users = participants.map { it.participantId to it.isPaid }.toMap()
     )
 }

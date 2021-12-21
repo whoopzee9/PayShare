@@ -271,19 +271,19 @@ class EventFragment : ToolbarFragment<EventViewModel>(
                         .inject(this)
                 }
 
-                companion object {
-                    private val TAG = EventFragment::class.java.simpleName
-                    val BUNDLE_KEY = "${TAG}_BUNDLE_KEY"
-                    private val DATE_DIALOG_TAG = "${TAG}_DATE_DIALOG"
-                    private val SHOP_DIALOG_TAG = "${TAG}_SHOP_DIALOG_TAG"
-                    private val PURCHASE_OPTIONS_DIALOG_TAG = "${TAG}_PURCHASE_OPTIONS_DIALOG_TAG"
-                    private val DELETE_DIALOG_TAG = "${TAG}DELETE_DIALOG_TAG"
+    companion object {
+        private val TAG = EventFragment::class.java.simpleName
+        val BUNDLE_KEY = "${TAG}_BUNDLE_KEY"
+        private val DATE_DIALOG_TAG = "${TAG}_DATE_DIALOG"
+        private val SHOP_DIALOG_TAG = "${TAG}_SHOP_DIALOG_TAG"
+        private val PURCHASE_OPTIONS_DIALOG_TAG = "${TAG}_PURCHASE_OPTIONS_DIALOG_TAG"
+        private val DELETE_DIALOG_TAG = "${TAG}DELETE_DIALOG_TAG"
 
-                    fun makeBundle(id: Long): Bundle {
-                        val bundle = Bundle()
-                        bundle.putLong(BUNDLE_KEY, id)
-                        return bundle
-                    }
-                }
+        fun makeBundle(id: Long): Bundle {
+            val bundle = Bundle()
+            bundle.putLong(BUNDLE_KEY, id)
+            return bundle
+        }
+    }
             }
             
