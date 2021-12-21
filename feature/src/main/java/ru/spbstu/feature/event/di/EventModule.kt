@@ -11,6 +11,7 @@ import ru.spbstu.common.di.viewmodel.ViewModelModule
 import ru.spbstu.common.utils.BundleDataWrapper
 import ru.spbstu.feature.FeatureRouter
 import ru.spbstu.feature.domain.usecase.CreatePurchaseUseCase
+import ru.spbstu.feature.domain.usecase.GetEventInfoUseCase
 import ru.spbstu.feature.event.presentation.EventViewModel
 
 @Module(
@@ -26,9 +27,10 @@ class EventModule {
     fun provideViewModel(
         router: FeatureRouter,
         bundleDataWrapper: BundleDataWrapper,
-        createPurchaseUseCase: CreatePurchaseUseCase
+        createPurchaseUseCase: CreatePurchaseUseCase,
+        getEventInfoUseCase: GetEventInfoUseCase
     ): ViewModel {
-        return EventViewModel(router, bundleDataWrapper, createPurchaseUseCase)
+        return EventViewModel(router, bundleDataWrapper, createPurchaseUseCase, getEventInfoUseCase)
     }
 
     @Provides

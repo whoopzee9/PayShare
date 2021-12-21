@@ -1,8 +1,6 @@
 package ru.spbstu.feature.event.presentation
 
-import android.os.Build
 import android.util.Log
-import androidx.annotation.RequiresApi
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.rxkotlin.addTo
 import io.reactivex.schedulers.Schedulers
@@ -18,14 +16,15 @@ import ru.spbstu.feature.domain.model.Expense
 import ru.spbstu.feature.domain.model.Shop
 import ru.spbstu.feature.domain.model.User
 import ru.spbstu.feature.domain.usecase.CreatePurchaseUseCase
+import ru.spbstu.feature.domain.usecase.GetEventInfoUseCase
 import ru.spbstu.feature.mapSelect.ShopMapFragment
 import java.time.LocalDateTime
-import java.time.format.DateTimeFormatter
 
 class EventViewModel(
     val router: FeatureRouter,
     val bundleDataWrapper: BundleDataWrapper,
-    private val createPurchaseUseCase: CreatePurchaseUseCase
+    private val createPurchaseUseCase: CreatePurchaseUseCase,
+    private val getEventInfoUseCase: GetEventInfoUseCase
 ) :
     BackViewModel(router) {
     private val _purchases: MutableStateFlow<List<Expense>> = MutableStateFlow(listOf())
@@ -38,79 +37,29 @@ class EventViewModel(
         MutableStateFlow(ToolbarState.Initial)
     val toolbarState get(): StateFlow<ToolbarState> = _toolbarState
 
-    init {
-//        _purchases.value = listOf(
-//            Expense(
-//                id = 1,
-//                "cchuifvbcyh",
-//                "sdfsdfsf",
-//                false,
-//                User(1, "dasd", "dasd", "dasd"),
-//                LocalDateTime.now(),
-//                123.0,
-//                listOf(
-//                    1,
-//                    2,
-//                ).map { it to false }.toMap(),
-//                Shop(1, "fsdfsdf", 12.0, 23.9, listOf())
-//            ),
-//            Expense(
-//                id = 2,
-//                "qwe",
-//                "sdfsdfsf",
-//                false,
-//                User(1, "dasd", "dasd", "dasd"),
-//                LocalDateTime.now(),
-//                1230.0,
-//                listOf(
-//                    User(
-//                        1, "dasd", "dasd", "dasd",
-//                        "https://images.pexels.com/photos/614810/pexels-photo-614810.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=750&w=1260"
-//                    ),
-//                    User(
-//                        2, "Egor", "Egorov", "dasd",
-//                        "https://images.pexels.com/photos/4556737/pexels-photo-4556737.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=750&w=1260"
-//                    ),
-//                    User(
-//                        3,
-//                        "Anna",
-//                        "Vatlin",
-//                        "dasd",
-//                        "https://images.pexels.com/photos/1840608/pexels-photo-1840608.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=750&w=1260"
-//                    ),
-//                    User(
-//                        4,
-//                        "Veronika",
-//                        "Zemskaya",
-//                        "dasd",
-//                        "https://images.pexels.com/photos/2120114/pexels-photo-2120114.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=750&w=1260"
-//                    ),
-//                    User(
-//                        5,
-//                        "John",
-//                        "Martin",
-//                        "dasd",
-//                        "https://images.pexels.com/photos/2379005/pexels-photo-2379005.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=750&w=1260"
-//                    ),
-//                    User(
-//                        6,
-//                        "Demnos",
-//                        "Luter",
-//                        "dasd",
-//                        "https://images.pexels.com/photos/2071881/pexels-photo-2071881.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=750&w=1260"
-//                    ),
-//                    User(
-//                        7,
-//                        "Pavel",
-//                        "Pauls",
-//                        "dasd",
-//                        "https://images.pexels.com/photos/2743754/pexels-photo-2743754.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=750&w=1260"
-//                    ),
-//                ).map { it to false }.toMap(),
-//                Shop(1, "fsdfsdf", 12.0, 23.9, listOf())
-//            )
-//        )
-//        _users.value = _purchases.value.map { it.users.keys }.flatten().distinctBy { it.id }
+    fun loadPurchases() {
+        Log.d("eFrg", "Load purchases")
+        val roomId = 2L
+        getEventInfoUseCase.invoke(roomId)
+            .subscribeOn(Schedulers.io())
+            .observeOn(AndroidSchedulers.mainThread())
+            .subscribe({
+                when (it) {
+                    is PayShareResult.Success -> {
+                        Log.d("eFrg", "Success")
+                        _purchases.value = it.data.purchases
+                        setEventState(EventState.Success)
+                    }
+                    is PayShareResult.Error -> {
+                        Log.d("eFrg", "Error")
+                        setEventState(EventState.Failure(it.error))
+                    }
+                }
+            }, {
+                Log.d("eFrg", "Error")
+                setEventState(EventState.Failure(EventError.ConnectionError))
+            })
+            .addTo(disposable)
     }
 
     fun setBoughtStatus(purchase: Expense) {
@@ -122,7 +71,6 @@ class EventViewModel(
             }
         }
     }
-
 
     fun createNewPurchase(
         textTitle: String,
@@ -176,7 +124,7 @@ class EventViewModel(
     }
 
     private fun updateUsers() {
-        //_users.value = _purchases.value.map { it.users.keys }.flatten().distinctBy { it.id }
+        // _users.value = _purchases.value.map { it.users.keys }.flatten().distinctBy { it.id }
     }
 
     fun selectAllPurchases() {

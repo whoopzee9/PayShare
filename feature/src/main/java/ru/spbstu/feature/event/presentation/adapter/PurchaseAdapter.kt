@@ -20,7 +20,7 @@ class PurchaseAdapter(val onItemClick: (Expense) -> Unit, val onLongItemClick: (
         override fun bind(item: Expense) {
             this.item = item
 
-            binding.itemPurchaseTvDescription.text = item.description
+            binding.itemPurchaseTvDescription.text = item.name
             binding.itemPurchaseTvDate.text =
                 item.date.format(DateTimeFormatter.ofPattern("dd.MM.yy"))
             binding.itemPurchasePrice.text = item.price.toString()

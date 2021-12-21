@@ -1,7 +1,6 @@
 package ru.spbstu.feature.event.presentation
 
 import android.os.Bundle
-import android.util.Log
 import android.view.ViewGroup
 import android.widget.Toast
 import com.google.android.material.bottomsheet.BottomSheetBehavior
@@ -29,7 +28,6 @@ import ru.spbstu.feature.event.presentation.adapter.PurchaseAdapter
 import ru.spbstu.feature.event.presentation.dialog.PurchaseOptionsDialogFragment
 import ru.spbstu.feature.mapSelect.ShopMapFragment
 import ru.spbstu.feature.shared_adapters.DeleteDialogFragment
-import timber.log.Timber
 import java.time.LocalDate
 
 class EventFragment : ToolbarFragment<EventViewModel>(
@@ -103,6 +101,7 @@ class EventFragment : ToolbarFragment<EventViewModel>(
 
             override fun subscribe() {
                 super.subscribe()
+                viewModel.loadPurchases()
 
                 viewModel.purchases.observe { it ->
                     binding.frgEventTvPurchaseSumValue.text =
