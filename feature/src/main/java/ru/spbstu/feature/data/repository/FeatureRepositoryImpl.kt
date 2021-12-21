@@ -4,6 +4,7 @@ import io.reactivex.Single
 import ru.spbstu.common.error.PayShareResult
 import ru.spbstu.feature.data.source.FeatureDataSource
 import ru.spbstu.feature.domain.model.Event
+import ru.spbstu.feature.domain.model.EventInfo
 import ru.spbstu.feature.domain.model.Expense
 import ru.spbstu.feature.domain.model.Tokens
 import ru.spbstu.feature.domain.model.User
@@ -36,7 +37,15 @@ class FeatureRepositoryImpl @Inject constructor(private val featureDataSource: F
         return featureDataSource.joinEvent(code)
     }
 
-    override fun createPurchase(roomId:Long,expense: Expense): Single<PayShareResult<Any>> {
+    override fun getHistory(): Single<PayShareResult<List<Event>>> {
+        return featureDataSource.getHistory()
+    }
+
+    override fun getEvent(id: Long): Single<PayShareResult<EventInfo>> {
+        return featureDataSource.getEvent(id)
+    }
+
+    override fun createPurchase(roomId: Long, expense: Expense): Single<PayShareResult<Any>> {
         return featureDataSource.createPurchase(roomId, expense)
     }
 }

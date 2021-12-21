@@ -12,6 +12,8 @@ import ru.spbstu.feature.data.remote.model.body.EventBody
 import ru.spbstu.feature.data.remote.model.body.EventJoinBody
 import ru.spbstu.feature.data.remote.model.body.PurchasesBody
 import ru.spbstu.feature.data.remote.model.response.EventIdResponse
+import ru.spbstu.feature.data.remote.model.response.EventInfoResponse
+import ru.spbstu.feature.data.remote.model.response.EventResponse
 import ru.spbstu.feature.data.remote.model.response.RoomWrapper
 import ru.spbstu.feature.data.remote.model.response.TokensResponse
 import ru.spbstu.feature.data.remote.model.response.UserResponse
@@ -35,7 +37,13 @@ interface FeatureApiService {
     @POST("/user/room/join")
     fun joinEvent(@Body eventJoinBody: EventJoinBody): Single<Response<EventIdResponse>>
 
+    @GET("/user/room/closed")
+    fun getHistory(): Single<Response<RoomWrapper>>
+
+    @GET("/user/room/{room_id}")
+    fun getEvent(@Path("room_id") roomId: Long): Single<Response<EventInfoResponse>>
+
     @POST("/user/room/{room_id}/purchase")
     fun createPurchase(@Path("room_id") roomId: Long, @Body purchaseBody: PurchasesBody):
-        Single<Response<Void>>
+            Single<Response<Void>>
 }

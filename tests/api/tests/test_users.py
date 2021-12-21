@@ -7,16 +7,8 @@ from tests.api.constants import BASE_URL
 
 # -------------- REQUESTS TO TEST ----------------
 
-# post /user/room любой пользователь
-# post /user/room/join любой пользователь
-# put /user/room/{room_id}/close только создатель комнаты
-# delete /user/room/{room_id} только создатель комнаты
-# post /user/room/{room_id}/code только участники комнаты
-# delete /user/room/{room_id}/participant/{participant_id} только создатель комнаты
-# post /user/room/{room_id}/purchase только участники комнаты
-# put /user/room/{room_id}/purchase/{purchase_id} только создатель покупки
-# delete /user/room/{room_id}/purchase/{purchase_id} только создатель покупки
-
+# get /user
+# put /user
 
 class TestUsers:
 

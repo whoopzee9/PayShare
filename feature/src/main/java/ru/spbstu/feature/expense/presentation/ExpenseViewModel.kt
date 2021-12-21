@@ -24,69 +24,64 @@ class ExpenseViewModel(router: FeatureRouter) : BackViewModel(router) {
     val mapShopCoordinates: MutableStateFlow<List<LatLng>> get() = _mapShopCoordinates
 
     init {
-        val userList = listOf(
-            User(
-                3,
-                "Anna",
-                "Vatlin",
-                "dasd",
-                "https://images.pexels.com/photos/1840608/pexels-photo-1840608.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=750&w=1260"
-            ),
-            User(
-                4,
-                "Veronika",
-                "Zemskaya",
-                "dasd",
-                "https://images.pexels.com/photos/2120114/pexels-photo-2120114.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=750&w=1260"
-            ),
-            User(
-                5,
-                "John",
-                "Martin",
-                "dasd",
-                "https://images.pexels.com/photos/2379005/pexels-photo-2379005.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=750&w=1260"
-            ),
-            User(
-                6,
-                "Demnos",
-                "Luter",
-                "dasd",
-                "https://images.pexels.com/photos/2071881/pexels-photo-2071881.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=750&w=1260"
-            ),
-            User(
-                7,
-                "Pavel",
-                "Pauls",
-                "dasd",
-                "https://images.pexels.com/photos/2743754/pexels-photo-2743754.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=750&w=1260"
-            )
-        )
-        _purchase.value = Expense(
-            10,
-            "Фрукты",
-            "",
-            true,
-            currentUser,
-            LocalDateTime.now(),
-            512.55,
-            userList.map { it to false }.toMap(),
-            Shop(1, "fsdfsdf", 59.986505, 30.348305, listOf())
-        )
-        val list = _purchase.value.users.map { UserBuyed(it.key, it.value) }
-        // TODO DELETE. this for test
-        _users.value = list.mapIndexed { index, userBuyed ->
-            if (index == 1) {
-                userBuyed.copy(isBought = true)
-            } else {
-                userBuyed
-            }
-        }
-        _mapShopCoordinates.value = listOf(
-            LatLng(
-                _purchase.value.purchaseShop.latitude,
-                _purchase.value.purchaseShop.longitude
-            )
-        )
+//        val userList = listOf(
+//            User(
+//                3,
+//                "Anna",
+//                "Vatlin",
+//                "https://images.pexels.com/photos/1840608/pexels-photo-1840608.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=750&w=1260"
+//            ),
+//            User(
+//                4,
+//                "Veronika",
+//                "Zemskaya",
+//                "https://images.pexels.com/photos/2120114/pexels-photo-2120114.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=750&w=1260"
+//            ),
+//            User(
+//                5,
+//                "John",
+//                "Martin",
+//                "https://images.pexels.com/photos/2379005/pexels-photo-2379005.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=750&w=1260"
+//            ),
+//            User(
+//                6,
+//                "Demnos",
+//                "Luter",
+//                "https://images.pexels.com/photos/2071881/pexels-photo-2071881.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=750&w=1260"
+//            ),
+//            User(
+//                7,
+//                "Pavel",
+//                "Pauls",
+//                "https://images.pexels.com/photos/2743754/pexels-photo-2743754.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=750&w=1260"
+//            )
+//        )
+//        _purchase.value = Expense(
+//            10,
+//            "Фрукты",
+//            "",
+//            true,
+//            currentUser,
+//            LocalDateTime.now(),
+//            512.55,
+//            userList.map { it to false }.toMap(),
+//            Shop(1, "fsdfsdf", 59.986505, 30.348305, listOf())
+//        )
+//        val list = _purchase.value.users.map { UserBuyed(it.key, it.value) }
+//        // TODO DELETE. this for test
+//        _users.value = list.mapIndexed { index, userBuyed ->
+//            if (index == 1) {
+//                userBuyed.copy(isBought = true)
+//            } else {
+//                userBuyed
+//            }
+//        }
+//        _mapShopCoordinates.value = listOf(
+//            LatLng(
+//                _purchase.value.purchaseShop.latitude,
+//                _purchase.value.purchaseShop.longitude
+//            )
+//        )
     }
 
     companion object {
@@ -95,7 +90,6 @@ class ExpenseViewModel(router: FeatureRouter) : BackViewModel(router) {
             11,
             "Толстолобиков",
             "Григорий",
-            "tolstolobik1337@bk.ru",
             "https://avt-19.foto.mail.ru/mail/gt230800/_avatar180?1479972314&mrim=1"
         )
     }
