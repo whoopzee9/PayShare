@@ -63,7 +63,7 @@ class EventsViewModel(
                     is PayShareResult.Success -> {
                         setEventState(EventState.Success)
                         callback()
-                        openEvent(it.data)
+                        openEvent(it.data, name)
                     }
                     is PayShareResult.Error -> {
                         setEventState(EventState.Failure(it.error))
@@ -75,16 +75,16 @@ class EventsViewModel(
             .addTo(disposable)
     }
 
-    fun joinEvent(id: Long) {
+    fun joinEvent(event: Event) {
         setEventState(EventState.Progress)
-        joinEventUseCase.invoke(id)
+        joinEventUseCase.invoke(event.id)
             .subscribeOn(Schedulers.io())
             .observeOn(AndroidSchedulers.mainThread())
             .subscribe({
                 when (it) {
                     is PayShareResult.Success -> {
                         setEventState(EventState.Success)
-                        openEvent(id)
+                        openEvent(event.id, event.name)
                     }
                     is PayShareResult.Error -> {
                         setEventState(EventState.Failure(it.error))
@@ -121,8 +121,8 @@ class EventsViewModel(
         router.openLoginFragment()
     }
 
-    fun openEvent(id: Long) {
-        router.openEventFragment(id)
+    fun openEvent(id: Long, title: String) {
+        router.openEventFragment(id, title)
     }
 
     fun openQrCodeScanner() {

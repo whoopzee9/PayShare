@@ -1,19 +1,51 @@
 package ru.spbstu.feature.event.presentation
 
+import android.os.Build
+import android.util.Log
+import androidx.annotation.RequiresApi
+import io.reactivex.android.schedulers.AndroidSchedulers
+import io.reactivex.rxkotlin.addTo
+import io.reactivex.schedulers.Schedulers
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
+import ru.spbstu.common.error.PayShareResult
+import ru.spbstu.common.model.EventError
+import ru.spbstu.common.model.EventState
 import ru.spbstu.common.utils.BackViewModel
 import ru.spbstu.common.utils.BundleDataWrapper
 import ru.spbstu.feature.FeatureRouter
+import ru.spbstu.feature.domain.model.Event
+import ru.spbstu.feature.domain.model.EventInfo
 import ru.spbstu.feature.domain.model.Expense
 import ru.spbstu.feature.domain.model.Shop
 import ru.spbstu.feature.domain.model.User
+import ru.spbstu.feature.domain.usecase.CreatePurchaseUseCase
+import ru.spbstu.feature.domain.usecase.DeletePurchaseUseCase
+import ru.spbstu.feature.domain.usecase.DeleteRoomUseCase
+import ru.spbstu.feature.domain.usecase.GetEventInfoUseCase
+import ru.spbstu.feature.domain.usecase.GetRoomCodeUseCase
+import ru.spbstu.feature.domain.usecase.SetPurchaseJoinUseCase
 import ru.spbstu.feature.mapSelect.ShopMapFragment
 import timber.log.Timber
 import java.time.LocalDateTime
 
-class EventViewModel(val router: FeatureRouter, val bundleDataWrapper: BundleDataWrapper) :
+@RequiresApi(Build.VERSION_CODES.O)
+class EventViewModel(
+    val router: FeatureRouter,
+    val bundleDataWrapper: BundleDataWrapper,
+    private val createPurchaseUseCase: CreatePurchaseUseCase,
+    private val getEventInfoUseCase: GetEventInfoUseCase,
+    private val getRoomCodeUseCase: GetRoomCodeUseCase,
+    private val deleteRoomUseCase: DeleteRoomUseCase,
+    private val deletePurchaseUseCase: DeletePurchaseUseCase,
+    private val setPurchaseJoinUseCase: SetPurchaseJoinUseCase
+) :
     BackViewModel(router) {
+    var roomId = 0L
+
+    var event: EventInfo = EventInfo()
+    var title: String = ""
+
     private val _purchases: MutableStateFlow<List<Expense>> = MutableStateFlow(listOf())
     val purchases get(): StateFlow<List<Expense>> = _purchases
 
@@ -24,122 +56,89 @@ class EventViewModel(val router: FeatureRouter, val bundleDataWrapper: BundleDat
         MutableStateFlow(ToolbarState.Initial)
     val toolbarState get(): StateFlow<ToolbarState> = _toolbarState
 
-    init {
-//        _purchases.value = listOf(
-//            Expense(
-//                id = 1,
-//                "cchuifvbcyh",
-//                "sdfsdfsf",
-//                false,
-//                User(1, "dasd", "dasd", "dasd"),
-//                LocalDateTime.now(),
-//                123.0,
-//                listOf(
-//                    1,
-//                    2,
-//                ).map { it to false }.toMap(),
-//                Shop(1, "fsdfsdf", 12.0, 23.9, listOf())
-//            ),
-//            Expense(
-//                id = 2,
-//                "qwe",
-//                "sdfsdfsf",
-//                false,
-//                User(1, "dasd", "dasd", "dasd"),
-//                LocalDateTime.now(),
-//                1230.0,
-//                listOf(
-//                    User(
-//                        1, "dasd", "dasd", "dasd",
-//                        "https://images.pexels.com/photos/614810/pexels-photo-614810.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=750&w=1260"
-//                    ),
-//                    User(
-//                        2, "Egor", "Egorov", "dasd",
-//                        "https://images.pexels.com/photos/4556737/pexels-photo-4556737.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=750&w=1260"
-//                    ),
-//                    User(
-//                        3,
-//                        "Anna",
-//                        "Vatlin",
-//                        "dasd",
-//                        "https://images.pexels.com/photos/1840608/pexels-photo-1840608.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=750&w=1260"
-//                    ),
-//                    User(
-//                        4,
-//                        "Veronika",
-//                        "Zemskaya",
-//                        "dasd",
-//                        "https://images.pexels.com/photos/2120114/pexels-photo-2120114.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=750&w=1260"
-//                    ),
-//                    User(
-//                        5,
-//                        "John",
-//                        "Martin",
-//                        "dasd",
-//                        "https://images.pexels.com/photos/2379005/pexels-photo-2379005.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=750&w=1260"
-//                    ),
-//                    User(
-//                        6,
-//                        "Demnos",
-//                        "Luter",
-//                        "dasd",
-//                        "https://images.pexels.com/photos/2071881/pexels-photo-2071881.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=750&w=1260"
-//                    ),
-//                    User(
-//                        7,
-//                        "Pavel",
-//                        "Pauls",
-//                        "dasd",
-//                        "https://images.pexels.com/photos/2743754/pexels-photo-2743754.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=750&w=1260"
-//                    ),
-//                ).map { it to false }.toMap(),
-//                Shop(1, "fsdfsdf", 12.0, 23.9, listOf())
-//            )
-//        )
-//        _users.value = _purchases.value.map { it.users.keys }.flatten().distinctBy { it.id }
+    fun loadPurchases() {
+        getEventInfoUseCase.invoke(roomId)
+            .subscribeOn(Schedulers.io())
+            .observeOn(AndroidSchedulers.mainThread())
+            .subscribe({
+                when (it) {
+                    is PayShareResult.Success -> {
+                        event = it.data
+                        _purchases.value = it.data.purchases
+                        _users.value = it.data.participants
+                        setEventState(EventState.Success)
+                    }
+                    is PayShareResult.Error -> {
+                        setEventState(EventState.Failure(it.error))
+                    }
+                }
+            }, {
+                setEventState(EventState.Failure(EventError.ConnectionError))
+            })
+            .addTo(disposable)
     }
 
-    fun setBoughtStatus(purchase: Expense) {
-        _purchases.value = _purchases.value.map {
-            if (it.isContentEqual(purchase)) {
-                it.copy(isBought = !purchase.isBought)
-            } else {
-                it
-            }
-        }
+    fun setBoughtStatus(purchase: Expense, isClicked: Boolean) {
+        setPurchaseJoinUseCase.invoke(roomId, purchase.id, event.yourParticipantId, isClicked)
+            .subscribeOn(Schedulers.io())
+            .observeOn(AndroidSchedulers.mainThread())
+            .subscribe({
+                when (it) {
+                    is PayShareResult.Success -> {
+                        loadPurchases()
+                        setEventState(EventState.Success)
+                    }
+                    is PayShareResult.Error -> {
+                        setEventState(EventState.Failure(it.error))
+                    }
+                }
+            }, {
+                setEventState(EventState.Failure(EventError.ConnectionError))
+            })
+            .addTo(disposable)
+//        _purchases.value = _purchases.value.map {
+//            if (it.isContentEqual(purchase)) {
+//                it.copy(isBought = !purchase.isBought)
+//            } else {
+//                it
+//            }
+//        }
     }
 
     fun createNewPurchase(
         textTitle: String,
         textPrice: String,
-        textDate: String,
-        textShop: String
+        textDate: String
     ) {
-
         val shop =
             (bundleDataWrapper.bundleData.value.getParcelable<Shop>(ShopMapFragment.DATA_KEY))
-
         if (shop != null) {
-            Timber.i("???? ${shop.latitude}, ${shop.longitude}}")
+            createPurchaseUseCase.invoke(
+                roomId,
+                Expense(
+                    name = textTitle,
+                    date = LocalDateTime.now(),
+                    purchaseShop = shop,
+                    price = textPrice.toDouble()
+                )
+            )
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe({
+                    when (it) {
+                        is PayShareResult.Success -> {
+                            loadPurchases()
+                            setEventState(EventState.Success)
+                        }
+                        is PayShareResult.Error -> {
+                            setEventState(EventState.Failure(it.error))
+                        }
+                    }
+                }, {
+                    setEventState(EventState.Failure(EventError.ConnectionError))
+                })
+                .addTo(disposable)
         }
-
-        // TODO send info by useCase
-        _purchases.value = _purchases.value + Expense(
-            444,
-            "",
-            textTitle,
-            false,
-            currentUser,
-            LocalDateTime.now(),
-            textPrice.toDouble(),
-            emptyMap(),
-            Shop(1, "fsdfsdf", 12.0, 23.9, listOf())
-        )
-        updateUsers()
-    }
-
-    private fun updateUsers() {
-        //_users.value = _purchases.value.map { it.users.keys }.flatten().distinctBy { it.id }
     }
 
     fun selectAllPurchases() {
@@ -148,12 +147,30 @@ class EventViewModel(val router: FeatureRouter, val bundleDataWrapper: BundleDat
     }
 
     fun openPurchase(expense: Expense) {
-        //TODO pass roomID
-        //router.openExpenseFragment(expense)
+        // TODO pass roomID
+        router.openExpenseFragment(roomId, expense, title)
     }
 
     fun shareRoomCode() {
-        router.openQrCodeSharingFragment("12588")
+        getRoomCodeUseCase.invoke(roomId)
+            .subscribeOn(Schedulers.io())
+            .observeOn(AndroidSchedulers.mainThread())
+            .subscribe({
+                when (it) {
+                    is PayShareResult.Success -> {
+                        setEventState(EventState.Success)
+                        Timber.i("CODE:${it.data}")
+                        Log.d("CODE", "${it.data}")
+                        router.openQrCodeSharingFragment(it.data.toString())
+                    }
+                    is PayShareResult.Error -> {
+                        setEventState(EventState.Failure(it.error))
+                    }
+                }
+            }, {
+                setEventState(EventState.Failure(EventError.ConnectionError))
+            })
+            .addTo(disposable)
     }
 
     fun changeToolbarState() {
@@ -165,6 +182,23 @@ class EventViewModel(val router: FeatureRouter, val bundleDataWrapper: BundleDat
 
     // TODO Delete success if user room owner
     fun deleteRoom() {
+        deleteRoomUseCase.invoke(roomId)
+            .subscribeOn(Schedulers.io())
+            .observeOn(AndroidSchedulers.mainThread())
+            .subscribe({
+                when (it) {
+                    is PayShareResult.Success -> {
+                        router.back()
+                        setEventState(EventState.Success)
+                    }
+                    is PayShareResult.Error -> {
+                        setEventState(EventState.Failure(it.error))
+                    }
+                }
+            }, {
+                setEventState(EventState.Failure(EventError.ConnectionError))
+            })
+            .addTo(disposable)
     }
 
     // TODO leave from room
@@ -173,10 +207,35 @@ class EventViewModel(val router: FeatureRouter, val bundleDataWrapper: BundleDat
 
     // TODO add method to delete purchase from list
     fun deletePurchase(expense: Expense) {
+        deletePurchaseUseCase.invoke(roomId, expense.id)
+            .subscribeOn(Schedulers.io())
+            .observeOn(AndroidSchedulers.mainThread())
+            .subscribe({
+                when (it) {
+                    is PayShareResult.Success -> {
+                        loadPurchases()
+                        setEventState(EventState.Success)
+                    }
+                    is PayShareResult.Error -> {
+                        setEventState(EventState.Failure(it.error))
+                    }
+                }
+            }, {
+                setEventState(EventState.Failure(EventError.ConnectionError))
+            })
+            .addTo(disposable)
     }
 
     // TODO add method to close purchase
     fun closePurchase(expense: Expense) {
+    }
+
+    fun setupRoomId(id: Long) {
+        roomId = id
+    }
+
+    fun openDebtFragment() {
+        router.openDebtFragment(roomId)
     }
 
     sealed class ToolbarState {
@@ -186,11 +245,5 @@ class EventViewModel(val router: FeatureRouter, val bundleDataWrapper: BundleDat
 
     companion object {
         // TODO add method to get current user
-        val currentUser = User(
-            11,
-            "Tolstolobik",
-            "Georgiy",
-            "https://avt-19.foto.mail.ru/mail/gt230800/_avatar180?1479972314&mrim=1"
-        )
     }
 }

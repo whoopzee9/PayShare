@@ -152,7 +152,7 @@ class QrCodeFragment : ToolbarFragment<QrCodeViewModel>(
             }
 
             eventDetailsDialogBinding.frgTimePickerDialogMbJoin.setDebounceClickListener {
-                viewModel.joinEvent(event.id)
+                viewModel.joinEvent(event)
                 eventDetailsDialog?.dismiss()
             }
 

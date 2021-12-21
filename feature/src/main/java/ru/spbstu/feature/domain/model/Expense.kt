@@ -3,7 +3,11 @@ package ru.spbstu.feature.domain.model
 import android.os.Parcelable
 import kotlinx.parcelize.Parcelize
 import ru.spbstu.common.base.BaseModel
+import ru.spbstu.feature.data.remote.model.body.PurchasesBody
+import ru.spbstu.feature.data.remote.model.response.LocationResponse
 import java.time.LocalDateTime
+import java.time.format.DateTimeFormatter
+import kotlin.math.roundToInt
 
 @Parcelize
 data class Expense(
@@ -23,4 +27,18 @@ data class Expense(
             this.date == other.date && this.price == other.price && this.users == other.users &&
             this.purchaseShop == other.purchaseShop
     }
+}
+
+fun Expense.toPurchaseBody(): PurchasesBody {
+    return PurchasesBody(
+        name = name,
+        location = LocationResponse(
+            purchaseShop.latitude,
+            purchaseShop.longitude,
+            name,
+            date = date.format(DateTimeFormatter.ofPattern("dd.MM.yy HH:mm")),
+            description
+        ),
+        cost = (price * 100).roundToInt()
+    )
 }

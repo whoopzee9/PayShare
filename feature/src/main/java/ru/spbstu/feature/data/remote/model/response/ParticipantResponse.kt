@@ -8,7 +8,7 @@ data class ParticipantResponse(
     val id: Long,
     @SerializedName("first_name")
     val firstName: String,
-    @SerializedName("last_name")
+    @SerializedName("second_name")
     val lastName: String,
     @SerializedName("image_url")
     val imageUrl: String

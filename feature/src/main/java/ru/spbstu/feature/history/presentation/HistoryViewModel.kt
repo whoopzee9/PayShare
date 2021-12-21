@@ -38,7 +38,7 @@ class HistoryViewModel(val router: FeatureRouter, private val getHistoryUseCase:
             .addTo(disposable)
     }
 
-    fun openEvent(id: Long) {
-        router.openEventFragment(id)
+    fun openEvent(id: Long, title: String) {
+        router.openEventFragment(id, title)
     }
 }

@@ -5,6 +5,7 @@ import ru.spbstu.common.error.PayShareResult
 import ru.spbstu.feature.data.source.FeatureDataSource
 import ru.spbstu.feature.domain.model.Event
 import ru.spbstu.feature.domain.model.EventInfo
+import ru.spbstu.feature.domain.model.Expense
 import ru.spbstu.feature.domain.model.Tokens
 import ru.spbstu.feature.domain.model.User
 import ru.spbstu.feature.domain.repository.FeatureRepository
@@ -55,5 +56,30 @@ class FeatureRepositoryImpl @Inject constructor(private val featureDataSource: F
         isPaid: Boolean
     ): Single<PayShareResult<Any>> {
         return featureDataSource.setPurchasePaid(roomId, purchaseId, participantId, isPaid)
+    }
+
+    override fun createPurchase(roomId: Long, expense: Expense): Single<PayShareResult<Any>> {
+        return featureDataSource.createPurchase(roomId, expense)
+    }
+
+    override fun getRoomCode(id: Long): Single<PayShareResult<Long>> {
+        return featureDataSource.getRoomCode(id)
+    }
+
+    override fun deleteRoom(roomId: Long): Single<PayShareResult<Any>> {
+        return featureDataSource.deleteRoom(roomId)
+    }
+
+    override fun deletePurchase(roomId: Long, purchaseId: Long): Single<PayShareResult<Any>> {
+        return featureDataSource.deletePurchase(roomId, purchaseId)
+    }
+
+    override fun setPurchaseJoin(
+        roomId: Long,
+        purchaseId: Long,
+        participantId: Long,
+        isJoined: Boolean
+    ): Single<PayShareResult<Any>> {
+        return featureDataSource.setPurchaseJoin(roomId, purchaseId, participantId, isJoined)
     }
 }

@@ -15,6 +15,6 @@ fun EventInfoResponse.toEventInfo(): EventInfo {
         yourParticipantId = yourParticipantId,
         ownerParticipantId = roomInfo.ownerParticipantId,
         participants = roomInfo.participants.map { it.toUser() },
-        purchases = roomInfo.purchases.map { it.toExpense() }
+        purchases = roomInfo.purchases?.map { it.toExpense() } ?: listOf()
     )
 }

@@ -1,5 +1,6 @@
 package ru.spbstu.feature.expense.presentation
 
+import android.util.Log
 import com.google.android.gms.maps.model.LatLng
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.rxkotlin.addTo
@@ -11,6 +12,7 @@ import ru.spbstu.common.model.EventError
 import ru.spbstu.common.model.EventState
 import ru.spbstu.common.utils.BackViewModel
 import ru.spbstu.feature.FeatureRouter
+import ru.spbstu.feature.domain.model.EventInfo
 import ru.spbstu.feature.domain.model.Expense
 import ru.spbstu.feature.domain.model.User
 import ru.spbstu.feature.domain.usecase.GetEventInfoUseCase
@@ -19,6 +21,8 @@ class ExpenseViewModel(
     val router: FeatureRouter,
     private val getEventInfoUseCase: GetEventInfoUseCase
 ) : BackViewModel(router) {
+
+    var eventInfo = EventInfo()
 
     private val _purchase: MutableStateFlow<Expense> = MutableStateFlow(Expense())
     val purchase get(): StateFlow<Expense> = _purchase
@@ -30,13 +34,14 @@ class ExpenseViewModel(
         MutableStateFlow(listOf())
     val mapShopCoordinates: MutableStateFlow<List<LatLng>> get() = _mapShopCoordinates
 
-    fun getData(roomId: Long, expenseId: Long) {
+    fun getData(roomId: Long, expenseId: Long, callback: () -> Unit) {
         getEventInfoUseCase.invoke(roomId)
             .subscribeOn(Schedulers.io())
             .observeOn(AndroidSchedulers.mainThread())
             .subscribe({
                 when (it) {
                     is PayShareResult.Success -> {
+                        eventInfo = it.data
                         _purchase.value =
                             it.data.purchases.first { expense -> expense.id == expenseId }
                         _users.value = it.data.participants.filter { user ->
@@ -45,6 +50,7 @@ class ExpenseViewModel(
                         val shop = purchase.value.purchaseShop
                         _mapShopCoordinates.value = listOf(LatLng(shop.latitude, shop.longitude))
                         setEventState(EventState.Success)
+                        callback()
                     }
                     is PayShareResult.Error -> {
                         setEventState(EventState.Failure(it.error))
