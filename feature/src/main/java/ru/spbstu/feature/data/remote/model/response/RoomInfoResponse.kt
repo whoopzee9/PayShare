@@ -8,5 +8,5 @@ data class RoomInfoResponse(
     @SerializedName("participants")
     val participants: List<ParticipantResponse>,
     @SerializedName("purchases")
-    val purchases: List<PurchasesResponse>
+    val purchases: List<PurchasesInfoResponse>
 )
