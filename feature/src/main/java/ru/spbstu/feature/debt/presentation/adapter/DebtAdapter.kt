@@ -29,9 +29,9 @@ class DebtAdapter(val onChecked: (Expense, Boolean) -> Unit) : BaseAdapter<Expen
             binding.itemPurchaseInfoPrice.isClickable = false
             val price = item.price / item.users.size
             binding.itemPurchaseInfoPrice.text = price.toString()
-            binding.itemPurchaseInfoCbPaid.visibility = if (item.isSharing) View.VISIBLE else View.GONE
+            //binding.itemPurchaseInfoCbPaid.visibility = if (item.isSharing) View.VISIBLE else View.GONE
             binding.itemPurchaseInfoCbPaid.setOnCheckedChangeListener(null)
-            binding.itemPurchaseInfoCbPaid.isChecked = item.isPaid
+            //binding.itemPurchaseInfoCbPaid.isChecked = item.isPaid
             binding.itemPurchaseInfoCbPaid.setOnCheckedChangeListener { compoundButton, b ->
                 onChecked(item, b)
             }

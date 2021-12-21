@@ -60,9 +60,9 @@ class DebtFragment: ToolbarFragment<DebtViewModel>(
                 binding.frgDebtTvTotalDebt.visibility = View.VISIBLE
                 var total = 0.0
                 it.forEach { expense ->
-                    if (expense.isSharing && !expense.isPaid) {
-                        total += expense.price / expense.users.size
-                    }
+//                    if (expense.isSharing && !expense.isPaid) {
+//                        total += expense.price / expense.users.size
+//                    }
                 }
                 binding.frgDebtTvTotalDebt.text = getString(R.string.total_debt_template, total)
             }
