@@ -13,6 +13,7 @@ import ru.spbstu.common.extenstions.setDebounceClickListener
 import ru.spbstu.common.extenstions.setLightStatusBar
 import ru.spbstu.common.extenstions.setStatusBarColor
 import ru.spbstu.common.extenstions.viewBinding
+import ru.spbstu.common.model.EventState
 import ru.spbstu.common.utils.PermissionUtils
 import ru.spbstu.common.utils.ToolbarFragment
 import ru.spbstu.feature.R
@@ -52,6 +53,16 @@ class QrCodeFragment : ToolbarFragment<QrCodeViewModel>(
 
     override fun subscribe() {
         super.subscribe()
+        viewModel.eventState.observe {
+            when (it) {
+                is EventState.Failure -> {
+                    binding.frgQrCodeCameraView.open()
+                }
+                EventState.Initial -> {}
+                EventState.Progress -> {}
+                EventState.Success -> {}
+            }
+        }
     }
 
     private fun initCamera() {
@@ -83,9 +94,6 @@ class QrCodeFragment : ToolbarFragment<QrCodeViewModel>(
                                 openEventDetailsDialog(barcode.rawValue ?: "")
                                 binding.frgQrCodeCameraView.close()
                                 true
-//                                Handler(Looper.getMainLooper()).postDelayed({
-//                                    binding.frgQrCodeCameraView.open()
-//                                }, STATUS_DELAY)
                             }
                         }
                     }.addOnFailureListener {
@@ -97,7 +105,7 @@ class QrCodeFragment : ToolbarFragment<QrCodeViewModel>(
     }
 
     private fun openEventDetailsDialog(barcode: String) {
-        viewModel.getEventInfo(barcode) { event ->
+        viewModel.showJoinEvent(barcode) { event ->
             if (eventDetailsDialog == null) {
                 eventDetailsDialog =
                     BottomSheetDialog(requireContext(), R.style.BottomSheetDialog_Theme)
@@ -144,7 +152,7 @@ class QrCodeFragment : ToolbarFragment<QrCodeViewModel>(
             }
 
             eventDetailsDialogBinding.frgTimePickerDialogMbJoin.setDebounceClickListener {
-                viewModel.openEventFragment(event.id)
+                viewModel.joinEvent(event.id)
                 eventDetailsDialog?.dismiss()
             }
 

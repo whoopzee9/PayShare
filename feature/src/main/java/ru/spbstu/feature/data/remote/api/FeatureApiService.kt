@@ -5,14 +5,16 @@ import retrofit2.Response
 import retrofit2.http.Body
 import retrofit2.http.GET
 import retrofit2.http.POST
+import retrofit2.http.PUT
 import retrofit2.http.Path
 import ru.spbstu.common.token.RefreshToken
 import ru.spbstu.feature.data.remote.model.body.AuthBody
 import ru.spbstu.feature.data.remote.model.body.EventBody
 import ru.spbstu.feature.data.remote.model.body.EventJoinBody
+import ru.spbstu.feature.data.remote.model.body.SetPurchasePaidBody
 import ru.spbstu.feature.data.remote.model.response.EventIdResponse
 import ru.spbstu.feature.data.remote.model.response.EventInfoResponse
-import ru.spbstu.feature.data.remote.model.response.EventResponse
+import ru.spbstu.feature.data.remote.model.response.RoomQRWrapper
 import ru.spbstu.feature.data.remote.model.response.RoomWrapper
 import ru.spbstu.feature.data.remote.model.response.TokensResponse
 import ru.spbstu.feature.data.remote.model.response.UserResponse
@@ -34,11 +36,21 @@ interface FeatureApiService {
     fun createEvent(@Body eventBody: EventBody): Single<Response<EventIdResponse>>
 
     @POST("/user/room/join")
-    fun joinEvent(@Body eventJoinBody: EventJoinBody): Single<Response<EventIdResponse>>
+    fun showJoinEvent(@Body eventJoinBody: EventJoinBody): Single<Response<RoomQRWrapper>>
+
+    @POST("/user/room/join/{room_id}")
+    fun joinEvent(@Path("room_id") id: Long): Single<Response<Void>>
 
     @GET("/user/room/closed")
     fun getHistory(): Single<Response<RoomWrapper>>
 
     @GET("/user/room/{room_id}")
     fun getEvent(@Path("room_id") roomId: Long): Single<Response<EventInfoResponse>>
+
+    @PUT("/user/room/{room_id}/purchase/{purchase_id}")
+    fun setPurchasePaid(
+        @Path("room_id") roomId: Long,
+        @Path("purchase_id") purchaseId: Long,
+        @Body setPurchasePaidBody: SetPurchasePaidBody
+    ): Single<Response<Void>>
 }
