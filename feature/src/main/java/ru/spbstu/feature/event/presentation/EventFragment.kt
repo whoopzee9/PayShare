@@ -171,11 +171,11 @@ class EventFragment : ToolbarFragment<EventViewModel>(
                         val textPrice = dialogBinding.frgAddPurchaseDialogEtPrice
                         val textDate = dialogBinding.frgAddPurchaseDialogEtDate
                         val textShop = dialogBinding.frgAddPurchaseDialogEtShop
-                        Timber.i("???? clicked")
-                        Log.d("TAGG","dfdjfdj")
+
+
                         viewModel.createNewPurchase(
                             textTitle.text.toString(), textPrice.text.toString(),
-                            textDate.text.toString(), textShop.text.toString()
+                            textDate.text.toString()
                         )
                         // TODO fix clearing when edit opened after adding action
                         textTitle.text?.clear()

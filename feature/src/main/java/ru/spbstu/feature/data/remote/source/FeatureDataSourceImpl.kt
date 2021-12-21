@@ -13,8 +13,10 @@ import ru.spbstu.feature.data.remote.model.response.toEvent
 import ru.spbstu.feature.data.remote.model.response.toUser
 import ru.spbstu.feature.data.source.FeatureDataSource
 import ru.spbstu.feature.domain.model.Event
+import ru.spbstu.feature.domain.model.Expense
 import ru.spbstu.feature.domain.model.Tokens
 import ru.spbstu.feature.domain.model.User
+import ru.spbstu.feature.domain.model.toPurchaseBody
 import timber.log.Timber
 import javax.inject.Inject
 
@@ -129,6 +131,20 @@ class FeatureDataSourceImpl @Inject constructor(private val featureApiService: F
                 }
                 else -> {
                     PayShareResult.Error(EventError.EventNotFound)
+                }
+            }
+        }
+    }
+
+    override fun createPurchase(roomId: Long, expense: Expense): Single<PayShareResult<Any>> {
+        return featureApiService.createPurchase(roomId, expense.toPurchaseBody()).map {
+            when {
+                it.isSuccessful -> {
+                    tokenRepositoryImpl.clearTokens()
+                    PayShareResult.Success(it)
+                }
+                else -> {
+                    PayShareResult.Error(EventError.UnknownError)
                 }
             }
         }

@@ -1,7 +1,11 @@
 package ru.spbstu.feature.domain.model
 
 import ru.spbstu.common.base.BaseModel
+import ru.spbstu.feature.data.remote.model.body.PurchasesBody
+import ru.spbstu.feature.data.remote.model.response.LocationResponse
 import java.time.LocalDateTime
+import java.time.format.DateTimeFormatter
+import kotlin.math.roundToInt
 
 data class Expense(
     override val id: Long = -1,
@@ -23,4 +27,18 @@ data class Expense(
             this.purchaseShop == other.purchaseShop && this.isPaid == other.isPaid &&
             this.isSharing == other.isSharing
     }
+}
+
+fun Expense.toPurchaseBody(): PurchasesBody {
+    return PurchasesBody(
+        name = name,
+        location = LocationResponse(
+            purchaseShop.latitude,
+            purchaseShop.longitude,
+            name,
+            date = date.format(DateTimeFormatter.ofPattern("dd.MM.yy HH:mm")),
+            description
+        ),
+        cost = price.roundToInt()
+    )
 }

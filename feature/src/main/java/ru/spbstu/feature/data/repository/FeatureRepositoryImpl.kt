@@ -4,6 +4,7 @@ import io.reactivex.Single
 import ru.spbstu.common.error.PayShareResult
 import ru.spbstu.feature.data.source.FeatureDataSource
 import ru.spbstu.feature.domain.model.Event
+import ru.spbstu.feature.domain.model.Expense
 import ru.spbstu.feature.domain.model.Tokens
 import ru.spbstu.feature.domain.model.User
 import ru.spbstu.feature.domain.repository.FeatureRepository
@@ -33,5 +34,9 @@ class FeatureRepositoryImpl @Inject constructor(private val featureDataSource: F
 
     override fun joinEvent(code: String): Single<PayShareResult<Long>> {
         return featureDataSource.joinEvent(code)
+    }
+
+    override fun createPurchase(roomId:Long,expense: Expense): Single<PayShareResult<Any>> {
+        return featureDataSource.createPurchase(roomId, expense)
     }
 }

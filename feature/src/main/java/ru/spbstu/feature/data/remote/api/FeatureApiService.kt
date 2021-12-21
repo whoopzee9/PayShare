@@ -5,12 +5,13 @@ import retrofit2.Response
 import retrofit2.http.Body
 import retrofit2.http.GET
 import retrofit2.http.POST
+import retrofit2.http.Path
 import ru.spbstu.common.token.RefreshToken
 import ru.spbstu.feature.data.remote.model.body.AuthBody
 import ru.spbstu.feature.data.remote.model.body.EventBody
 import ru.spbstu.feature.data.remote.model.body.EventJoinBody
+import ru.spbstu.feature.data.remote.model.body.PurchasesBody
 import ru.spbstu.feature.data.remote.model.response.EventIdResponse
-import ru.spbstu.feature.data.remote.model.response.EventResponse
 import ru.spbstu.feature.data.remote.model.response.RoomWrapper
 import ru.spbstu.feature.data.remote.model.response.TokensResponse
 import ru.spbstu.feature.data.remote.model.response.UserResponse
@@ -33,4 +34,8 @@ interface FeatureApiService {
 
     @POST("/user/room/join")
     fun joinEvent(@Body eventJoinBody: EventJoinBody): Single<Response<EventIdResponse>>
+
+    @POST("/user/room/{room_id}/purchase")
+    fun createPurchase(@Path("room_id") roomId: Long, @Body purchaseBody: PurchasesBody):
+        Single<Response<Void>>
 }
