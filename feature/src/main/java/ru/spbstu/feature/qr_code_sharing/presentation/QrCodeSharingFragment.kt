@@ -51,7 +51,7 @@ class QrCodeSharingFragment : ToolbarFragment<QrCodeSharingViewModel>(
 
     private fun setupQrCodeGenerator() {
         lifecycleScope.launch {
-            delay(300)
+            //delay(300)
             val code = viewModel.code
             val writer = QRCodeWriter()
             try {

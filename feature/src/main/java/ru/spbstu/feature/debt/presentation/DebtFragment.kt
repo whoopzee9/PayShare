@@ -50,7 +50,7 @@ class DebtFragment: ToolbarFragment<DebtViewModel>(
     }
 
     private fun initAdapter() {
-        adapter = DebtAdapter(viewModel.debts.value.yourParticipantId, viewModel::onDebtChecked)
+        adapter = DebtAdapter(viewModel.debts.value, viewModel::onDebtChecked)
         binding.frgDebtRvDebts.adapter = adapter
     }
 
@@ -77,7 +77,7 @@ class DebtFragment: ToolbarFragment<DebtViewModel>(
                 }
                 binding.frgDebtTvTotalDebt.text = getString(R.string.total_debt_template, total)
             }
-            adapter.yourId = it.yourParticipantId
+            adapter.eventInfo = it
             adapter.bindData(it.purchases)
         }
     }

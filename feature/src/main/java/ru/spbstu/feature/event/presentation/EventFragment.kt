@@ -3,6 +3,7 @@ package ru.spbstu.feature.event.presentation
 import android.os.Bundle
 import android.view.ViewGroup
 import android.widget.Toast
+import androidx.core.widget.addTextChangedListener
 import com.google.android.material.bottomsheet.BottomSheetBehavior
 import com.google.android.material.bottomsheet.BottomSheetDialog
 import ru.spbstu.common.di.FeatureUtils
@@ -217,6 +218,7 @@ class EventFragment : ToolbarFragment<EventViewModel>(
                     shop?.name
                 )
             }
+
             purchaseItemAddingDialog?.setContentView(dialogBinding.root)
             purchaseItemAddingDialog?.behavior?.state = BottomSheetBehavior.STATE_EXPANDED
         }

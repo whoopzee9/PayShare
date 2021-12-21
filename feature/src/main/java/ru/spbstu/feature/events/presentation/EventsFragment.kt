@@ -2,6 +2,7 @@ package ru.spbstu.feature.events.presentation
 
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.widget.addTextChangedListener
 import com.google.android.material.bottomsheet.BottomSheetBehavior
 import com.google.android.material.bottomsheet.BottomSheetDialog
 import ru.spbstu.common.di.FeatureUtils
@@ -139,6 +140,12 @@ class EventsFragment : ToolbarFragment<EventsViewModel>(
             addingDialogBinding.frgAddEventDialogEtDate.setDebounceClickListener {
                 calendarFragment.show(parentFragmentManager, DATE_DIALOG_TAG)
             }
+            addingDialogBinding.frgAddEventDialogMbSave.isEnabled = !addingDialogBinding.frgAddEventDialogEtTitle.text.isNullOrEmpty()
+
+            addingDialogBinding.frgAddEventDialogEtTitle.addTextChangedListener {
+                addingDialogBinding.frgAddEventDialogMbSave.isEnabled = !addingDialogBinding.frgAddEventDialogEtTitle.text.isNullOrEmpty()
+            }
+
             addingDialogBinding.frgAddEventDialogMbSave.setDebounceClickListener {
                 val date =
                     "${addingDialogBinding.frgAddEventDialogEtDate.text} ${addingDialogBinding.frgAddEventDialogEtTime.text}"
