@@ -30,8 +30,8 @@
         android:clipToPadding="false"
         android:orientation="horizontal"
         android:overScrollMode="never"
-        android:visibility="visible"
         android:paddingStart="@dimen/dp_16"
+        android:visibility="visible"
         app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -116,5 +116,17 @@
         app:layout_constraintStart_toStartOf="@+id/frg__event__tv_purchase_sum"
         app:layout_constraintTop_toBottomOf="@+id/frg__event__tv_purchase_sum"
         tools:text="1488 руб" />
+
+    <ImageButton
+        android:id="@+id/frg__event__ib_debt"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/dp_10"
+        android:background="@android:color/transparent"
+        android:src="@drawable/ic_forward_24"
+        app:layout_constraintBottom_toBottomOf="@+id/frg__event__tv_purchase_sum"
+        app:layout_constraintStart_toEndOf="@+id/frg__event__tv_purchase_sum"
+        app:layout_constraintTop_toTopOf="@+id/frg__event__tv_purchase_sum"
+        app:layout_constraintVertical_bias="1.0" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

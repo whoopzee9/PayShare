@@ -7,6 +7,7 @@ import androidx.navigation.NavDestination
 import org.greenrobot.eventbus.EventBus
 import ru.spbstu.common.events.SetBottomNavVisibility
 import ru.spbstu.feature.FeatureRouter
+import ru.spbstu.feature.debt.presentation.DebtFragment
 import ru.spbstu.feature.domain.model.Expense
 import ru.spbstu.feature.event.presentation.EventFragment
 import ru.spbstu.feature.expense.presentation.ExpenseFragment
@@ -102,12 +103,23 @@ class Navigator : FeatureRouter {
         }
     }
 
-    override fun openExpenseFragment(roomId:Long, expense: Expense) {
+    override fun openExpenseFragment(roomId: Long, expense: Expense) {
         when (navController?.currentDestination?.id) {
             R.id.eventFragment -> {
                 val bundle = ExpenseFragment.makeBundle(roomId, expense.id)
                 navController?.navigate(
                     R.id.action_eventFragment_to_expenseFragment, bundle
+                )
+            }
+        }
+    }
+
+    override fun openDebtFragment(roomId: Long) {
+        when (navController?.currentDestination?.id) {
+            R.id.eventFragment -> {
+                val bundle = DebtFragment.makeBundle(roomId)
+                navController?.navigate(
+                    R.id.action_eventFragment_to_debtFragment, bundle
                 )
             }
         }
@@ -129,7 +141,8 @@ class Navigator : FeatureRouter {
             R.id.qrCodeFragment,
             R.id.eventFragment,
             R.id.shareQrCodeFragment,
-            R.id.expenseFragment
+            R.id.expenseFragment,
+            R.id.debtFragment
         )
     }
 }

@@ -11,4 +11,5 @@ interface FeatureRouter : BaseBackRouter {
     fun openEventFragment(id: Long)
     fun openQrCodeSharingFragment(code: String)
     fun openExpenseFragment(roomId:Long, expense: Expense)
+    fun openDebtFragment(roomId: Long)
 }

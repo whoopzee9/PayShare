@@ -98,6 +98,12 @@ class EventFragment : ToolbarFragment<EventViewModel>(
                 binding.frgEventFabEdit.setDebounceClickListener {
                     handleEditButtonClick()
                 }
+                binding.frgEventIbDebt.setDebounceClickListener {
+                    viewModel.openDebtFragment()
+                }
+                binding.frgEventTvPurchaseSum.setDebounceClickListener {
+                    viewModel.openDebtFragment()
+                }
                 initPurchaseOptionsDialog()
             }
 

@@ -130,7 +130,7 @@ class EventViewModel(
                     is PayShareResult.Success -> {
                         setEventState(EventState.Success)
                         Timber.i("CODE:${it.data}")
-                        Log.d("CODE","${it.data}")
+                        Log.d("CODE", "${it.data}")
                         router.openQrCodeSharingFragment(it.data.toString())
                     }
                     is PayShareResult.Error -> {
@@ -168,6 +168,10 @@ class EventViewModel(
 
     fun setupRoomId(id: Long) {
         roomId = id
+    }
+
+    fun openDebtFragment() {
+        router.openDebtFragment(roomId)
     }
 
     sealed class ToolbarState {
