@@ -30,7 +30,7 @@ buildscript {
         rxjavaVersion = '2.2.21'
         rxandroidVersion = '2.1.1'
         rxkotlinVersion = '2.4.0'
-        gsonVersion ='2.8.7'
+        gsonVersion = '2.8.7'
 
         eventBusVersion = '3.2.0'
 
@@ -69,6 +69,12 @@ buildscript {
 
         qrCodeGeneratorVersion = '4.3.0'
 
+        junitFiveVersion = '5.8.2'
+        junitExtVersion = '1.1.3'
+        mockitoVersion = '4.3.1'
+        mockitoExtVersion = '4.0.0'
+        espressoVersion = '3.4.0'
+
 
         kotlinDep = "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlinVersion"
 
@@ -100,7 +106,7 @@ buildscript {
 
         okHttpDep = "com.squareup.okhttp3:okhttp:$okhttpVersion"
         okHttpLoggingDep = "com.squareup.okhttp3:logging-interceptor:$okhttpVersion"
-        retrofitDep ="com.squareup.retrofit2:retrofit:$retrofitVersion"
+        retrofitDep = "com.squareup.retrofit2:retrofit:$retrofitVersion"
         retrofitAdapterDep = "com.squareup.retrofit2:adapter-rxjava2:$retrofitVersion"
         rxJavaDep = "io.reactivex.rxjava2:rxjava:$rxjavaVersion"
         rxAndroidDep = "io.reactivex.rxjava2:rxandroid:$rxandroidVersion"
@@ -140,7 +146,13 @@ buildscript {
         googleMapKitDep = "com.google.android.gms:play-services-maps:$googleMapKitVersion"
         googleLocationServicesDep = "com.google.android.gms:play-services-location:$googleLocationServicesVersion"
 
-        qrCodeGeneratorDep ="com.journeyapps:zxing-android-embedded:$qrCodeGeneratorVersion"
+        qrCodeGeneratorDep = "com.journeyapps:zxing-android-embedded:$qrCodeGeneratorVersion"
+
+        junitFiveDep = "org.junit.jupiter:junit-jupiter-api:$junitFiveVersion"
+        junitExtDep = "androidx.test.ext:junit:$junitExtVersion"
+        mockitoDep = "org.mockito:mockito-core:$mockitoVersion"
+        mockitoExt = "org.mockito.kotlin:mockito-kotlin:$mockitoExtVersion"
+        espressoDep = "androidx.test.espresso:espresso-core:$espressoVersion"
     }
 
     ext.kotlin_version = "1.5.30"
