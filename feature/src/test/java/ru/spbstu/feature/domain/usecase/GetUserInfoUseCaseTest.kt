@@ -12,12 +12,12 @@ import ru.spbstu.feature.domain.repository.FeatureRepository
 class GetUserInfoUseCaseTest {
     private val repository = mock<FeatureRepository>()
     private val testUser = User(id = 1, firstName = "Georgy", "Tolstolbikov", "")
+    private val rxSingleTestUser: Single<PayShareResult<User>> =
+        Single.just(PayShareResult.Success(testUser))
+
 
     @Test
     fun `should return user info`() {
-        val rxSingleTestUser: Single<PayShareResult<User>> =
-            Single.just(PayShareResult.Success(testUser))
-
         Mockito.`when`(repository.getUserInfo()).thenReturn(rxSingleTestUser)
         GetUserInfoUseCase(repository)
             .invoke().test().assertValue {
@@ -27,9 +27,6 @@ class GetUserInfoUseCaseTest {
 
     @Test
     fun `should return user info method 2`() {
-        val rxSingleTestUser: Single<PayShareResult<User>> =
-            Single.just(PayShareResult.Success(testUser))
-
         Mockito.`when`(repository.getUserInfo()).thenReturn(rxSingleTestUser)
         GetUserInfoUseCase(repository)
             .invoke().test().assertValue {
