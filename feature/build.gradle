@@ -3,6 +3,7 @@ plugins {
     id 'kotlin-android'
     id 'kotlin-kapt'
     id 'kotlin-parcelize'
+    id 'de.mannodermaus.android-junit5'
 }
 
 android {
@@ -109,7 +110,11 @@ dependencies {
 
     implementation qrCodeGeneratorDep
 
-    testImplementation junitFiveDep
+
+    testImplementation jUnitDep
+    testImplementation jUnitParamsDep
+    testRuntimeOnly jUnitEngineDep
+
     testImplementation mockitoDep
     testImplementation mockitoExt
 }
