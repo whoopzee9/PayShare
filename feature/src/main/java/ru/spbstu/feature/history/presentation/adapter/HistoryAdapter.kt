@@ -9,6 +9,7 @@ import ru.spbstu.common.extenstions.viewBinding
 import ru.spbstu.feature.R
 import ru.spbstu.feature.databinding.ItemEventsBinding
 import ru.spbstu.feature.domain.model.Event
+import ru.spbstu.feature.utils.Utils
 import java.time.format.DateTimeFormatter
 
 class HistoryAdapter(val onItemClick: (Long, String) -> Unit) : BaseAdapter<Event, HistoryAdapter.HistoryViewHolder>() {
@@ -25,9 +26,8 @@ class HistoryAdapter(val onItemClick: (Long, String) -> Unit) : BaseAdapter<Even
         }
 
         override fun bind(item: Event) {
-            var totalPrice = 0.0
+            val totalPrice = Utils.calculateTotalPrice(item.expenses)
             this.item = item
-            item.expenses.forEach { totalPrice += it.price }
             binding.itemEventsTvTotalPrice.text =
                 binding.root.context.getString(R.string.total_price_template, totalPrice)
             binding.itemEventsTvTotalAmount.text = item.expenses.size.toString()

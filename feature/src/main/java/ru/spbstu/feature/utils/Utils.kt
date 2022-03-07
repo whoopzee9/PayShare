@@ -15,4 +15,10 @@ object Utils {
         }
         return total
     }
+
+    fun calculateTotalPrice(list: List<Expense>): Double {
+        var totalPrice = 0.0
+        list.forEach { totalPrice += it.price }
+        return totalPrice
+    }
 }

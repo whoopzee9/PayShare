@@ -21,6 +21,7 @@ import ru.spbstu.feature.databinding.FragmentQrCodeBinding
 import ru.spbstu.feature.databinding.FragmentQrCodeSuccessDialogBinding
 import ru.spbstu.feature.di.FeatureApi
 import ru.spbstu.feature.di.FeatureComponent
+import ru.spbstu.feature.utils.Utils
 import timber.log.Timber
 import java.time.format.DateTimeFormatter
 
@@ -115,8 +116,7 @@ class QrCodeFragment : ToolbarFragment<QrCodeViewModel>(
                 eventDetailsDialog?.setContentView(eventDetailsDialogBinding.root)
             }
 
-            var totalPrice = 0.0
-            event.expenses.forEach { totalPrice += it.price }
+            val totalPrice = Utils.calculateTotalPrice(event.expenses)
             eventDetailsDialogBinding.frgTimePickerDialogTvTotalPrice.text =
                 binding.root.context.getString(R.string.total_price_template, totalPrice)
             eventDetailsDialogBinding.frgTimePickerDialogTvTotalAmount.text =

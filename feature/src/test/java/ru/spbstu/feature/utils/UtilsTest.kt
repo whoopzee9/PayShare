@@ -126,4 +126,24 @@ class UtilsTest {
         val debt = Utils.calculateTotalDebt(list, 1L)
         assertEquals(debt, 0.0)
     }
+
+    @Test
+    fun `should calculate total price`() {
+        val list = listOf(
+            Expense(
+                id = 1,
+                users = mapOf(1L to true, 2L to false, 3L to false, 4L to false),
+                buyer = User(id = 2),
+                price = 100.0
+            ),
+            Expense(
+                id = 2,
+                users = mapOf(1L to true, 2L to false, 3L to false, 4L to false),
+                buyer = User(id = 3),
+                price = 200.0
+            )
+        )
+        val total = Utils.calculateTotalPrice(list)
+        assertEquals(total, 300.0)
+    }
 }
