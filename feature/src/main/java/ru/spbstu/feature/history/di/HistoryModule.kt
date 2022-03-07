@@ -9,6 +9,7 @@ import dagger.multibindings.IntoMap
 import ru.spbstu.common.di.viewmodel.ViewModelKey
 import ru.spbstu.common.di.viewmodel.ViewModelModule
 import ru.spbstu.feature.FeatureRouter
+import ru.spbstu.feature.domain.usecase.GetHistoryUseCase
 import ru.spbstu.feature.history.presentation.HistoryViewModel
 
 
@@ -22,8 +23,8 @@ class HistoryModule {
     @Provides
     @IntoMap
     @ViewModelKey(HistoryViewModel::class)
-    fun provideViewModel(router: FeatureRouter): ViewModel {
-        return HistoryViewModel(router)
+    fun provideViewModel(router: FeatureRouter, getHistoryUseCase: GetHistoryUseCase): ViewModel {
+        return HistoryViewModel(router, getHistoryUseCase)
     }
 
     @Provides

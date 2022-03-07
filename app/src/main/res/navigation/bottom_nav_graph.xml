@@ -5,11 +5,21 @@
     android:id="@+id/bottom_nav_graph"
     app:startDestination="@id/eventsFragment">
 
+    <action
+        android:id="@+id/open_login_fragment"
+        app:destination="@id/loginFragment"
+        app:enterAnim="@anim/nav_default_enter_anim"
+        app:exitAnim="@anim/nav_default_exit_anim"
+        app:popEnterAnim="@anim/nav_default_pop_enter_anim"
+        app:popExitAnim="@anim/nav_default_pop_exit_anim"
+        app:popUpTo="@id/bottom_nav_graph"
+        app:popUpToInclusive="true" />
+
     <fragment
         android:id="@+id/loginFragment"
         android:name="ru.spbstu.feature.login.presentation.LoginFragment"
         android:label="LoginFragment"
-        tools:layout="@layout/fragment_login" >
+        tools:layout="@layout/fragment_login">
         <action
             android:id="@+id/action_loginFragment_to_eventsFragment"
             app:destination="@id/eventsFragment"
@@ -17,56 +27,63 @@
             app:exitAnim="@anim/nav_default_exit_anim"
             app:popEnterAnim="@anim/nav_default_pop_enter_anim"
             app:popExitAnim="@anim/nav_default_pop_exit_anim"
-            app:popUpTo="@id/eventsFragment"/>
+            app:popUpTo="@id/eventsFragment" />
     </fragment>
 
     <fragment
         android:id="@+id/eventsFragment"
         android:name="ru.spbstu.feature.events.presentation.EventsFragment"
         android:label="EventsFragment"
-        tools:layout="@layout/fragment_events" >
+        tools:layout="@layout/fragment_events">
         <action
             android:id="@+id/action_eventsFragment_to_eventFragment"
             app:destination="@id/eventFragment"
             app:enterAnim="@anim/open_fragment_slide_right"
             app:exitAnim="@anim/close_fragment_slide_left"
             app:popEnterAnim="@anim/open_fragment_slide_left"
-            app:popExitAnim="@anim/close_fragment_slide_right"/>
+            app:popExitAnim="@anim/close_fragment_slide_right" />
         <action
             android:id="@+id/action_eventsFragment_to_qrCodeFragment"
             app:destination="@id/qrCodeFragment"
             app:enterAnim="@anim/open_fragment_slide_right"
             app:exitAnim="@anim/close_fragment_slide_left"
             app:popEnterAnim="@anim/open_fragment_slide_left"
-            app:popExitAnim="@anim/close_fragment_slide_right"/>
+            app:popExitAnim="@anim/close_fragment_slide_right" />
         <action
             android:id="@+id/action_eventsFragment_to_loginFragment"
             app:destination="@id/loginFragment"
             app:enterAnim="@anim/open_fragment_slide_right"
             app:exitAnim="@anim/close_fragment_slide_left"
             app:popEnterAnim="@anim/open_fragment_slide_left"
-            app:popExitAnim="@anim/close_fragment_slide_right"/>
+            app:popExitAnim="@anim/close_fragment_slide_right" />
     </fragment>
 
     <fragment
         android:id="@+id/eventFragment"
         android:name="ru.spbstu.feature.event.presentation.EventFragment"
         android:label="EventFragment"
-        tools:layout="@layout/fragment_event" >
+        tools:layout="@layout/fragment_event">
         <action
             android:id="@+id/action_eventFragment_to_expenseFragment"
             app:destination="@id/expenseFragment"
             app:enterAnim="@anim/open_fragment_slide_right"
             app:exitAnim="@anim/close_fragment_slide_left"
             app:popEnterAnim="@anim/open_fragment_slide_left"
-            app:popExitAnim="@anim/close_fragment_slide_right"/>
+            app:popExitAnim="@anim/close_fragment_slide_right" />
         <action
             android:id="@+id/action_eventFragment_to_debtFragment"
             app:destination="@id/debtFragment"
             app:enterAnim="@anim/open_fragment_slide_right"
             app:exitAnim="@anim/close_fragment_slide_left"
             app:popEnterAnim="@anim/open_fragment_slide_left"
-            app:popExitAnim="@anim/close_fragment_slide_right"/>
+            app:popExitAnim="@anim/close_fragment_slide_right" />
+        <action
+            android:id="@+id/action_eventFragment_to_shareQrCodeFragment"
+            app:destination="@id/shareQrCodeFragment"
+            app:enterAnim="@anim/open_fragment_slide_right"
+            app:exitAnim="@anim/close_fragment_slide_left"
+            app:popEnterAnim="@anim/open_fragment_slide_left"
+            app:popExitAnim="@anim/close_fragment_slide_right" />
     </fragment>
 
     <fragment
@@ -85,21 +102,21 @@
         android:id="@+id/historyFragment"
         android:name="ru.spbstu.feature.history.presentation.HistoryFragment"
         android:label="HistoryFragment"
-        tools:layout="@layout/fragment_history" >
+        tools:layout="@layout/fragment_history">
         <action
             android:id="@+id/action_historyFragment_to_eventFragment"
             app:destination="@id/eventFragment"
             app:enterAnim="@anim/open_fragment_slide_right"
             app:exitAnim="@anim/close_fragment_slide_left"
             app:popEnterAnim="@anim/open_fragment_slide_left"
-            app:popExitAnim="@anim/close_fragment_slide_right"/>
+            app:popExitAnim="@anim/close_fragment_slide_right" />
     </fragment>
 
     <fragment
         android:id="@+id/profileFragment"
         android:name="ru.spbstu.feature.profile.presentation.ProfileFragment"
         android:label="ProfileFragment"
-        tools:layout="@layout/fragment_profile"/>
+        tools:layout="@layout/fragment_profile" />
 
     <fragment
         android:id="@+id/qrCodeFragment"
@@ -112,6 +129,12 @@
             app:enterAnim="@anim/open_fragment_slide_right"
             app:exitAnim="@anim/close_fragment_slide_left"
             app:popEnterAnim="@anim/open_fragment_slide_left"
-            app:popExitAnim="@anim/close_fragment_slide_right"/>
+            app:popExitAnim="@anim/close_fragment_slide_right" />
     </fragment>
+
+    <fragment
+        android:id="@+id/shareQrCodeFragment"
+        android:name="ru.spbstu.feature.qr_code_sharing.presentation.QrCodeSharingFragment"
+        android:label="QrCodeSharingFragment"
+        tools:layout="@layout/fragment_qr_code_sharing" />
 </navigation>

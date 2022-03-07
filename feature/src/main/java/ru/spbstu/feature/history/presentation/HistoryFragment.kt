@@ -32,6 +32,7 @@ class HistoryFragment: ToolbarFragment<HistoryViewModel>(
         requireActivity().setStatusBarColor(R.color.toolbar_background_color_primary)
         requireView().clearLightStatusBar()
         initAdapter()
+        viewModel.getEvents()
     }
 
     override fun inject() {

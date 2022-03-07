@@ -1,7 +1,5 @@
 package ru.spbstu.feature.qr_code.presentation
 
-import android.os.Handler
-import android.os.Looper
 import android.view.View
 import android.view.ViewGroup
 import com.google.android.material.bottomsheet.BottomSheetBehavior
@@ -15,6 +13,7 @@ import ru.spbstu.common.extenstions.setDebounceClickListener
 import ru.spbstu.common.extenstions.setLightStatusBar
 import ru.spbstu.common.extenstions.setStatusBarColor
 import ru.spbstu.common.extenstions.viewBinding
+import ru.spbstu.common.model.EventState
 import ru.spbstu.common.utils.PermissionUtils
 import ru.spbstu.common.utils.ToolbarFragment
 import ru.spbstu.feature.R
@@ -24,7 +23,6 @@ import ru.spbstu.feature.di.FeatureApi
 import ru.spbstu.feature.di.FeatureComponent
 import timber.log.Timber
 import java.time.format.DateTimeFormatter
-
 
 class QrCodeFragment : ToolbarFragment<QrCodeViewModel>(
     R.layout.fragment_qr_code,
@@ -55,7 +53,16 @@ class QrCodeFragment : ToolbarFragment<QrCodeViewModel>(
 
     override fun subscribe() {
         super.subscribe()
-
+        viewModel.eventState.observe {
+            when (it) {
+                is EventState.Failure -> {
+                    binding.frgQrCodeCameraView.open()
+                }
+                EventState.Initial -> {}
+                EventState.Progress -> {}
+                EventState.Success -> {}
+            }
+        }
     }
 
     private fun initCamera() {
@@ -87,9 +94,6 @@ class QrCodeFragment : ToolbarFragment<QrCodeViewModel>(
                                 openEventDetailsDialog(barcode.rawValue ?: "")
                                 binding.frgQrCodeCameraView.close()
                                 true
-//                                Handler(Looper.getMainLooper()).postDelayed({
-//                                    binding.frgQrCodeCameraView.open()
-//                                }, STATUS_DELAY)
                             }
                         }
                     }.addOnFailureListener {
@@ -101,7 +105,7 @@ class QrCodeFragment : ToolbarFragment<QrCodeViewModel>(
     }
 
     private fun openEventDetailsDialog(barcode: String) {
-        viewModel.getEventInfo(barcode) { event ->
+        viewModel.showJoinEvent(barcode) { event ->
             if (eventDetailsDialog == null) {
                 eventDetailsDialog =
                     BottomSheetDialog(requireContext(), R.style.BottomSheetDialog_Theme)
@@ -148,7 +152,7 @@ class QrCodeFragment : ToolbarFragment<QrCodeViewModel>(
             }
 
             eventDetailsDialogBinding.frgTimePickerDialogMbJoin.setDebounceClickListener {
-                viewModel.openEventFragment(event)
+                viewModel.joinEvent(event)
                 eventDetailsDialog?.dismiss()
             }
 
@@ -160,7 +164,6 @@ class QrCodeFragment : ToolbarFragment<QrCodeViewModel>(
             eventDetailsDialog?.show()
         }
     }
-
 
     companion object {
         private const val STATUS_DELAY: Long = 3000

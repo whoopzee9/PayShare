@@ -1,93 +1,44 @@
 package ru.spbstu.feature.history.presentation
 
+import io.reactivex.android.schedulers.AndroidSchedulers
+import io.reactivex.rxkotlin.addTo
+import io.reactivex.schedulers.Schedulers
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
+import ru.spbstu.common.error.PayShareResult
+import ru.spbstu.common.model.EventError
+import ru.spbstu.common.model.EventState
 import ru.spbstu.common.utils.BackViewModel
 import ru.spbstu.feature.FeatureRouter
 import ru.spbstu.feature.domain.model.Event
-import ru.spbstu.feature.domain.model.Expense
-import ru.spbstu.feature.domain.model.Shop
-import ru.spbstu.feature.domain.model.User
-import java.time.LocalDateTime
+import ru.spbstu.feature.domain.usecase.GetHistoryUseCase
 
-class HistoryViewModel(val router: FeatureRouter) : BackViewModel(router) {
+class HistoryViewModel(val router: FeatureRouter, private val getHistoryUseCase: GetHistoryUseCase) : BackViewModel(router) {
     private val _events: MutableStateFlow<List<Event>> = MutableStateFlow(listOf())
-    val events get() :StateFlow<List<Event>> = _events
+    val events get(): StateFlow<List<Event>> = _events
 
-    fun setEvents(events: List<Event>) {
-        _events.value = events
+    fun getEvents() {
+        setEventState(EventState.Progress)
+        getHistoryUseCase.invoke()
+            .subscribeOn(Schedulers.io())
+            .observeOn(AndroidSchedulers.mainThread())
+            .subscribe({
+                when (it) {
+                    is PayShareResult.Success -> {
+                        _events.value = it.data
+                        setEventState(EventState.Success)
+                    }
+                    is PayShareResult.Error -> {
+                        setEventState(EventState.Failure(it.error))
+                    }
+                }
+            }, {
+                setEventState(EventState.Failure(EventError.ConnectionError))
+            })
+            .addTo(disposable)
     }
 
-    fun openEvent(event: Event) {
-        router.openEventFragment(event)
-    }
-
-    init {
-        _events.value = listOf(
-            Event(
-                id = 1,
-                code = "sdfsdf",
-                "qweqeqweqwe",
-                LocalDateTime.now(),
-                expenses = listOf(
-                    Expense(
-                        id = 1,
-                        "cchuifvbcyh",
-                        "sdfsdfsf",
-                        false,
-                        User(1, "dasd", "dasd", "dasd"),
-                        LocalDateTime.now(),
-                        123.0,
-                        listOf(),
-                        Shop(1,"fsdfsdf", 12.0, 23.9, listOf())
-                    ),
-                    Expense(
-                        id = 2,
-                        "qwe",
-                        "sdfsdfsf",
-                        false,
-                        User(1, "dasd", "dasd", "dasd"),
-                        LocalDateTime.now(),
-                        1230.0,
-                        listOf(),
-                        Shop(1,"fsdfsdf", 12.0, 23.9, listOf())
-                    )
-                ),
-                users = listOf(),
-                true
-            ),
-            Event(
-                id = 2,
-                code = "sdfsdf",
-                "kjkljkg",
-                LocalDateTime.now(),
-                expenses = listOf(
-                    Expense(
-                        id = 3,
-                        "cc",
-                        "sdfsdfsf",
-                        false,
-                        User(1, "dasd", "dasd", "dasd"),
-                        LocalDateTime.now(),
-                        13.0,
-                        listOf(),
-                        Shop(1,"fsdfsdf", 12.0, 23.9, listOf())
-                    )
-                ),
-                users = listOf(),
-                true
-            ),
-            Event(
-                id = 3,
-                code = "sdfsdf",
-                "qweqwe",
-                LocalDateTime.now(),
-                expenses = listOf(
-
-                ),
-                users = listOf(),
-                false
-            )
-        )
+    fun openEvent(id: Long, title: String) {
+        router.openEventFragment(id, title)
     }
 }

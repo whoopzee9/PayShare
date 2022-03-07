@@ -26,6 +26,11 @@ class TokenRepositoryImpl @Inject constructor(
         sharedPreferences.edit().putString(REFRESH_KEY, refresh).apply()
     }
 
+    override fun clearTokens() {
+        sharedPreferences.edit().putString(TOKEN_KEY, null).apply()
+        sharedPreferences.edit().putString(REFRESH_KEY, null).apply()
+    }
+
     private companion object {
         private const val TOKEN_KEY = "ru.spbstu.payshare.TokenRepositoryImpl.token"
         private const val REFRESH_KEY = "ru.spbstu.payshare.TokenRepositoryImpl.refresh"

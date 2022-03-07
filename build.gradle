@@ -64,6 +64,11 @@ buildscript {
 
         coilVersion = '1.3.2'
 
+        googleMapKitVersion = '17.0.1'
+        googleLocationServicesVersion = '18.0.0'
+
+        qrCodeGeneratorVersion = '4.3.0'
+
 
         kotlinDep = "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlinVersion"
 
@@ -94,6 +99,7 @@ buildscript {
         legacyDep = "androidx.legacy:legacy-support-v4:$legacySupportVersion"
 
         okHttpDep = "com.squareup.okhttp3:okhttp:$okhttpVersion"
+        okHttpLoggingDep = "com.squareup.okhttp3:logging-interceptor:$okhttpVersion"
         retrofitDep ="com.squareup.retrofit2:retrofit:$retrofitVersion"
         retrofitAdapterDep = "com.squareup.retrofit2:adapter-rxjava2:$retrofitVersion"
         rxJavaDep = "io.reactivex.rxjava2:rxjava:$rxjavaVersion"
@@ -130,6 +136,11 @@ buildscript {
         dexterDep = "com.karumi:dexter:$dexterVersion"
 
         coilDep = "io.coil-kt:coil:$coilVersion"
+
+        googleMapKitDep = "com.google.android.gms:play-services-maps:$googleMapKitVersion"
+        googleLocationServicesDep = "com.google.android.gms:play-services-location:$googleLocationServicesVersion"
+
+        qrCodeGeneratorDep ="com.journeyapps:zxing-android-embedded:$qrCodeGeneratorVersion"
     }
 
     ext.kotlin_version = "1.5.30"
@@ -141,7 +152,6 @@ buildscript {
         classpath 'com.android.tools.build:gradle:7.0.4'
         classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlin_version"
         classpath 'com.google.gms:google-services:4.3.10'
-        classpath "com.google.firebase:firebase-crashlytics-gradle:$crashlyticsGradleVersion"
     }
 }
 
