@@ -1,1 +1,1 @@
-BASE_URL = "http://ec2-16-171-24-84.eu-north-1.compute.amazonaws.com"
+BASE_URL = "http://ec2-16-171-21-115.eu-north-1.compute.amazonaws.com"

@@ -97,3 +97,9 @@ class TestRoom:
         head["Authorization"] = f"Bearer {thread_user_google}" if auth_type == "google" else f"Bearer {thread_user_vk}"
         res = requests.delete(url, params={"help": "true"}, headers=head)
         logger.debug(res.json())
+
+    def test_join_room_by_code(self):
+        assert True
+
+    def test_join_room_by_id(self):
+        assert True

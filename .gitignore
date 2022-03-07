@@ -14,3 +14,5 @@
 .cxx
 local.properties
 .idea
+tests/api/tests/pytest_report.html
+tests/api/tests/assets/style.css
