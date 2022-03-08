@@ -71,6 +71,10 @@ class TestRoom:
         if join_type == "code":
             res = api_svc_vk.get_invite_code(room_id)
             invite_code = res["code"]
+            logger.debug(f"{invite_code=}")
+            res = api_svc_vk.get_invite_code(room_id)
+            invite_code = res["code"]
+            logger.debug(f"{invite_code=}")
             assert invite_code
             res = api_svc_google.join_room_by_code(invite_code)
             logger.debug(res)
@@ -78,29 +82,52 @@ class TestRoom:
             res = api_svc_google.join_room_by_id(room_id)
             logger.debug(res)
 
+        get_room_res = api_svc_google.get_room(room_id)
+        logger.debug(f"{get_room_res=}")
+        check.not_equal(get_room_res["your_participant_id"], get_room_res["room_info"]["owner_participant_id"])
+        check.equal(len(get_room_res["room_info"]["participants"]), 2)
+        check.equal(len(get_room_res["room_info"]["purchases"]), 0)
+
+    @th_current
     @pytest.mark.xfail(reason="Negative test case")
     @pytest.mark.parametrize("group_type", ["owner", "user"])
-    def test_join_room_negative(self, thread_user_google, thread_user_vk, join_type, day):
+    def test_join_room_negative(self, thread_user_google, thread_user_vk, group_type):
         token_vk, api_svc_vk = thread_user_vk
         token_google, api_svc_google = thread_user_google
         time = datetime.date.today()
-        if day != "today":
-            time += datetime.timedelta(days=day)
-
         room_res = api_svc_vk.create_room(room_name=f"test-room{datetime.datetime.now()}", room_date=str(time))
         room_id = room_res["id"]
-        if join_type == "code":
-            res = api_svc_vk.get_invite_code(room_id)
-            invite_code = res["code"]
-            assert invite_code
-            res = api_svc_google.join_room_by_code(invite_code)
-            logger.debug(res)
+        # res = api_svc_vk.get_invite_code(room_id)
+        # invite_code = res["code"]
+        if group_type == "owner":
+            api_svc_vk.join_room_by_id(room_id)
         else:
-            res = api_svc_google.join_room_by_id(room_id)
-            logger.debug(res)
+            try:
+                res = api_svc_google.join_room_by_id(room_id)
+            except Exception as e:
+                logger.debug("Error")
+                return
+            try:
+                res = api_svc_google.join_room_by_id(room_id)
+            except Exception as e:
+                pytest.fail(e.args)
 
-
-
+    @th_current
+    def test_check_opened_rooms_after_join(self, thread_user_google, thread_user_vk):
+        token, api_svc_vk = thread_user_vk
+        token, api_svc_google = thread_user_google
+        rooms = api_svc_google.get_opened()["rooms"]
+        opened_before_count = len(rooms)
+        ids = []
+        for day in range(-2, 3):
+            time = datetime.date.today() + datetime.timedelta(days=day)
+            room_res = api_svc_vk.create_room(room_name=f"test-room{datetime.datetime.now()}", room_date=str(time))
+            ids.append(room_res["id"])
+        for room in ids:
+            res = api_svc_google.join_room_by_id(room)
+        rooms = api_svc_google.get_opened()["rooms"]
+        opened_after_count = len(rooms)
+        assert opened_after_count == opened_before_count + len(ids)
 
 
 

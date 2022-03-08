@@ -78,11 +78,12 @@ class APISvc:
         if params is None:
             params = {}
         url = self.endpoint + self._endpoints["join_room"]
-        data = {"code": room_code}
+        data = {"code": str(room_code)}
         head = {"Accept": "application/json", "Authorization": f"Bearer {self.token}"}
         res = requests.post(url, headers=head, params=params, data=json.dumps(data))
-        assert res.ok
-        res_data = res.json()
+        assert res.ok, res.text
+        logger.debug(res.text)
+        res_data = res.json() if res.text is not "" else None
         return res_data
 
     def join_room_by_id(self, room_id, params=None, data=None):
@@ -95,7 +96,7 @@ class APISvc:
         res = requests.post(url, headers=head, params=params, data=json.dumps(data))
         logger.debug(res)
         assert res.ok, res.text
-        res_data = res.json()
+        res_data = res.json() if res.text is not "" else None
         return res_data
 
     def close_room(self, room_id, params=None):
@@ -105,8 +106,8 @@ class APISvc:
         data = {"code": room_id}
         head = {"Accept": "application/json", "Authorization": f"Bearer {self.token}"}
         res = requests.post(url, headers=head, params=params, data=json.dumps(data))
-        assert res.ok
-        res_data = res.json()
+        assert res.ok, res.text
+        res_data = res.json() if res.text is not "" else None
         return res_data
 
     def get_room(self, room_id, params=None):
@@ -115,7 +116,7 @@ class APISvc:
         url = self.endpoint + self._endpoints["room"] + f"/{room_id}"
         head = {"Accept": "application/json", "Authorization": f"Bearer {self.token}"}
         res = requests.get(url, headers=head, params=params)
-        assert res.ok
+        assert res.ok, res.text
         res_data = res.json()
         return res_data
 
@@ -149,7 +150,7 @@ class APISvc:
         url = self.endpoint + self._endpoints["invite_code"].replace("{room_id}", str(room_id))
         head = {"Accept": "application/json", "Authorization": f"Bearer {self.token}"}
         res = requests.post(url, headers=head, params=params, data=json.dumps(data))
-        assert res.ok
+        assert res.ok, res.text
         res_data = res.json()
         return res_data
 
