@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <integer name="slide_anim_duration">300</integer>
+    <integer name="motion_scene_slide_anim_duration">600</integer>
+    <integer name="delay_anim_duration_short">300</integer>
+    <integer name="delay_anim_duration_middle">400</integer>
+</resources>

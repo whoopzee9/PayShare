@@ -5,4 +5,5 @@ interface TokenRepository {
     fun saveToken(token: String)
     fun getRefresh(): RefreshToken?
     fun saveRefresh(refresh: String)
+    fun clearTokens()
 }

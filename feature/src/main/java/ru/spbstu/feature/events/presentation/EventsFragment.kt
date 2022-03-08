@@ -2,6 +2,7 @@ package ru.spbstu.feature.events.presentation
 
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.widget.addTextChangedListener
 import com.google.android.material.bottomsheet.BottomSheetBehavior
 import com.google.android.material.bottomsheet.BottomSheetDialog
 import ru.spbstu.common.di.FeatureUtils
@@ -26,8 +27,8 @@ import ru.spbstu.feature.events.presentation.wheelPicker.MinutePickerAdapter
 import studio.clapp.wheelpicker.extensions.formatLeadingZero
 import java.time.LocalDate
 import java.time.LocalTime
+import java.time.format.DateTimeFormatter
 import kotlin.math.ceil
-
 
 class EventsFragment : ToolbarFragment<EventsViewModel>(
     R.layout.fragment_events,
@@ -49,24 +50,28 @@ class EventsFragment : ToolbarFragment<EventsViewModel>(
     private lateinit var timePickerHourAdapter: HourPickerAdapter
     private val calendarFragment by lazy { CalendarFragment(CalendarSelectionMode.SINGLE_DAY) }
 
+    private lateinit var addingDialogBinding: FragmentAddEventDialogBinding
+
     override fun getToolbarLayout(): ViewGroup = binding.frgEventsLayoutToolbar.root
 
     override fun setupViews() {
         super.setupViews()
+        if (viewModel.tokenRepository.getToken() == null) {
+            viewModel.openLogin()
+        }
         requireActivity().setStatusBarColor(R.color.toolbar_background_color_primary)
         requireView().clearLightStatusBar()
         initAdapter()
         setToolbar(firstClickListener = {
-
         }, secondClickListener = {
-
         })
+        viewModel.getEvents()
 
-        //search
+        // search
         binding.frgEventsLayoutToolbar.includeToolbarIbSecondButton.setDebounceClickListener {
             showSearchEventDialog()
         }
-        //QrCode
+        // QrCode
         binding.frgEventsLayoutToolbar.includeToolbarIbFirstButton.setDebounceClickListener {
             viewModel.openQrCodeScanner()
         }
@@ -108,11 +113,13 @@ class EventsFragment : ToolbarFragment<EventsViewModel>(
         if (dialogFragment == null) {
             dialogFragment = SearchEventDialogFragment.newInstance()
         } else {
-            //setup dialog views, if necessary
+            // setup dialog views, if necessary
         }
         searchEventDialog = dialogFragment
         dialogFragment.setOnOKClickListener {
-
+            viewModel.showJoinEvent(it) { event ->
+                viewModel.joinEvent(event)
+            }
         }
         dialogFragment.setOnQRClickListener {
             viewModel.openQrCodeScanner()
@@ -123,28 +130,52 @@ class EventsFragment : ToolbarFragment<EventsViewModel>(
     private fun showEventAddingDialog() {
         if (eventAddingDialog == null) {
             eventAddingDialog = BottomSheetDialog(requireContext(), R.style.BottomSheetDialog_Theme)
-            val dialogBinding =
+            addingDialogBinding =
                 FragmentAddEventDialogBinding.inflate(layoutInflater, binding.root, false)
-            dialogBinding.frgAddEventDialogEtTime.setDebounceClickListener {
+            addingDialogBinding.frgAddEventDialogEtTime.setDebounceClickListener {
                 showTimePickerDialog(LocalTime.now()) { hour, min ->
-                    dialogBinding.frgAddEventDialogEtTime.setText("${hour.formatLeadingZero()}:${min.formatLeadingZero()}")
+                    addingDialogBinding.frgAddEventDialogEtTime.setText("${hour.formatLeadingZero()}:${min.formatLeadingZero()}")
                 }
             }
-            dialogBinding.frgAddEventDialogEtDate.setDebounceClickListener {
+            addingDialogBinding.frgAddEventDialogEtDate.setDebounceClickListener {
                 calendarFragment.show(parentFragmentManager, DATE_DIALOG_TAG)
             }
-            dialogBinding.frgAddEventDialogMbSave.setDebounceClickListener {
+            addingDialogBinding.frgAddEventDialogMbSave.isEnabled = !addingDialogBinding.frgAddEventDialogEtTitle.text.isNullOrEmpty()
 
+            addingDialogBinding.frgAddEventDialogEtTitle.addTextChangedListener {
+                addingDialogBinding.frgAddEventDialogMbSave.isEnabled = !addingDialogBinding.frgAddEventDialogEtTitle.text.isNullOrEmpty()
             }
+
+            addingDialogBinding.frgAddEventDialogMbSave.setDebounceClickListener {
+                val date =
+                    "${addingDialogBinding.frgAddEventDialogEtDate.text} ${addingDialogBinding.frgAddEventDialogEtTime.text}"
+                viewModel.createEvent(
+                    addingDialogBinding.frgAddEventDialogEtTitle.text.toString(),
+                    date
+                ) {
+                    eventAddingDialog?.dismiss()
+                }
+            }
+
             viewModel.bundleDataWrapper.bundleData.observe {
                 val text = (it.get(CalendarFragment.DATA_KEY) as? CalendarDateRange)?.startDate
-                    ?: LocalDate.now().toString()
-                dialogBinding.frgAddEventDialogEtDate.setText(text.toString())
+                    ?: LocalDate.now()
+                addingDialogBinding.frgAddEventDialogEtDate.setText(
+                    text.format(
+                        DateTimeFormatter.ofPattern(
+                            "dd.MM.yy"
+                        )
+                    )
+                )
             }
 
-            eventAddingDialog?.setContentView(dialogBinding.root)
+            eventAddingDialog?.setContentView(addingDialogBinding.root)
             eventAddingDialog?.behavior?.state = BottomSheetBehavior.STATE_EXPANDED
         }
+        addingDialogBinding.frgAddEventDialogEtTime.setText(
+            LocalTime.now().format(DateTimeFormatter.ofPattern("HH:mm"))
+        )
+
         eventAddingDialog?.behavior?.state = BottomSheetBehavior.STATE_EXPANDED
         eventAddingDialog?.show()
     }

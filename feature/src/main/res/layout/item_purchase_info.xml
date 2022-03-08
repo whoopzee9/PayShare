@@ -1,0 +1,110 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.google.android.material.card.MaterialCardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/lesson_student__time_card"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginHorizontal="@dimen/dp_16"
+    android:layout_marginVertical="@dimen/dp_8"
+    app:cardCornerRadius="@dimen/dp_16"
+    app:cardElevation="@dimen/dp_4">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:background="@color/white"
+        android:layout_height="match_parent">
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/item_purchase_info__price"
+            style="@style/MaterialButton.OutlineNoElevation"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginVertical="@dimen/dp_4"
+            android:layout_marginStart="@dimen/dp_12"
+            android:layout_marginTop="@dimen/dp_12"
+            android:backgroundTint="@color/white"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:strokeColor="@color/stroke_color_secondary"
+            tools:text="2000" />
+
+        <TextView
+            android:id="@+id/item_purchase_info__tv_description"
+            style="@style/TextView.Small"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/dp_10"
+            android:text="dfldfldfldfldf"
+            android:textColor="@color/text_color_primary_dark"
+            android:textStyle="bold"
+            app:layout_constraintBottom_toBottomOf="@+id/item_purchase_info__price"
+            app:layout_constraintStart_toEndOf="@+id/item_purchase_info__price"
+            app:layout_constraintTop_toTopOf="@id/item_purchase_info__price" />
+
+        <TextView
+            android:id="@+id/item_purchase_info__tv_buyer_title"
+            style="@style/TextView.Small"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/dp_10"
+            android:fontFamily="@font/montserrat_medium"
+            android:text="@string/buyer"
+            android:textColor="@color/text_color_primary_dark"
+            app:layout_constraintStart_toStartOf="@+id/item_purchase_info__tv_description"
+            app:layout_constraintTop_toBottomOf="@+id/item_purchase_info__tv_description" />
+
+        <TextView
+            android:id="@+id/item_purchase_info__tv_buyer_name"
+            style="@style/TextView.Small"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/dp_10"
+            android:fontFamily="@font/montserrat_semi_bold"
+            android:textColor="@color/text_color_primary_dark"
+            app:layout_constraintStart_toStartOf="@+id/item_purchase_info__tv_description"
+            app:layout_constraintTop_toBottomOf="@+id/item_purchase_info__tv_buyer_title"
+            tools:text="Толстолобиков Георгий" />
+
+        <TextView
+            android:id="@+id/item_purchase_info__tv_date_title"
+            style="@style/TextView.Small"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/dp_18"
+            android:layout_marginTop="@dimen/dp_10"
+            android:layout_marginBottom="@dimen/dp_18"
+            android:fontFamily="@font/montserrat_medium"
+            android:text="@string/purchase_date"
+            android:textColor="@color/text_color_primary_dark"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/item_purchase_info__tv_buyer_name" />
+
+        <TextView
+            android:id="@+id/item_purchase_info__tv_date"
+            style="@style/TextView.Small"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/dp_10"
+            android:fontFamily="@font/montserrat_medium"
+            android:text="@string/purchase_date"
+            android:textColor="@color/text_color_primary_dark"
+            app:layout_constraintBottom_toBottomOf="@+id/item_purchase_info__tv_date_title"
+            app:layout_constraintStart_toEndOf="@+id/item_purchase_info__tv_date_title"
+            app:layout_constraintTop_toTopOf="@+id/item_purchase_info__tv_date_title"
+            tools:text="21.09.22" />
+
+        <com.google.android.material.checkbox.MaterialCheckBox
+            android:id="@+id/item_purchase_info__cb_paid"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:button="@drawable/check_box_selection"
+            app:useMaterialThemeColors="false"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"
+            android:layout_marginEnd="@dimen/dp_16"/>
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</com.google.android.material.card.MaterialCardView>

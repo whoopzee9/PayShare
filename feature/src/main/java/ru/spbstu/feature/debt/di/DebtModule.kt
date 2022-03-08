@@ -10,7 +10,8 @@ import ru.spbstu.common.di.viewmodel.ViewModelKey
 import ru.spbstu.common.di.viewmodel.ViewModelModule
 import ru.spbstu.feature.FeatureRouter
 import ru.spbstu.feature.debt.presentation.DebtViewModel
-import ru.spbstu.feature.event.presentation.EventViewModel
+import ru.spbstu.feature.domain.usecase.GetEventInfoUseCase
+import ru.spbstu.feature.domain.usecase.SetPurchasePaidUseCase
 
 
 @Module(
@@ -23,8 +24,12 @@ class DebtModule {
     @Provides
     @IntoMap
     @ViewModelKey(DebtViewModel::class)
-    fun provideViewModel(router: FeatureRouter): ViewModel {
-        return DebtViewModel(router)
+    fun provideViewModel(
+        router: FeatureRouter,
+        getEventInfoUseCase: GetEventInfoUseCase,
+        setPurchasePaidUseCase: SetPurchasePaidUseCase
+    ): ViewModel {
+        return DebtViewModel(router, getEventInfoUseCase, setPurchasePaidUseCase)
     }
 
     @Provides

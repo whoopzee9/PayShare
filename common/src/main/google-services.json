@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "484289045312",
+    "project_id": "car2net-d3cd2",
+    "storage_bucket": "car2net-d3cd2.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:484289045312:android:6341d900f79af6e48c90a5",
+        "android_client_info": {
+          "package_name": "ru.spbstu.payshare"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "484289045312-8o178kqc0k5t4eg6ksoul7jqkdgsrsjn.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAgnUkuU8jrqRnPqE7RcIzOHGkp2neoQis"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "484289045312-8o178kqc0k5t4eg6ksoul7jqkdgsrsjn.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

@@ -18,3 +18,5 @@ tests/api/tests/pytest_report.html
 tests/api/tests/assets/style.css
 pytest_report.html
 assets/style.css
+*.apk1
+*.apk1
