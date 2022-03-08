@@ -20,5 +20,6 @@ def thread_user_google():
 def thread_user_vk():
     api_svc = APISvc()
     token = api_svc.login(auth_type="vk")
+    api_svc.token = token
     return token, api_svc
 

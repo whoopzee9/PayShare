@@ -4,7 +4,7 @@ import json
 import requests
 
 from tests.api.constants import BASE_URL
-
+from loguru import logger
 
 class APISvc:
 
@@ -74,7 +74,7 @@ class APISvc:
         res_data = res.json()
         return res_data
 
-    def join_room(self, room_code, params=None):
+    def join_room_by_code(self, room_code, params=None):
         if params is None:
             params = {}
         url = self.endpoint + self._endpoints["join_room"]
@@ -85,11 +85,24 @@ class APISvc:
         res_data = res.json()
         return res_data
 
+    def join_room_by_id(self, room_id, params=None, data=None):
+        if data is None:
+            data = {}
+        if params is None:
+            params = {}
+        url = self.endpoint + self._endpoints["join_room"] + f"/{room_id}"
+        head = {"Accept": "application/json", "Authorization": f"Bearer {self.token}"}
+        res = requests.post(url, headers=head, params=params, data=json.dumps(data))
+        logger.debug(res)
+        assert res.ok, res.text
+        res_data = res.json()
+        return res_data
+
     def close_room(self, room_id, params=None):
         if params is None:
             params = {}
-        url = self.endpoint + self._endpoints["close_room"].replace("{room_id}", room_id)
-        data = {"code": room_i}
+        url = self.endpoint + self._endpoints["close_room"].replace("{room_id}", str(room_id))
+        data = {"code": room_id}
         head = {"Accept": "application/json", "Authorization": f"Bearer {self.token}"}
         res = requests.post(url, headers=head, params=params, data=json.dumps(data))
         assert res.ok
@@ -106,14 +119,36 @@ class APISvc:
         res_data = res.json()
         return res_data
 
+    def get_opened(self, params=None):
+        if params is None:
+            params = {}
+        url = self.endpoint + self._endpoints["opened_rooms"]
+        head = {"Accept": "application/json", "Authorization": f"Bearer {self.token}"}
+        res = requests.get(url, headers=head, params=params)
+        assert res.ok
+        res_data = res.json()
+        return res_data
+
     def add_purchase(self, room_id, params=None, data=None):
         if params is None:
             params = {}
         if data is None:
             data = {}
-        url = self.endpoint + self._endpoints["purchase"].replace("{room_id}", room_id)
+        url = self.endpoint + self._endpoints["purchase"].replace("{room_id}", str(room_id))
         head = {"Accept": "application/json", "Authorization": f"Bearer {self.token}"}
-        res = requests.post(url, headers=head, params=params)
+        res = requests.post(url, headers=head, params=params, data=json.dumps(data))
+        assert res.ok
+        res_data = res.json()
+        return res_data
+
+    def get_invite_code(self, room_id, params=None, data=None):
+        if data is None:
+            data = {}
+        if params is None:
+            params = {}
+        url = self.endpoint + self._endpoints["invite_code"].replace("{room_id}", str(room_id))
+        head = {"Accept": "application/json", "Authorization": f"Bearer {self.token}"}
+        res = requests.post(url, headers=head, params=params, data=json.dumps(data))
         assert res.ok
         res_data = res.json()
         return res_data
