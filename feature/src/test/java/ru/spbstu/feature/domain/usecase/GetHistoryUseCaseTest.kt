@@ -10,42 +10,42 @@ import ru.spbstu.feature.domain.DomainStubClasses
 import ru.spbstu.feature.domain.model.Event
 import ru.spbstu.feature.domain.repository.FeatureRepository
 
-
-class GetEventsUseCaseTest {
+class GetHistoryUseCaseTest {
     private val repository = mock<FeatureRepository>()
     private val simpleEvent = DomainStubClasses.event
 
     @Test
-    fun `should return empty event list`() {
-        val expectedEvents = emptyList<Event>()
+    fun `should return empty history event list`() {
+        val expectedHistoryEvents = emptyList<Event>()
         val rxSingleEmptyEvents: Single<PayShareResult<List<Event>>> =
-            Single.just(PayShareResult.Success(expectedEvents))
+            Single.just(PayShareResult.Success(expectedHistoryEvents))
 
-        Mockito.`when`(repository.getEvents()).thenReturn(rxSingleEmptyEvents)
+        Mockito.`when`(repository.getHistory()).thenReturn(rxSingleEmptyEvents)
 
-        GetEventsUseCase(repository).invoke().test().assertValue {
+        GetHistoryUseCase(repository).invoke().test().assertValue {
             val repoEvents = when (it) {
                 is PayShareResult.Success -> it.data
                 else -> throw IllegalArgumentException("Not success status")
             }
-            repoEvents == expectedEvents
+            repoEvents == expectedHistoryEvents
         }
     }
 
+
     @Test
-    fun `should return not empty event list`() {
+    fun `should return not empty history event list`() {
         val events = listOf(
             simpleEvent,
             simpleEvent.copy(
-                id = 2,
-                expenses = listOf(DomainStubClasses.expense.copy(price = 300.0))
+                id = 24654,
+                expenses = listOf(DomainStubClasses.expense.copy(name = "Event33"))
             )
         )
         val rxSingleEvents: Single<PayShareResult<List<Event>>> =
             Single.just(PayShareResult.Success(events))
 
-        Mockito.`when`(repository.getEvents()).thenReturn(rxSingleEvents)
-        GetEventsUseCase(repository).invoke().test().assertValue {
+        Mockito.`when`(repository.getHistory()).thenReturn(rxSingleEvents)
+        GetHistoryUseCase(repository).invoke().test().assertValue {
             val repoEvents = when (it) {
                 is PayShareResult.Success -> it.data
                 else -> throw IllegalArgumentException("Not success status")
@@ -59,9 +59,9 @@ class GetEventsUseCaseTest {
         val rxSingleEvents: Single<PayShareResult<List<Event>>> =
             Single.just(PayShareResult.Error(EventError.ConnectionError))
 
-        Mockito.`when`(repository.getEvents()).thenReturn(rxSingleEvents)
+        Mockito.`when`(repository.getHistory()).thenReturn(rxSingleEvents)
 
-        GetEventsUseCase(repository).invoke().test().assertValue {
+        GetHistoryUseCase(repository).invoke().test().assertValue {
             val result = when (it) {
                 is PayShareResult.Success -> {
                     false

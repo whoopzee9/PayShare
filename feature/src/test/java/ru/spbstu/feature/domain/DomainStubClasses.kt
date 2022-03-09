@@ -1,4 +1,4 @@
-package ru.spbstu.feature.domain.usecase
+package ru.spbstu.feature.domain
 
 import ru.spbstu.feature.domain.model.Event
 import ru.spbstu.feature.domain.model.Expense
@@ -7,7 +7,7 @@ import ru.spbstu.feature.domain.model.User
 import java.time.LocalDateTime
 
 
-object domainStubClasses {
+object DomainStubClasses {
     val purchaseShop = Shop(
         id = 1L,
         name = "shop1",
