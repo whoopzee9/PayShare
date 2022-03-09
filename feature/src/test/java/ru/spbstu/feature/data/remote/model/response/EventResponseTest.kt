@@ -11,7 +11,7 @@ import java.time.LocalDateTime
 import java.time.format.DateTimeFormatter
 import java.time.format.DateTimeParseException
 
-class EventResponseTest {
+class  EventResponseTest {
     private val mockedRoomResponse = mock<RoomResponse>()
     private val mockedEventResponse =
         EventResponse(room = mockedRoomResponse, purchases = emptyList(), isYours = false)
@@ -37,6 +37,7 @@ class EventResponseTest {
 
         assertEquals(mappedEvent, testDomainEvent)
     }
+    // TODO
 /*
 
     @Test
