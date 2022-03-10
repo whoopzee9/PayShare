@@ -14,7 +14,6 @@ import ru.spbstu.common.model.EventState
 import ru.spbstu.common.utils.BackViewModel
 import ru.spbstu.common.utils.BundleDataWrapper
 import ru.spbstu.feature.FeatureRouter
-import ru.spbstu.feature.domain.model.Event
 import ru.spbstu.feature.domain.model.EventInfo
 import ru.spbstu.feature.domain.model.Expense
 import ru.spbstu.feature.domain.model.Shop
@@ -25,7 +24,7 @@ import ru.spbstu.feature.domain.usecase.DeleteRoomUseCase
 import ru.spbstu.feature.domain.usecase.GetEventInfoUseCase
 import ru.spbstu.feature.domain.usecase.GetRoomCodeUseCase
 import ru.spbstu.feature.domain.usecase.SetPurchaseJoinUseCase
-import ru.spbstu.feature.mapSelect.ShopMapFragment
+import ru.spbstu.feature.mapSelect.presentation.ShopMapFragment
 import timber.log.Timber
 import java.time.LocalDateTime
 

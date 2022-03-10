@@ -8,13 +8,10 @@ plugins {
 
 android {
     compileSdkVersion rootProject.compileSdkVersion
-    buildToolsVersion rootProject.buildToolsVersion
 
     defaultConfig {
         minSdkVersion rootProject.minSdkVersion
         targetSdkVersion rootProject.targetSdkVersion
-        versionCode versionCode
-        versionName versionName
 
         consumerProguardFiles "consumer-rules.pro"
     }
@@ -34,6 +31,9 @@ android {
     }
     buildFeatures {
         viewBinding true
+    }
+    testOptions {
+        unitTests.returnDefaultValues = true
     }
 }
 
