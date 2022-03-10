@@ -11,19 +11,21 @@ import org.junit.jupiter.api.BeforeAll
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.TestInstance
+import org.junit.jupiter.api.extension.ExtendWith
 import org.mockito.Mockito
 import org.mockito.kotlin.mock
 import ru.spbstu.common.error.PayShareResult
 import ru.spbstu.common.model.EventError
 import ru.spbstu.common.model.EventState
 import ru.spbstu.feature.FeatureRouter
+import ru.spbstu.feature.RxBeforeAllRule
 import ru.spbstu.feature.domain.model.Event
 import ru.spbstu.feature.domain.usecase.JoinEventUseCase
 import ru.spbstu.feature.domain.usecase.ShowJoinEventUseCase
 import java.lang.Exception
-import java.util.concurrent.TimeUnit
 
 @TestInstance(TestInstance.Lifecycle.PER_CLASS)
+@ExtendWith(RxBeforeAllRule::class)
 class QrCodeViewModelTest {
     private val router = mock<FeatureRouter>()
     private val joinEventUseCase = mock<JoinEventUseCase>()
@@ -31,24 +33,6 @@ class QrCodeViewModelTest {
     private val viewModel = QrCodeViewModel(router, joinEventUseCase, showJoinEventUseCase)
     private val event = Event(id = 123)
     private val code = "12345"
-
-    @BeforeAll
-    fun setUp() {
-        val immediate = object : Scheduler() {
-            override fun createWorker(): Worker {
-                return ExecutorWorker({ obj: Runnable -> obj.run() }, true)
-            }
-
-            override fun scheduleDirect(run: Runnable, delay: Long, unit: TimeUnit): Disposable {
-                return super.scheduleDirect(run, 0, unit)
-            }
-        }
-        RxJavaPlugins.setInitIoSchedulerHandler { immediate }
-        RxJavaPlugins.setInitComputationSchedulerHandler { immediate }
-        RxJavaPlugins.setInitNewThreadSchedulerHandler { immediate }
-        RxJavaPlugins.setInitSingleSchedulerHandler { immediate }
-        RxAndroidPlugins.setInitMainThreadSchedulerHandler { immediate }
-    }
 
     @BeforeEach
     fun before() {
