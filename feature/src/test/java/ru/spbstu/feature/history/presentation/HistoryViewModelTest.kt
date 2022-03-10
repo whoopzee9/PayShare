@@ -13,6 +13,7 @@ import ru.spbstu.common.model.EventError
 import ru.spbstu.common.model.EventState
 import ru.spbstu.feature.FeatureRouter
 import ru.spbstu.feature.RxBeforeAllRule
+import ru.spbstu.feature.domain.DomainStubClasses
 import ru.spbstu.feature.domain.model.Event
 import ru.spbstu.feature.domain.usecase.GetHistoryUseCase
 
@@ -22,8 +23,7 @@ class HistoryViewModelTest {
     private val router = mock<FeatureRouter>()
     private val getHistoryUseCase = mock<GetHistoryUseCase>()
     private val viewModel = HistoryViewModel(router, getHistoryUseCase = getHistoryUseCase)
-    private val event = Event(id = 123)
-    private val code = "12345"
+    private val event = DomainStubClasses.event
 
     @BeforeEach
     fun before() {
