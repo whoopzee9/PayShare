@@ -1,13 +1,11 @@
 package ru.spbstu.feature.domain
 
-import ru.spbstu.feature.domain.model.Event
-import ru.spbstu.feature.domain.model.Expense
-import ru.spbstu.feature.domain.model.Shop
-import ru.spbstu.feature.domain.model.User
+import ru.spbstu.feature.domain.model.*
 import java.time.LocalDateTime
 
 
 object DomainStubClasses {
+
     val purchaseShop = Shop(
         id = 1L,
         name = "shop1",
@@ -31,6 +29,12 @@ object DomainStubClasses {
         users = mapOf(1L to true, 2L to false),
         purchaseShop = purchaseShop
     )
+    val eventInfo = EventInfo(
+        yourParticipantId = 1, ownerParticipantId = 1, participants = listOf(
+            user, user.copy(id = 2)
+        ), purchases = listOf(expense, expense.copy(id = 2323L))
+    )
+
 
     val event: Event = Event(
         id = 1,
