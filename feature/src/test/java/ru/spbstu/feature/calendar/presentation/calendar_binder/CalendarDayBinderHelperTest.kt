@@ -64,6 +64,22 @@ class CalendarDayBinderHelperTest {
     }
 
     @Test
+    fun `should return false for startDate being 2nd day in inDate month`() {
+        val inDate = LocalDate.now()
+        val startDate = LocalDate.now().plusMonths(1).yearMonth.atDay(2)
+        val endDate = LocalDate.now().plusMonths(2)
+        assertFalse(CalendarDayBinderHelper.isInDateBetween(inDate, startDate, endDate))
+    }
+
+    @Test
+    fun `should return true for startDate being last day in inDate prev month`() {
+        val inDate = LocalDate.now()
+        val startDate = LocalDate.now().yearMonth.atEndOfMonth()
+        val endDate = LocalDate.now().plusMonths(2)
+        assertTrue(CalendarDayBinderHelper.isInDateBetween(inDate, startDate, endDate))
+    }
+
+    @Test
     fun `should return false for startDate and endDate in the same month for outDate`() {
         val outDate = LocalDate.now()
         val startDate = LocalDate.now()
@@ -117,5 +133,21 @@ class CalendarDayBinderHelperTest {
         val startDate = LocalDate.now().minusMonths(2)
         val endDate = LocalDate.now().minusMonths(1).yearMonth.atEndOfMonth()
         assertFalse(CalendarDayBinderHelper.isOutDateBetween(outDate, startDate, endDate))
+    }
+
+    @Test
+    fun `should return false for endDate being prev to last day in outDate month`() {
+        val outDate = LocalDate.now()
+        val startDate = LocalDate.now().minusMonths(2)
+        val endDate = LocalDate.now().minusMonths(1).yearMonth.atEndOfMonth().minusDays(1)
+        assertFalse(CalendarDayBinderHelper.isOutDateBetween(outDate, startDate, endDate))
+    }
+
+    @Test
+    fun `should return true for endDate being 1st day in outDate next month`() {
+        val outDate = LocalDate.now()
+        val startDate = LocalDate.now().minusMonths(2)
+        val endDate = LocalDate.now().yearMonth.atDay(1)
+        assertTrue(CalendarDayBinderHelper.isOutDateBetween(outDate, startDate, endDate))
     }
 }
