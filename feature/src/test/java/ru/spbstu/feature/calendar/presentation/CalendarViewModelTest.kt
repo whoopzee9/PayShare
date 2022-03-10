@@ -93,6 +93,18 @@ class CalendarViewModelTest {
     }
 
     @Test
+    fun `should set SingleDay calendar state 2`() {
+        viewModel.setStartDate(LocalDate.now())
+        viewModel.setEndDate(LocalDate.now().plusMonths(1))
+        viewModel.calendarMode = CalendarSelectionMode.SINGLE_DAY
+        viewModel.setSelectionLayoutState()
+        assertEquals(
+            CalendarViewModel.CalendarSelectionState.SingleDay,
+            viewModel.calendarSelectionState.value
+        )
+    }
+
+    @Test
     fun `should set startDate calendar state`() {
         viewModel.setStartDate(LocalDate.now())
         viewModel.setEndDate(null)

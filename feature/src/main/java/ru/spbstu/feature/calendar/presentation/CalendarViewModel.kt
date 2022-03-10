@@ -56,10 +56,10 @@ class CalendarViewModel(private val dataWrapper: BundleDataWrapper) :
             startDate != null && calendarMode == CalendarSelectionMode.SINGLE_DAY -> {
                 CalendarSelectionState.SingleDay
             }
-            startDate != null && endDate == null -> {
+            startDate != null && endDate == null && calendarMode == CalendarSelectionMode.TWO_DAYS -> {
                 CalendarSelectionState.StartDate
             }
-            startDate != null && endDate != null -> {
+            startDate != null && endDate != null && calendarMode == CalendarSelectionMode.TWO_DAYS -> {
                 CalendarSelectionState.EndDate
             }
             else -> CalendarSelectionState.NotSelected
