@@ -74,7 +74,7 @@ class APISvc:
         res_data = res.json()
         return res_data
 
-    def join_room_by_code(self, room_code, params=None):
+    def get_room_by_code(self, room_code, params=None):
         if params is None:
             params = {}
         url = self.endpoint + self._endpoints["join_room"]
@@ -99,13 +99,24 @@ class APISvc:
         res_data = res.json() if res.text is not "" else None
         return res_data
 
-    def close_room(self, room_id, params=None):
+    def close_room(self, room_id, params=None, data=None):
+        if data is None:
+            data = {}
         if params is None:
             params = {}
         url = self.endpoint + self._endpoints["close_room"].replace("{room_id}", str(room_id))
-        data = {"code": room_id}
         head = {"Accept": "application/json", "Authorization": f"Bearer {self.token}"}
-        res = requests.post(url, headers=head, params=params, data=json.dumps(data))
+        res = requests.put(url, headers=head, params=params, data=json.dumps(data))
+        assert res.ok, res.text
+        res_data = res.json() if res.text is not "" else None
+        return res_data
+
+    def delete_room(self, room_id, params=None):
+        if params is None:
+            params = {}
+        url = self.endpoint + self._endpoints["room"] + f"/{room_id}"
+        head = {"Accept": "application/json", "Authorization": f"Bearer {self.token}"}
+        res = requests.delete(url, headers=head, params=params)
         assert res.ok, res.text
         res_data = res.json() if res.text is not "" else None
         return res_data
@@ -120,10 +131,20 @@ class APISvc:
         res_data = res.json()
         return res_data
 
-    def get_opened(self, params=None):
+    def get_opened_rooms(self, params=None):
         if params is None:
             params = {}
         url = self.endpoint + self._endpoints["opened_rooms"]
+        head = {"Accept": "application/json", "Authorization": f"Bearer {self.token}"}
+        res = requests.get(url, headers=head, params=params)
+        assert res.ok
+        res_data = res.json()
+        return res_data
+
+    def get_closed_rooms(self, params=None):
+        if params is None:
+            params = {}
+        url = self.endpoint + self._endpoints["closed_rooms"]
         head = {"Accept": "application/json", "Authorization": f"Bearer {self.token}"}
         res = requests.get(url, headers=head, params=params)
         assert res.ok
