@@ -1,6 +1,5 @@
 package ru.spbstu.feature.expense.presentation
 
-import android.util.Log
 import com.google.android.gms.maps.model.LatLng
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.rxkotlin.addTo
@@ -61,10 +60,5 @@ class ExpenseViewModel(
                 setEventState(EventState.Failure(EventError.ConnectionError))
             })
             .addTo(disposable)
-    }
-
-    companion object {
-        // TODO add method to get current user
-
     }
 }

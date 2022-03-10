@@ -1,13 +1,7 @@
 package ru.spbstu.feature.qr_code.presentation
 
-import io.reactivex.Scheduler
 import io.reactivex.Single
-import io.reactivex.android.plugins.RxAndroidPlugins
-import io.reactivex.disposables.Disposable
-import io.reactivex.internal.schedulers.ExecutorScheduler.ExecutorWorker
-import io.reactivex.plugins.RxJavaPlugins
 import org.junit.jupiter.api.Assertions.assertEquals
-import org.junit.jupiter.api.BeforeAll
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.TestInstance
@@ -22,7 +16,6 @@ import ru.spbstu.feature.RxBeforeAllRule
 import ru.spbstu.feature.domain.model.Event
 import ru.spbstu.feature.domain.usecase.JoinEventUseCase
 import ru.spbstu.feature.domain.usecase.ShowJoinEventUseCase
-import java.lang.Exception
 
 @TestInstance(TestInstance.Lifecycle.PER_CLASS)
 @ExtendWith(RxBeforeAllRule::class)
@@ -97,5 +90,11 @@ class QrCodeViewModelTest {
 
         viewModel.showJoinEvent(code) {}
         assertEquals(viewModel.eventState.value, EventState.Failure(EventError.ConnectionError))
+    }
+
+    @Test
+    fun `should navigate to event screen`() {
+        viewModel.openEventFragment(id = event.id, title = event.name)
+        Mockito.verify(router).openEventFragment(id = event.id, title = event.name)
     }
 }
