@@ -71,6 +71,20 @@ class HistoryViewModelTest {
     }
 
     @Test
+    fun `should return exception when load history`() {
+        val rxSingleTest: Single<PayShareResult<List<Event>>> =
+            Single.error(Exception())
+
+        Mockito.`when`(getHistoryUseCase.invoke()).thenReturn(rxSingleTest)
+
+        viewModel.getEvents()
+        Assertions.assertEquals(
+            viewModel.eventState.value,
+            EventState.Failure(EventError.ConnectionError)
+        )
+    }
+
+    @Test
     fun `should navigate to event screen`() {
         viewModel.openEvent(id = event.id, title = event.name)
         Mockito.verify(router).openEventFragment(id = event.id, title = event.name)

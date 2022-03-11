@@ -70,7 +70,7 @@ class EventsViewModelTest {
     @Test
     fun `should return connection error when get events`() {
         val rxSingleTest: Single<PayShareResult<List<Event>>> =
-            Single.just(PayShareResult.Error(EventError.ConnectionError))
+            Single.error(Exception())
 
         Mockito.`when`(getEventsUseCase.invoke()).thenReturn(rxSingleTest)
 
@@ -129,7 +129,7 @@ class EventsViewModelTest {
     @Test
     fun `should return connection error when create event`() {
         val rxSingleTest: Single<PayShareResult<Long>> =
-            Single.just(PayShareResult.Error(EventError.ConnectionError))
+            Single.error(Exception())
 
         Mockito.`when`(createEventUseCase.invoke(name = eventName, date = date))
             .thenReturn(rxSingleTest)
@@ -173,7 +173,7 @@ class EventsViewModelTest {
     @Test
     fun `should return connection error when join to event`() {
         val rxSingleTest: Single<PayShareResult<Any>> =
-            Single.just(PayShareResult.Error(EventError.ConnectionError))
+            Single.error(Exception())
 
         Mockito.`when`(joinEventUseCase.invoke(event.id)).thenReturn(rxSingleTest)
 
@@ -201,7 +201,7 @@ class EventsViewModelTest {
     @Test
     fun `should return connection error when show join event`() {
         val rxSingleTest: Single<PayShareResult<Event>> =
-            Single.just(PayShareResult.Error(EventError.ConnectionError))
+            Single.error(Exception())
 
         Mockito.`when`(showJoinEventUseCase.invoke(code = eventJoinCode))
             .thenReturn(rxSingleTest)

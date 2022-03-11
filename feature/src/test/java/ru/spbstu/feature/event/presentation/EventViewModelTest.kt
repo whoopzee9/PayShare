@@ -115,7 +115,7 @@ class EventViewModelTest {
     @Test
     fun `should return connection error when delete room`() {
         val rxSingleTest: Single<PayShareResult<Any>> =
-            Single.just(PayShareResult.Error(EventError.ConnectionError))
+            Single.error(Exception())
         Mockito.`when`(deleteRoomUseCase.invoke(roomId = roomId)).thenReturn(rxSingleTest)
 
         viewModel.deleteRoom()
