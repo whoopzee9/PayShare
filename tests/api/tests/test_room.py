@@ -1,6 +1,7 @@
 import datetime
 import random
 
+import pytest
 import pytest_check as check
 from loguru import logger
 
@@ -16,7 +17,6 @@ from tests.api.markers import *
 # post /user/room/{room_id}/code только участники комнаты
 # delete /user/room/{room_id}/participant/{participant_id} только создатель комнаты
 
-@th_current
 class TestRoom:
 
     @pytest.mark.parametrize("day", ["today", -1, 1])
@@ -50,7 +50,6 @@ class TestRoom:
         check.equal(room["room"]["room_date"], str(time))
         check.is_in(f"test-room", room["room"]["room_name"])
         check.is_none(room["purchases"])
-
 
     def test_check_opened_and_closed_rooms_after_create(self, thread_user_google):
         token, api_svc = thread_user_google
@@ -127,7 +126,7 @@ class TestRoom:
 
     @pytest.mark.xfail(reason="Negative test case")
     @pytest.mark.parametrize("group_type", ["owner", "user"])
-    def test_join_room_negative(self, thread_user_google, thread_user_vk, group_type):
+    def test_cant_join_group_twice(self, thread_user_google, thread_user_vk, group_type):
         token_vk, api_svc_vk = thread_user_vk
         token_google, api_svc_google = thread_user_google
         time = datetime.date.today()
@@ -177,72 +176,111 @@ class TestRoom:
         check.is_true(all(id in opened_ids for id in ids))
         check.is_true(all(id not in closed_ids for id in ids), msg=f"{closed_ids=}, {ids=}")
 
-    def test_close_room(self, thread_user_google):
-        _, api_svc = thread_user_google
+    @th_current
+    def test_close_room(self, thread_user_vk):
+        _, api_svc = thread_user_vk
 
         opened_rooms = api_svc.get_opened_rooms()["rooms"]
-        opened_after_count = len(opened_rooms) if opened_rooms is not None else 0
-        opened_ids = [elem["room"]["id"] for elem in opened_rooms] if opened_after_count != 0 else []
+        opened_before_count = len(opened_rooms) if opened_rooms is not None else 0
+        opened_ids = [elem["room"]["id"] for elem in opened_rooms if elem["is_your"] is True] if opened_before_count != 0 else []
+
+        closed_rooms = api_svc.get_closed_rooms()["rooms"]
+        closed_before_count = len(closed_rooms) if closed_rooms is not None else 0
+
         room_id = random.choice(opened_ids)
         api_svc.close_room(room_id)
-    #     head = {}
-    #     head["Accept"] = "application/json"
-    #     head["Authorization"] = f"Bearer {thread_user_google}" if auth_type == "google" else f"Bearer {thread_user_vk}"
-    #     res = requests.put(url, params={"help": "true"}, headers=head)
-    #     logger.debug(res.json())
-    #
+        opened_rooms = api_svc.get_opened_rooms()["rooms"]
+        logger.info(f"{opened_rooms=}")
+        opened_after_count = len(opened_rooms) if opened_rooms is not None else 0
+        opened_ids = [elem["room"]["id"] for elem in opened_rooms] if opened_after_count != 0 else []
 
-    def test_delete_room(self, thread_user_google):
-        _, api_svc = thread_user_google
+        closed_rooms = api_svc.get_closed_rooms()["rooms"]
+        logger.info(f"{closed_rooms=}")
+        closed_after_count = len(closed_rooms) if closed_rooms is not None else 0
+        closed_ids = [elem["room"]["id"] for elem in closed_rooms] if closed_after_count != 0 else []
+        check.equal(opened_after_count, opened_before_count - 1)
+        check.is_not_in(room_id, opened_ids)
+        check.equal(closed_after_count, closed_before_count + 1)
+        check.is_in(room_id, closed_ids)
+
+    @th_current
+    def test_open_closed_room(self, thread_user_vk):
+        _, api_svc = thread_user_vk
+
+        opened_rooms = api_svc.get_opened_rooms()["rooms"]
+        opened_before_count = len(opened_rooms) if opened_rooms is not None else 0
+        closed_rooms = api_svc.get_closed_rooms()["rooms"]
+        closed_before_count = len(closed_rooms) if closed_rooms is not None else 0
+        closed_ids = [elem["room"]["id"] for elem in closed_rooms if
+                      elem["is_your"] is True] if closed_before_count != 0 else []
+
+        room_id = random.choice(closed_ids)
+        api_svc.close_room(room_id)
+        opened_rooms = api_svc.get_opened_rooms()["rooms"]
+        logger.info(f"{opened_rooms=}")
+        opened_after_count = len(opened_rooms) if opened_rooms is not None else 0
+        opened_ids = [elem["room"]["id"] for elem in opened_rooms] if opened_after_count != 0 else []
+
+        closed_rooms = api_svc.get_closed_rooms()["rooms"]
+        logger.info(f"{closed_rooms=}")
+        closed_after_count = len(closed_rooms) if closed_rooms is not None else 0
+        closed_ids = [elem["room"]["id"] for elem in closed_rooms] if closed_after_count != 0 else []
+
+        check.equal(opened_after_count, opened_before_count + 1)
+        check.is_in(room_id, opened_ids)
+        check.equal(closed_after_count, closed_before_count - 1)
+        check.is_not_in(room_id, closed_ids)
+
+    @th_current
+    @pytest.mark.parametrize("room", ["closed", "opened"])
+    def test_delete_room(self, thread_user_vk, room):
+        _, api_svc = thread_user_vk
+        opened_rooms = api_svc.get_opened_rooms()["rooms"]
+        opened_before_count = len(opened_rooms) if opened_rooms is not None else 0
+
+
+        closed_rooms = api_svc.get_closed_rooms()["rooms"]
+        closed_before_count = len(closed_rooms) if closed_rooms is not None else 0
+        if room == "opened":
+            opened_ids = [elem["room"]["id"] for elem in opened_rooms if
+                          elem["is_your"] is True] if opened_before_count != 0 else []
+            room_id = random.choice(opened_ids)
+        else:
+            closed_ids = [elem["room"]["id"] for elem in closed_rooms if
+                          elem["is_your"] is True] if closed_before_count != 0 else []
+            room_id = random.choice(closed_ids)
+
+        res = api_svc.delete_room(room_id)
+        logger.debug(res)
 
         opened_rooms = api_svc.get_opened_rooms()["rooms"]
         opened_after_count = len(opened_rooms) if opened_rooms is not None else 0
         opened_ids = [elem["room"]["id"] for elem in opened_rooms] if opened_after_count != 0 else []
-        room_id = random.choice(opened_ids)
-        api_svc.delete_room(room_id)
-    #     url = BASE_URL + "/user/room/{room_id}"
-    #     head = {}
-    #     head["Accept"] = "application/json"
-    #     head["Authorization"] = f"Bearer {thread_user_google}" if auth_type == "google" else f"Bearer {thread_user_vk}"
-    #     res = requests.put(url, params={"help": "true"}, headers=head)
-    #     logger.debug(res.json())
 
+        closed_rooms = api_svc.get_closed_rooms()["rooms"]
+        closed_after_count = len(closed_rooms) if closed_rooms is not None else 0
+        closed_ids = [elem["room"]["id"] for elem in closed_rooms] if closed_after_count != 0 else []
 
-    # @pytest.mark.parametrize("auth_type", ["vk", "google"])
-    # def test_create_room(self, thread_user_google, thread_user_vk, auth_type):
-    #     url = BASE_URL + "/user/room"
-    #
-    #     head = {}
-    #     head["Accept"] = "application/json"
-    #     head["Authorization"] = f"Bearer {thread_user_google}" if auth_type == "google" else f"Bearer {thread_user_vk}"
-    #     res = requests.get(url, headers=head)
-    #     assert res.ok
-    #     res_data = res.json()
-    #     logger.debug(res_data)
+        check.is_not_in(room_id, opened_ids)
+        check.is_not_in(room_id, closed_ids)
+        if room == "opened":
+            check.equal(opened_after_count, opened_before_count - 1)
+            check.equal(closed_after_count, closed_before_count)
+        else:
+            check.equal(opened_after_count, opened_before_count)
+            check.equal(closed_after_count, closed_before_count - 1)
 
-    # @pytest.mark.parametrize("auth_type", ["vk", "google"])
-    # def test_join_room(self, thread_user_google, thread_user_vk, auth_type):
-    #     url = BASE_URL + "/user/room/join"
-    #     head = {}
-    #     head["Accept"] = "application/json"
-    #     head["Authorization"] = f"Bearer {thread_user_google}" if auth_type == "google" else f"Bearer {thread_user_vk}"
-    #     res = requests.post(url, params={"help": "true"}, headers=head)
-    #     logger.debug(res.json())
+    @th_current
+    @pytest.mark.xfail(reason="Negative test case")
+    @pytest.mark.parametrize("type", ["code", "join"])
+    def test_cant_join_closed_room(self, thread_user_google, type):
+        _, api_svc = thread_user_google
+        closed_rooms = api_svc.get_closed_rooms()["rooms"]
+        closed_ids = [elem["room"]["id"] for elem in closed_rooms] if len(closed_rooms) != 0 else []
 
-    # @pytest.mark.parametrize("auth_type", ["vk", "google"])
-    # def test_close_room(self, thread_user_google, thread_user_vk, auth_type):
-    #     url = BASE_URL + "/user/room/{room_id}/close"
-    #     head = {}
-    #     head["Accept"] = "application/json"
-    #     head["Authorization"] = f"Bearer {thread_user_google}" if auth_type == "google" else f"Bearer {thread_user_vk}"
-    #     res = requests.put(url, params={"help": "true"}, headers=head)
-    #     logger.debug(res.json())
-    #
-    # @pytest.mark.parametrize("auth_type", ["vk", "google"])
-    # def test_delete_room(self, thread_user_google, thread_user_vk, auth_type):
-    #     url = BASE_URL + "/user/room/{room_id}"
-    #     head = {}
-    #     head["Accept"] = "application/json"
-    #     head["Authorization"] = f"Bearer {thread_user_google}" if auth_type == "google" else f"Bearer {thread_user_vk}"
-    #     res = requests.put(url, params={"help": "true"}, headers=head)
-    #     logger.debug(res.json())
+        room_id = random.choice(closed_ids)
+        if type == "code":
+            api_svc.get_invite_code(room_id)
+        else:
+            api_svc.join_room_by_id(room_id)
+
