@@ -67,4 +67,8 @@ class DebtViewModel(
             })
             .addTo(disposable)
     }
+
+    fun setDebts(eventInfo: EventInfo) {
+        _debts.value = eventInfo
+    }
 }

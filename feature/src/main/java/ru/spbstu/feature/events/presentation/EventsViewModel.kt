@@ -128,6 +128,4 @@ class EventsViewModel(
     fun openQrCodeScanner() {
         router.openQrCodeFragment()
     }
-
-
 }

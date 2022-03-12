@@ -15,6 +15,7 @@ import ru.spbstu.feature.di.FeatureApi
 import ru.spbstu.feature.di.FeatureComponent
 import ru.spbstu.feature.event.presentation.EventFragment
 import ru.spbstu.feature.events.presentation.adapter.EventsAdapter
+import ru.spbstu.feature.utils.Utils
 
 class DebtFragment: ToolbarFragment<DebtViewModel>(
     R.layout.fragment_debt,
@@ -67,14 +68,15 @@ class DebtFragment: ToolbarFragment<DebtViewModel>(
                 binding.frgDebtTvNoDebts.visibility = View.GONE
                 binding.frgDebtRvDebts.visibility = View.VISIBLE
                 binding.frgDebtTvTotalDebt.visibility = View.VISIBLE
-                var total = 0.0
-                it.purchases.forEach { expense ->
-                    if (expense.users.containsKey(it.yourParticipantId) &&
-                        expense.users[it.yourParticipantId] == false &&
-                        expense.buyer.id != viewModel.debts.value.yourParticipantId) {
-                        total += expense.price / expense.users.size
-                    }
-                }
+                val total = Utils.calculateTotalDebt(it.purchases, it.yourParticipantId)
+//                var total = 0.0
+//                it.purchases.forEach { expense ->
+//                    if (expense.users.containsKey(it.yourParticipantId) &&
+//                        expense.users[it.yourParticipantId] == false &&
+//                        expense.buyer.id != viewModel.debts.value.yourParticipantId) {
+//                        total += expense.price / expense.users.size
+//                    }
+//                }
                 binding.frgDebtTvTotalDebt.text = getString(R.string.total_debt_template, total)
             }
             adapter.eventInfo = it
