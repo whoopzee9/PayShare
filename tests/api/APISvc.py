@@ -6,8 +6,8 @@ import requests
 from tests.api.constants import BASE_URL
 from loguru import logger
 
-class APISvc:
 
+class APISvc:
     _endpoints = {
         "login": "/auth/login",
         "refresh_token": "/auth/refresh",
@@ -20,6 +20,7 @@ class APISvc:
         "close_room": "/user/room/{room_id}/close",
         "invite_code": "/user/room/{room_id}/code",
         "leave_room": "/user/room/{room_id}/leave_room",
+        "kick_room_participant": "/user/room/{room_id}/participant/{participant_id}",
         "purchase": "/user/room/{room_id}/purchase",
         "join_purchase": "/user/room/{room_id}}/purchase/{purchase_id}/join",
         "check_purchase_paid": "/user/room/{room_id}}/purchase/{purchase_id}/paid",
@@ -111,6 +112,31 @@ class APISvc:
         res_data = res.json() if res.text is not "" else None
         return res_data
 
+    def leave_room(self, room_id, params=None, data=None):
+        if data is None:
+            data = {}
+        if params is None:
+            params = {}
+        url = self.endpoint + self._endpoints["leave_room"].replace("{room_id}", str(room_id))
+        head = {"Accept": "application/json", "Authorization": f"Bearer {self.token}"}
+        res = requests.delete(url, headers=head, params=params, data=json.dumps(data))
+        assert res.ok, res.text
+        res_data = res.json() if res.text is not "" else None
+        return res_data
+
+    def kick_user_from_room(self, room_id, participant_id, params=None, data=None):
+        if data is None:
+            data = {}
+        if params is None:
+            params = {}
+        url = self.endpoint + self._endpoints["leave_room"].replace("{room_id}", str(room_id)).replace(
+            "{participant_id}", participant_id)
+        head = {"Accept": "application/json", "Authorization": f"Bearer {self.token}"}
+        res = requests.delete(url, headers=head, params=params, data=json.dumps(data))
+        assert res.ok, res.text
+        res_data = res.json() if res.text is not "" else None
+        return res_data
+
     def delete_room(self, room_id, params=None):
         if params is None:
             params = {}
@@ -174,4 +200,3 @@ class APISvc:
         assert res.ok, res.text
         res_data = res.json()
         return res_data
-
