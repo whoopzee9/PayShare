@@ -14,5 +14,10 @@
 .cxx
 local.properties
 .idea
+tests/api/tests/pytest_report.html
+tests/api/tests/assets/style.css
+pytest_report.html
+assets/style.css
 *.apk1
 *.apk1
+tests/ui/assets/style.css

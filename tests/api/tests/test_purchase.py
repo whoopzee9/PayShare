@@ -14,6 +14,7 @@ from tests.api.markers import *
 
 class TestPurchase:
 
+    @th_current
     @pytest.mark.parametrize("auth_type", ["vk", "google"])
     def test_get_purchases(self, thread_user_google, thread_user_vk, auth_type):
         url = BASE_URL + "/user/room/{room_id}"
