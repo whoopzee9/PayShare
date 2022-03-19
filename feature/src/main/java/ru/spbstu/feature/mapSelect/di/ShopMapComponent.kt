@@ -4,7 +4,7 @@ import androidx.fragment.app.Fragment
 import dagger.BindsInstance
 import dagger.Subcomponent
 import ru.spbstu.common.di.scope.ScreenScope
-import ru.spbstu.feature.mapSelect.ShopMapFragment
+import ru.spbstu.feature.mapSelect.presentation.ShopMapFragment
 
 @Subcomponent(
     modules = [

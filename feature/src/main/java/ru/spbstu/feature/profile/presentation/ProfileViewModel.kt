@@ -64,4 +64,8 @@ class ProfileViewModel(
             })
             .addTo(disposable)
     }
+
+    fun setUser(user: User) {
+        _user.value = user
+    }
 }

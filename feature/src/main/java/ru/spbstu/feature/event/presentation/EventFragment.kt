@@ -3,7 +3,6 @@ package ru.spbstu.feature.event.presentation
 import android.os.Bundle
 import android.view.ViewGroup
 import android.widget.Toast
-import androidx.core.widget.addTextChangedListener
 import com.google.android.material.bottomsheet.BottomSheetBehavior
 import com.google.android.material.bottomsheet.BottomSheetDialog
 import ru.spbstu.common.di.FeatureUtils
@@ -27,8 +26,9 @@ import ru.spbstu.feature.domain.model.Shop
 import ru.spbstu.feature.event.presentation.adapter.ParticipantUserAdapter
 import ru.spbstu.feature.event.presentation.adapter.PurchaseAdapter
 import ru.spbstu.feature.event.presentation.dialog.PurchaseOptionsDialogFragment
-import ru.spbstu.feature.mapSelect.ShopMapFragment
+import ru.spbstu.feature.mapSelect.presentation.ShopMapFragment
 import ru.spbstu.feature.shared_adapters.DeleteDialogFragment
+import ru.spbstu.feature.utils.Utils
 import java.time.LocalDate
 
 class EventFragment : ToolbarFragment<EventViewModel>(
@@ -124,14 +124,15 @@ class EventFragment : ToolbarFragment<EventViewModel>(
                 it.sumOf { purchase -> purchase.price }.toString()
             purchaseAdapter.event = viewModel.event
             purchaseAdapter.bindData(it)
-            var total = 0.0
-            it.forEach { expense ->
-                if (expense.users.containsKey(viewModel.event.yourParticipantId) &&
-                    expense.users[viewModel.event.yourParticipantId] == false &&
-                    expense.buyer.id != viewModel.event.yourParticipantId) {
-                    total += expense.price / expense.users.size
-                }
-            }
+            val total = Utils.calculateTotalDebt(it, viewModel.event.yourParticipantId)
+//            var total = 0.0
+//            it.forEach { expense ->
+//                if (expense.users.containsKey(viewModel.event.yourParticipantId) &&
+//                    expense.users[viewModel.event.yourParticipantId] == false &&
+//                    expense.buyer.id != viewModel.event.yourParticipantId) {
+//                    total += expense.price / expense.users.size
+//                }
+//            }
             binding.frgEventTvPurchaseSumValue.text = "$total руб"
         }
         viewModel.users.observe {

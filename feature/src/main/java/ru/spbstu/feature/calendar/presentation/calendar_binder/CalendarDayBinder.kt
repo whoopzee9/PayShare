@@ -89,12 +89,12 @@ class CalendarDayBinder(
             }
             // Make the coloured selection background continuous on the invisible in and out dates across various months.
             DayOwner.PREVIOUS_MONTH -> if (startDate != null && endDate != null &&
-                isInDateBetween(day.date, startDate, endDate)
+                CalendarDayBinderHelper.isInDateBetween(day.date, startDate, endDate)
             ) {
                 textView.setBackgroundResource(R.drawable.calendar_selected_bg_middle)
             }
             DayOwner.NEXT_MONTH -> if (startDate != null && endDate != null &&
-                isOutDateBetween(day.date, startDate, endDate)
+                CalendarDayBinderHelper.isOutDateBetween(day.date, startDate, endDate)
             ) {
                 textView.setBackgroundResource(R.drawable.calendar_selected_bg_middle)
             }
@@ -104,28 +104,6 @@ class CalendarDayBinder(
     override fun create(view: View) = DayViewContainer(
         view, onDayClickListener = { this.onDayClickListener(it) }
     )
-
-    private fun isInDateBetween(
-        inDate: LocalDate,
-        startDate: LocalDate,
-        endDate: LocalDate
-    ): Boolean {
-        if (startDate.yearMonth == endDate.yearMonth) return false
-        if (inDate.yearMonth == startDate.yearMonth) return true
-        val firstDateInThisMonth = inDate.plusMonths(1).yearMonth.atDay(1)
-        return firstDateInThisMonth >= startDate && firstDateInThisMonth <= endDate && startDate != firstDateInThisMonth
-    }
-
-    private fun isOutDateBetween(
-        outDate: LocalDate,
-        startDate: LocalDate,
-        endDate: LocalDate
-    ): Boolean {
-        if (startDate.yearMonth == endDate.yearMonth) return false
-        if (outDate.yearMonth == endDate.yearMonth) return true
-        val lastDateInThisMonth = outDate.minusMonths(1).yearMonth.atEndOfMonth()
-        return lastDateInThisMonth >= startDate && lastDateInThisMonth <= endDate && endDate != lastDateInThisMonth
-    }
 
     private fun setExtremeViews(
         textView: TextView,

@@ -1,4 +1,4 @@
-package ru.spbstu.feature.mapSelect
+package ru.spbstu.feature.mapSelect.presentation
 
 import android.annotation.SuppressLint
 import androidx.core.os.bundleOf
