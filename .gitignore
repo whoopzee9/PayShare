@@ -20,3 +20,4 @@ pytest_report.html
 assets/style.css
 *.apk1
 *.apk1
+tests/ui/assets/style.css
