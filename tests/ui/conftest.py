@@ -29,7 +29,7 @@ def thread_user_vk():
 @pytest.fixture(scope="function")
 def payshare_window_login():
     driver = webdriver.Remote(WEB_ADDRESS, desired_capabilities=DESIRED_CAPABILITIES)
-    driver.implicitly_wait(10)
+    driver.implicitly_wait(20)
 
     return driver
 
@@ -37,20 +37,20 @@ def payshare_window_login():
 @pytest.fixture(scope="function")
 def payshare_window_after_login_for_thread_vk():
     driver = webdriver.Remote(WEB_ADDRESS, desired_capabilities=DESIRED_CAPABILITIES)
-    driver.implicitly_wait(10)
+    driver.implicitly_wait(30)
 
     element = driver.find_element_by_id(locators["vk_auth"])
     element.click()
-    driver.implicitly_wait(5)
+    driver.implicitly_wait(30)
     return driver
 
 
 @pytest.fixture(scope="function")
 def payshare_window_after_login_for_thread_google():
     driver = webdriver.Remote(WEB_ADDRESS, desired_capabilities=DESIRED_CAPABILITIES)
-    driver.implicitly_wait(10)
+    driver.implicitly_wait(30)
 
     element = driver.find_element_by_id(locators["google_auth"])
     element.click()
-    driver.implicitly_wait(5)
+    driver.implicitly_wait(30)
     return driver

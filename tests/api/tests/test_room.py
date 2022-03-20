@@ -177,7 +177,6 @@ class TestRoom:
         check.is_true(all(id in opened_ids for id in ids))
         check.is_true(all(id not in closed_ids for id in ids), msg=f"{closed_ids=}, {ids=}")
 
-    @th_current
     def test_close_room(self, thread_user_vk):
         _, api_svc = thread_user_vk
 
@@ -281,7 +280,6 @@ class TestRoom:
         else:
             api_svc.join_room_by_id(room_id)
 
-    @th_current
     @pytest.mark.parametrize("room_type", ["open", "closed"])
     def test_leave_room_user(self, thread_user_google, thread_user_vk, room_type):
         _, api_svc_google = thread_user_google
@@ -332,7 +330,6 @@ class TestRoom:
         check.equal(opened_before_count_owner, opened_after_count_owner)
         check.equal(len(room_info_after["room_info"]["participants"]), len(room_info_before["room_info"]["participants"]) - 1)
 
-    @th_current
     @pytest.mark.parametrize("room_type", ["open", "closed"])
     @pytest.mark.xfail(reason="Negative test case")
     def test_leave_room_owner(self, thread_user_vk, room_type):
@@ -354,45 +351,28 @@ class TestRoom:
         res = api_svc.leave_room(room_id)
         logger.debug(f"Test passed: {res}")
 
-    def test_kick_user_from_room(self, thread_user_google, thread_user_vk):
-        _, api_svc_vk = thread_user_google
-        _, api_svc_google = thread_user_google
-
-        opened_rooms_user = api_svc_google.get_opened_rooms()["rooms"]
+    def test_room_operation_by_user(self, thread_user_google):
+        _, api_svc = thread_user_google
+        opened_rooms_user = api_svc.get_opened_rooms()["rooms"]
         opened_before_count_user = len(opened_rooms_user) if opened_rooms_user is not None else 0
+        closed_rooms_user = api_svc.get_closed_rooms()["rooms"]
+        closed_before_count_user = len(closed_rooms_user) if closed_rooms_user is not None else 0
         opened_ids = [elem["room"]["id"] for elem in opened_rooms_user if
                       elem["is_your"] is False] if opened_before_count_user != 0 else []
-
-        opened_rooms_owner = api_svc_vk.get_opened_rooms()["rooms"]
-        opened_before_count_owner = len(opened_rooms_owner) if opened_rooms_owner is not None else 0
-
-        closed_rooms = api_svc_google.get_closed_rooms()["rooms"]
-        closed_before_count = len(closed_rooms) if closed_rooms is not None else 0
         room_id = random.choice(opened_ids)
+        with pytest.raises(Exception) as e1:
+            res = api_svc.close_room(room_id)
+            logger.debug(res)
+        logger.info(f"close - {e1.value}")
+        with pytest.raises(Exception) as e3:
+            res = api_svc.delete_room(room_id)
+            logger.debug(res)
+        logger.info(f"delete - {e3.value}")
 
-        room_info_before = api_svc_google.get_room(room_id)
-        res = api_svc_vk.leave_room(room_id)
-        logger.info(f"{res}")
-        room_info_after = api_svc_vk.get_room(room_id)
-
-        opened_rooms_user = api_svc_google.get_opened_rooms()["rooms"]
+        opened_rooms_user = api_svc.get_opened_rooms()["rooms"]
         opened_after_count_user = len(opened_rooms_user) if opened_rooms_user is not None else 0
-        opened_ids = [elem["room"]["id"] for elem in opened_rooms_user] if opened_after_count_user != 0 else []
-
-        opened_rooms_owner = api_svc_google.get_opened_rooms()["rooms"]
-        opened_after_count_owner = len(opened_rooms_owner) if opened_rooms_owner is not None else 0
-
-        closed_rooms = api_svc_google.get_closed_rooms()["rooms"]
-        closed_after_count = len(closed_rooms) if closed_rooms is not None else 0
-        closed_ids = [elem["room"]["id"] for elem in closed_rooms] if closed_after_count != 0 else []
-
-        check.equal(opened_after_count_user, opened_before_count_user - 1)
-        check.is_not_in(room_id, opened_ids)
-        check.equal(closed_after_count, closed_before_count)
-        check.is_not_in(room_id, closed_ids)
-        check.is_true(room_info_after != room_info_before)
-        check.equal(opened_before_count_owner, opened_after_count_owner)
-        check.equal(len(room_info_after["room_info"]["participants"]),
-                    len(room_info_before["room_info"]["participants"]) - 1)
-# обычный пользователь не может закрыть комнату, получить код приглашения
+        closed_rooms_user = api_svc.get_closed_rooms()["rooms"]
+        closed_after_count_user = len(closed_rooms_user) if closed_rooms_user is not None else 0
+        check.equal(closed_after_count_user, closed_before_count_user)
+        check.equal(opened_after_count_user, opened_before_count_user)
 

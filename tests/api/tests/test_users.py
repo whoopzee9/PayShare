@@ -5,7 +5,6 @@ from tests.api.markers import *
 
 class TestUsers:
 
-    @th_current
     def test_get_user(self, thread_user_google):
         token, api_svc = thread_user_google
         res_data = api_svc.get_user()

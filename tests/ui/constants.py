@@ -54,6 +54,7 @@ locators = {
     "purchase_info_name": "ru.spbstu.payshare:id/item_purchase_info__tv_description",
     "purchase_info_buyer": "ru.spbstu.payshare:id/item_purchase_info__tv_buyer_name",
     "purchase_info_date": "ru.spbstu.payshare:id/item_purchase_info__tv_date",
-    "purchase_info_price": "ru.spbstu.payshare:id/item_purchase_info__price"
+    "purchase_info_price": "ru.spbstu.payshare:id/item_purchase_info__price",
+    "purchase_info_participants": "ru.spbstu.payshare:id/item_user__iv",
 
 }

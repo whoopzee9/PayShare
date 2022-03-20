@@ -185,7 +185,7 @@ class APISvc:
         url = self.endpoint + self._endpoints["purchase"].replace("{room_id}", str(room_id))
         head = {"Accept": "application/json", "Authorization": f"Bearer {self.token}"}
         res = requests.post(url, headers=head, params=params, data=json.dumps(data))
-        assert res.ok
+        assert res.ok, res.text
         res_data = res.json()
         return res_data
 
