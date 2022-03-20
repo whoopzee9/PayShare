@@ -1,6 +1,5 @@
 package ru.spbstu.feature.expense.presentation
 
-import android.util.Log
 import com.google.android.gms.maps.model.LatLng
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.rxkotlin.addTo
@@ -43,7 +42,8 @@ class ExpenseViewModel(
                     is PayShareResult.Success -> {
                         eventInfo = it.data
                         _purchase.value =
-                            it.data.purchases.first { expense -> expense.id == expenseId }
+                            it.data.purchases.firstOrNull { expense -> expense.id == expenseId }
+                                ?: Expense()
                         _users.value = it.data.participants.filter { user ->
                             purchase.value.users.containsKey(user.id)
                         }
@@ -60,10 +60,5 @@ class ExpenseViewModel(
                 setEventState(EventState.Failure(EventError.ConnectionError))
             })
             .addTo(disposable)
-    }
-
-    companion object {
-        // TODO add method to get current user
-
     }
 }

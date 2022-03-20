@@ -33,11 +33,11 @@ class CalendarViewModel(private val dataWrapper: BundleDataWrapper) :
         calendarDateRangeCallback(CalendarDateRange(startDate, endDate))
     }
 
-    private fun setSingleDayMode(day: LocalDate) {
+    fun setSingleDayMode(day: LocalDate) {
         startDate = day
     }
 
-    private fun setTwoDaysMode(day: LocalDate) {
+    fun setTwoDaysMode(day: LocalDate) {
         if (startDate != null) {
             if (day < startDate || endDate != null) {
                 startDate = day
@@ -56,14 +56,22 @@ class CalendarViewModel(private val dataWrapper: BundleDataWrapper) :
             startDate != null && calendarMode == CalendarSelectionMode.SINGLE_DAY -> {
                 CalendarSelectionState.SingleDay
             }
-            startDate != null && endDate == null -> {
+            startDate != null && endDate == null && calendarMode == CalendarSelectionMode.TWO_DAYS -> {
                 CalendarSelectionState.StartDate
             }
-            startDate != null && endDate != null -> {
+            startDate != null && endDate != null && calendarMode == CalendarSelectionMode.TWO_DAYS -> {
                 CalendarSelectionState.EndDate
             }
             else -> CalendarSelectionState.NotSelected
         }
+    }
+
+    fun setStartDate(date: LocalDate?) {
+        startDate = date
+    }
+
+    fun setEndDate(date: LocalDate?) {
+        endDate = date
     }
 
     fun getStartDate(): LocalDate? {
