@@ -35,7 +35,28 @@ jobs:
         uses: actions/download-artifact@v1
         with:
           name: apk
-      - name: LS
-        run: ls
-      - name: PWD
-        run: echo $PWD
+      - name: Appium Server Action
+        uses: moatazeldebsy/Appium-Server-GitHub-Action@V1.0.5
+      - name: Install python
+        uses: actions/setup-python@v3.0.0
+        with:
+          python-version: 3.8
+      - name: PIP install
+        uses: BSFishy/pip-action@v1
+        with:
+          packages: |
+            pytest
+            requests
+            pytest_check
+            loguru
+            pytest-html
+            Appium-Python-Client
+      - name: Test
+        run: python3 -m pytest tests/ui -v --html=report.html
+      - name: Upload report
+        uses: actions/upload-artifact@v1
+        with:
+          name: report
+          path: report.html
+            
+        
