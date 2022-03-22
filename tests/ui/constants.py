@@ -2,7 +2,7 @@ DESIRED_CAPABILITIES = {
     "appium:deviceName": "DUM0219A22002975",
     "platformName": "Android",
     "appium:appPackage": "ru.spbstu.payshare",
-    "appium:app": "C:\\Users\\Григорий\\Downloads\\Telegram Desktop\\app-release (2).apk",
+    "appium:app": "/home/runner/work/PayShare/PayShare/apk/app-debug.apk",
     "appium:appWaitActivity": "ru.spbstu.payshare.root.presentation.RootActivity"
 }
 
