@@ -34,4 +34,4 @@ jobs:
         with:
           name: apk
       - name: LS
-        run: ls
+        run: ls apk/
