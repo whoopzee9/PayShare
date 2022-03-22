@@ -37,3 +37,5 @@ jobs:
           name: apk
       - name: LS
         run: ls
+      - name: PWD
+        run: echo $PWD
