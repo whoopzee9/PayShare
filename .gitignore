@@ -21,3 +21,4 @@ assets/style.css
 *.apk1
 *.apk1
 tests/ui/assets/style.css
+tests/api/assets/style.css
