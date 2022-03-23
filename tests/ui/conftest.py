@@ -1,4 +1,6 @@
 import json
+import random
+
 from appium import webdriver
 
 import pytest
@@ -88,3 +90,47 @@ def payshare_window_after_login_for_thread_google(web_address, desired_capabilit
     element.click()
     driver.implicitly_wait(30)
     return driver
+
+@pytest.fixture(scope="function")
+def payshare_opened_room_for_thread_vk(payshare_window_after_login_for_thread_vk):
+    driver = payshare_window_after_login_for_thread_vk
+    driver.implicitly_wait(30)
+    driver.find_element_by_id(locators["opened_rooms_button"]).click()
+    rooms = driver.find_elements_by_id(locators["rooms_cards_titles"])
+    random.choice(rooms).click()
+    driver.implicitly_wait(30)
+    return driver
+
+@pytest.fixture(scope="function")
+def payshare_opened_room_for_thread_google(payshare_window_after_login_for_thread_google):
+    driver = payshare_window_after_login_for_thread_google
+    driver.implicitly_wait(30)
+    driver.find_element_by_id(locators["opened_rooms_button"]).click()
+    rooms = driver.find_elements_by_id(locators["rooms_cards_titles"])
+    random.choice(rooms).click()
+    driver.implicitly_wait(30)
+    return driver
+
+@pytest.fixture(scope="function")
+def payshare_closed_room_for_thread_vk(payshare_window_after_login_for_thread_vk):
+    driver = payshare_window_after_login_for_thread_vk
+    driver.implicitly_wait(30)
+
+    driver.find_element_by_id(locators["archive_button"]).click()
+    rooms = driver.find_elements_by_id(locators["rooms_cards_titles"])
+    room = random.choice(rooms)
+    room.click()
+    driver.implicitly_wait(30)
+    return driver
+
+@pytest.fixture(scope="function")
+def payshare_closed_room_for_thread_google(payshare_window_after_login_for_thread_google):
+    driver = payshare_window_after_login_for_thread_google
+
+    driver.find_element_by_id(locators["archive_button"]).click()
+    rooms = driver.find_elements_by_id(locators["rooms_cards_titles"])
+    room = random.choice(rooms)
+    room.click()
+    driver.implicitly_wait(30)
+    return driver
+

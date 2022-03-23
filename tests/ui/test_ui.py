@@ -11,7 +11,7 @@ from tests.api.markers import *
 from tests.ui.constants import locators
 from loguru import logger
 
-
+@th_current
 class TestUI:
 
     # Авторизация
@@ -25,7 +25,7 @@ class TestUI:
         element.click()
         driver.implicitly_wait(30)
         title = driver.find_element_by_id(locators["page_title"]).get_attribute("text")
-        check.equal("Покупки", title)
+        check.equal("покупки", title.lower())
 
     # Проверка профиля
     def test_profile_vk(self, payshare_window_after_login_for_thread_vk):
@@ -78,13 +78,14 @@ class TestUI:
         check.equal(driver.find_element_by_id(locators["code_ok_button"]).get_attribute("enabled").lower(), "false")
         for i in range(1, 5):
             data = 1 * 10 ** (i-1)
-            driver.find_element_by_id(locators["code_text"]).clear()
-            driver.implicitly_wait(5)
-            driver.find_element_by_id(locators["code_text"]).send_keys(data)
-            driver.implicitly_wait(5)
-            button_state = driver.find_element_by_id(locators["code_ok_button"]).get_attribute("enabled").lower()
-            check.equal(button_state, "false")
-            driver.implicitly_wait(5)
+            time.sleep(1)
+            code_text = driver.find_element_by_id(locators["code_text"])
+            time.sleep(3)
+            code_text.clear()
+            code_text.send_keys(data)
+            time.sleep(2)
+            ok_button = driver.find_element_by_id(locators["code_ok_button"])
+            check.equal(ok_button.get_attribute("enabled").lower(), "false")
 
         driver.find_element_by_id(locators["code_text"]).clear()
         driver.find_element_by_id(locators["code_text"]).send_keys(12345)
@@ -180,13 +181,8 @@ class TestUI:
         check.equal(pass_code, pass_code_second)
 
     # Код доступа закрытой комнаты
-    def test_get_invite_code_for_closed_room(self, payshare_window_after_login_for_thread_vk):
-        driver = payshare_window_after_login_for_thread_vk
-        driver.find_element_by_id(locators["archive_button"]).click()
-        rooms = driver.find_elements_by_id(locators["rooms_cards_titles"])
-        room = random.choice(rooms)
-        room.click()
-        driver.implicitly_wait(30)
+    def test_get_invite_code_for_closed_room(self, payshare_closed_room_for_thread_vk):
+        driver = payshare_closed_room_for_thread_vk
 
         driver.find_element_by_id(locators["second_toolbar_button"]).click()
         with pytest.raises(Exception) as e:
@@ -196,14 +192,8 @@ class TestUI:
         assert e
 
     # Кнопка создания расхода
-    def test_click_add_purchase_button(self, payshare_window_after_login_for_thread_google):
-        driver = payshare_window_after_login_for_thread_google
-
-        locator = locators["opened_rooms_button"]
-        driver.find_element_by_id(locator).click()
-        rooms = driver.find_elements_by_id(locators["rooms_cards_titles"])
-        random.choice(rooms).click()
-        driver.implicitly_wait(30)
+    def test_click_add_purchase_button(self, payshare_opened_room_for_thread_vk):
+        driver = payshare_opened_room_for_thread_vk
 
         driver.find_element_by_id(locators["add_float_button_room"]).click()
 
@@ -212,17 +202,10 @@ class TestUI:
         check.is_in("расход", title.get_attribute("text").lower())
 
     # Окно создания расхода
-    def test_check_enable_add_purchase(self, payshare_window_after_login_for_thread_google):
-        driver = payshare_window_after_login_for_thread_google
-
-        locator = locators["opened_rooms_button"]
-        driver.find_element_by_id(locator).click()
-        rooms = driver.find_elements_by_id(locators["rooms_cards_titles"])
-        random.choice(rooms).click()
-        driver.implicitly_wait(30)
+    def test_check_enable_add_purchase(self, payshare_opened_room_for_thread_vk):
+        driver = payshare_opened_room_for_thread_vk
 
         driver.find_element_by_id(locators["add_float_button_room"]).click()
-
         driver.implicitly_wait(30)
         element_button = driver.find_element_by_id(locators["add_purchase_save_button"])
         element_name = driver.find_element_by_id(locators["add_purchase_name"])
@@ -252,14 +235,8 @@ class TestUI:
         check.equal(element_button.get_attribute("enabled").lower(), "true")
 
     # Создание расхода
-    def test_create_purchase(self, payshare_window_after_login_for_thread_vk):
-        driver = payshare_window_after_login_for_thread_vk
-
-        locator = locators["opened_rooms_button"]
-        driver.find_element_by_id(locator).click()
-        rooms = driver.find_elements_by_id(locators["rooms_cards_titles"])
-        random.choice(rooms).click()
-        driver.implicitly_wait(30)
+    def test_create_purchase(self, payshare_opened_room_for_thread_vk):
+        driver = payshare_opened_room_for_thread_vk
 
         driver.find_element_by_id(locators["add_float_button_room"]).click()
 
@@ -287,20 +264,14 @@ class TestUI:
         check.is_in(name, names)
 
     # Невозможность добавления расхода в закрытую комнату
-    def test_add_purchase_to_closed_room(self, payshare_window_after_login_for_thread_vk):
-        driver = payshare_window_after_login_for_thread_vk
-
-        locator = locators["archive_button"]
-        driver.find_element_by_id(locator).click()
-        rooms = driver.find_elements_by_id(locators["rooms_cards_titles"])
-        random.choice(rooms).click()
-        driver.implicitly_wait(30)
-
-        driver.find_element_by_id(locators["add_float_button_room"]).click()
+    def test_add_purchase_to_closed_room(self, payshare_closed_room_for_thread_vk):
+        driver = payshare_closed_room_for_thread_vk
 
         driver.implicitly_wait(30)
         purchases = driver.find_elements_by_id(locators["purchase_name"])
         names_before = [purchase.get_attribute("text") for purchase in purchases]
+
+        driver.find_element_by_id(locators["add_float_button_room"]).click()
         driver.implicitly_wait(30)
         element_button = driver.find_element_by_id(locators["add_purchase_save_button"])
         element_name = driver.find_element_by_id(locators["add_purchase_name"])
@@ -326,14 +297,8 @@ class TestUI:
         check.equal(len(names_before), len(names_after))
 
     # Информация о расходе
-    def test_purchase_info(self, payshare_window_after_login_for_thread_vk):
-        driver = payshare_window_after_login_for_thread_vk
-
-        locator = locators["opened_rooms_button"]
-        driver.find_element_by_id(locator).click()
-        rooms = driver.find_elements_by_id(locators["rooms_cards_titles"])
-        random.choice(rooms).click()
-        driver.implicitly_wait(30)
+    def test_purchase_info(self, payshare_opened_room_for_thread_vk):
+        driver = payshare_opened_room_for_thread_vk
         purchases = []
         try:
             purchases = driver.find_elements_by_id(locators["purchase"])
@@ -390,13 +355,8 @@ class TestUI:
         check.equal(driver.find_element_by_id(locators["purchase_info_date"]).get_attribute("text")[-2:0], purchase_date[-2:0])
 
     # Отметка покупок
-    def test_mark_purchase(self, payshare_window_after_login_for_thread_vk):
-        driver = payshare_window_after_login_for_thread_vk
-        locator = locators["opened_rooms_button"]
-        driver.find_element_by_id(locator).click()
-        rooms = driver.find_elements_by_id(locators["rooms_cards_titles"])
-        random.choice(rooms).click()
-        driver.implicitly_wait(30)
+    def test_mark_purchase(self, payshare_opened_room_for_thread_vk):
+        driver = payshare_opened_room_for_thread_vk
         purchases = []
         try:
             purchases = driver.find_elements_by_id(locators["purchase"])
@@ -551,14 +511,9 @@ class TestUI:
             check.equal(participants_after, participants_before - 1)
 
     # Удаление расхода
-    def test_delete_purchase(self, payshare_window_after_login_for_thread_vk):
-        driver = payshare_window_after_login_for_thread_vk
+    def test_delete_purchase(self, payshare_opened_room_for_thread_vk):
+        driver = payshare_opened_room_for_thread_vk
 
-        locator = locators["opened_rooms_button"]
-        driver.find_element_by_id(locator).click()
-        rooms = driver.find_elements_by_id(locators["rooms_cards_titles"])
-        random.choice(rooms).click()
-        driver.implicitly_wait(30)
         purchases = []
         try:
             purchases = driver.find_elements_by_id(locators["purchase"])
@@ -672,24 +627,22 @@ class TestUI:
         titles = [room.get_attribute("text") for room in rooms]
         check.is_not_in(room_name, titles)
 
-    @th_current
     def test_opened_rooms(self, payshare_window_after_login_for_thread_vk, thread_user_vk):
         _, api_svc = thread_user_vk
         driver = payshare_window_after_login_for_thread_vk
         opened_rooms = api_svc.get_opened_rooms()["rooms"]
         opened_count = len(opened_rooms) if opened_rooms is not None else 0
-        opened_ids = [elem["room"]["id"] for elem in opened_rooms] if opened_count != 0 else []
+        opened_names = [elem["room"]["room_name"] for elem in opened_rooms] if opened_count != 0 else []
         names = [elem.get_attribute("text") for elem in driver.find_elements_by_id(locators["rooms_cards_titles"])]
-        assert all([name in opened_ids for name in names])
+        assert all([name in opened_names for name in names])
 
-    @th_current
     def test_closed_rooms(self, payshare_window_after_login_for_thread_vk, thread_user_vk):
         _, api_svc = thread_user_vk
         driver = payshare_window_after_login_for_thread_vk
-        locator = locators["archive_button"]
-        driver.find_element_by_id(locator).click()
-        closed_rooms = api_svc.get_opened_rooms()["rooms"]
+        driver.implicitly_wait(30)
+        driver.find_element_by_id(locators["archive_button"]).click()
+        closed_rooms = api_svc.get_closed_rooms()["rooms"]
         closed_count = len(closed_rooms) if closed_rooms is not None else 0
-        opened_ids = [elem["room"]["id"] for elem in closed_rooms] if closed_count != 0 else []
+        closed_names = [elem["room"]["room_name"] for elem in closed_rooms] if closed_count != 0 else []
         names = [elem.get_attribute("text") for elem in driver.find_elements_by_id(locators["rooms_cards_titles"])]
-        assert all([name in opened_ids for name in names])
+        assert all([name in closed_names for name in names])
