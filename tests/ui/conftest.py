@@ -8,8 +8,43 @@ from loguru import logger
 
 from tests.api.APISvc import APISvc
 from tests.api.constants import BASE_URL
-from tests.ui.constants import DESIRED_CAPABILITIES, WEB_ADDRESS, locators
+from tests.ui.constants import DESIRED_CAPABILITIES, locators
 
+
+def pytest_addoption(parser):
+    parser.addoption(
+        "--device_name", action="store", default="DUM0219A22002975", help="Name of device"
+    )
+    parser.addoption(
+        "--web_address", action="store", default="http://localhost:4723/wd/hub", help="Appium server address"
+    )
+    parser.addoption("--app", action="store",
+                     default="C:\\Users\\Григорий\\Downloads\\Telegram Desktop\\app-release (2).apk",
+                     help="Apk path"
+    )
+
+
+@pytest.fixture(scope="session")
+def device_name(request):
+    yield request.config.getoption("--device-name")
+
+
+@pytest.fixture(scope="session")
+def web_address(request):
+    yield request.config.getoption("--web_address")
+
+
+@pytest.fixture(scope="session")
+def app(request):
+    yield request.config.getoption("--app")
+
+
+@pytest.fixture(scope="session")
+def desired_capabilities(request):
+    desired_capabilities = DESIRED_CAPABILITIES
+    desired_capabilities["appium:deviceName"] = request.config.getoption("device_name")
+    desired_capabilities["appium:app"] = request.config.getoption("app")
+    yield desired_capabilities
 
 @pytest.fixture(scope="session")
 def thread_user_google():
@@ -27,16 +62,16 @@ def thread_user_vk():
 
 
 @pytest.fixture(scope="function")
-def payshare_window_login():
-    driver = webdriver.Remote(WEB_ADDRESS, desired_capabilities=DESIRED_CAPABILITIES)
+def payshare_window_login(web_address, desired_capabilities):
+    driver = webdriver.Remote(web_address, desired_capabilities=desired_capabilities)
     driver.implicitly_wait(20)
 
     return driver
 
 
 @pytest.fixture(scope="function")
-def payshare_window_after_login_for_thread_vk():
-    driver = webdriver.Remote(WEB_ADDRESS, desired_capabilities=DESIRED_CAPABILITIES)
+def payshare_window_after_login_for_thread_vk(web_address, desired_capabilities):
+    driver = webdriver.Remote(web_address, desired_capabilities=desired_capabilities)
     driver.implicitly_wait(30)
 
     element = driver.find_element_by_id(locators["vk_auth"])
@@ -46,8 +81,8 @@ def payshare_window_after_login_for_thread_vk():
 
 
 @pytest.fixture(scope="function")
-def payshare_window_after_login_for_thread_google():
-    driver = webdriver.Remote(WEB_ADDRESS, desired_capabilities=DESIRED_CAPABILITIES)
+def payshare_window_after_login_for_thread_google(web_address, desired_capabilities):
+    driver = webdriver.Remote(web_address, desired_capabilities=desired_capabilities)
     driver.implicitly_wait(30)
 
     element = driver.find_element_by_id(locators["google_auth"])
