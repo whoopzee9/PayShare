@@ -51,8 +51,16 @@ jobs:
             loguru
             pytest-html
             Appium-Python-Client
+      - name: Setup Android SDK Tools
+        uses: android-actions/setup-android@v2.0.2
+      - name: Android Emulator Runner
+        uses: ReactiveCircus/android-emulator-runner@v2.23.0
+        with:
+          api-level: 23
+          # hardware profile used for creating the AVD - e.g. `Nexus 6`
+          profile: Nexus 6
       - name: Test
-        run: python3 -m pytest tests/ui -v --html=report.html
+        run: python3 -m pytest tests/ui -v --html=report.html --device_name="NEXUS 6" --web_address=http://localhost:4723 --app apk/app-debug.apk
       - name: Upload report
         uses: actions/upload-artifact@v1
         with:
