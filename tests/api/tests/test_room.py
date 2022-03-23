@@ -229,6 +229,7 @@ class TestRoom:
         check.is_in(room_id, opened_ids)
         check.equal(closed_after_count, closed_before_count - 1)
         check.is_not_in(room_id, closed_ids)
+        api_svc.close_room(room_id)
 
     @pytest.mark.parametrize("room", ["closed", "opened"])
     def test_delete_room(self, thread_user_vk, room):

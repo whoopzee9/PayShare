@@ -23,7 +23,6 @@ def pytest_addoption(parser):
                      help="Apk path"
     )
 
-
 @pytest.fixture(scope="session")
 def device_name(request):
     yield request.config.getoption("--device-name")
