@@ -64,7 +64,7 @@ class APISvc:
         res_data = res.json()
         return res_data
 
-    def create_room(self, room_name, room_date=datetime.date.today(), params=None):
+    def create_room(self, room_name, room_date=str(datetime.date.today()), params=None):
         if params is None:
             params = {}
         url = self.endpoint + self._endpoints["room"]
@@ -189,7 +189,7 @@ class APISvc:
                 "lat": 123.45,
                 "long": 123.45,
                 "shop_name": shop,
-                "date": "string",
+                "date": str(datetime.date.today()),
                 "description": "string"
             }
         }
@@ -212,7 +212,7 @@ class APISvc:
                 "lat": 123.45,
                 "long": 123.45,
                 "shop_name": shop,
-                "date": "string",
+                "date": str(datetime.date.today()),
                 "description": "string"
             }
         }

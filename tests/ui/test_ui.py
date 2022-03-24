@@ -23,7 +23,7 @@ class TestUI:
         auth_type = "вк" if auth_type == "vk" else auth_type
         check.is_in(auth_type, text)
         element.click()
-        # driver.implicitly_wait(30)
+        time.sleep(3)
         title = driver.find_element_by_id(locators["page_title"]).get_attribute("text")
         check.equal("покупки", title.lower())
 
@@ -32,7 +32,7 @@ class TestUI:
         driver = payshare_window_after_login_for_thread_vk
 
         driver.find_element_by_id(locators["profile_button"]).click()
-        # driver.implicitly_wait(100)
+        time.sleep(3)
         profile_name = driver.find_element_by_id(locators["profile_name"]).get_attribute("text")
         name = "test vk"
         check.equal(name, profile_name.lower())
@@ -42,7 +42,7 @@ class TestUI:
         driver = payshare_window_after_login_for_thread_google
 
         driver.find_element_by_id(locators["profile_button"]).click()
-        # driver.implicitly_wait(100)
+        time.sleep(3)
         profile_name = driver.find_element_by_id(locators["profile_name"]).get_attribute("text")
         name = "test google"
         check.equal(name, profile_name.lower())
@@ -50,9 +50,9 @@ class TestUI:
     # Поиск комнаты
     def test_click_search_button(self, payshare_window_after_login_for_thread_google):
         driver = payshare_window_after_login_for_thread_google
-        # driver.implicitly_wait(20)
+        time.sleep(3)
         driver.find_element_by_id(locators["second_toolbar_button"]).click()
-        # driver.implicitly_wait(30)
+        time.sleep(3)
         text = driver.find_element_by_id(locators["code_window_title"]).get_attribute("text")
         expected = "код комнаты"
         check.is_in(expected, text.lower())
@@ -60,9 +60,9 @@ class TestUI:
     # QR-код
     def test_click_qr_button(self, payshare_window_after_login_for_thread_google):
         driver = payshare_window_after_login_for_thread_google
-        # driver.implicitly_wait(20)
+        time.sleep(3)
         driver.find_element_by_id(locators["first_toolbar_button"]).click()
-        # driver.implicitly_wait(30)
+        time.sleep(3)
         driver.find_element_by_id("com.android.permissioncontroller:id/permission_allow_button").click()
         title = driver.find_element_by_id(locators["page_title"]).get_attribute("text")
         expected = "скан"
@@ -73,7 +73,7 @@ class TestUI:
         driver = payshare_window_after_login_for_thread_google
 
         driver.find_element_by_id(locators["second_toolbar_button"]).click()
-        # driver.implicitly_wait(30)
+        time.sleep(3)
 
         check.equal(driver.find_element_by_id(locators["code_ok_button"]).get_attribute("enabled").lower(), "false")
         for i in range(1, 5):
@@ -92,27 +92,27 @@ class TestUI:
         ok_button = driver.find_element_by_id(locators["code_ok_button"])
         check.equal(ok_button.get_attribute("enabled").lower(), "true")
         ok_button.click()
-        # driver.implicitly_wait(30)
+        time.sleep(3)
         ok_button = driver.find_element_by_id(locators["code_ok_button"])
         check.equal(ok_button.get_attribute("enabled").lower(), "true")
 
     # Кнопка создания комнаты
     def test_click_add_room_button(self, payshare_window_after_login_for_thread_google):
         driver = payshare_window_after_login_for_thread_google
-        # driver.implicitly_wait(30)
+        time.sleep(3)
         driver.find_element_by_id(locators["add_float_button"]).click()
 
-        # driver.implicitly_wait(30)
+        time.sleep(3)
         title = driver.find_element_by_id(locators["event_dialog_title"])
         check.is_in("событие", title.get_attribute("text").lower())
 
     # Окно создание комнаты
     def test_check_enable_add_room(self, payshare_window_after_login_for_thread_google):
         driver = payshare_window_after_login_for_thread_google
-        # driver.implicitly_wait(30)
+        time.sleep(3)
         driver.find_element_by_id(locators["add_float_button"]).click()
 
-        # driver.implicitly_wait(30)
+        time.sleep(3)
         element_button = driver.find_element_by_id(locators["save_room_button"])
         element_name = driver.find_element_by_id(locators["add_room_name"])
         element_date = driver.find_element_by_id(locators["add_room_date"])
@@ -133,7 +133,7 @@ class TestUI:
     @pytest.mark.parametrize("room_type", ["open", "close"])
     def test_check_click_room_card(self, payshare_window_after_login_for_thread_google, room_type):
         driver = payshare_window_after_login_for_thread_google
-        # driver.implicitly_wait(30)
+        time.sleep(3)
         locator = locators["opened_rooms_button"] if room_type == "open" else locators["archive_button"]
         driver.find_element_by_id(locator).click()
         rooms = driver.find_elements_by_id(locators["rooms_cards_titles"])
@@ -144,7 +144,7 @@ class TestUI:
 
         room_name = room.get_attribute("text")
         room.click()
-        # driver.implicitly_wait(30)
+        time.sleep(3)
         title = driver.find_element_by_id(locators["page_title"]).get_attribute("text")
         check.equal(room_name, title)
         purchases = 0
@@ -160,7 +160,7 @@ class TestUI:
 
         driver.find_element_by_id(locators["add_float_button"]).click()
 
-        # driver.implicitly_wait(30)
+        time.sleep(3)
         element_name = driver.find_element_by_id(locators["add_room_name"])
         room_name = f"test-room{datetime.datetime.now()}"
         element_name.send_keys(room_name)
@@ -197,7 +197,7 @@ class TestUI:
 
         driver.find_element_by_id(locators["add_float_button_room"]).click()
 
-        # driver.implicitly_wait(30)
+        time.sleep(3)
         title = driver.find_element_by_id(locators["add_purchase_title"])
         check.is_in("расход", title.get_attribute("text").lower())
 
@@ -206,7 +206,7 @@ class TestUI:
         driver = payshare_opened_room_for_thread_vk
 
         driver.find_element_by_id(locators["add_float_button_room"]).click()
-        # driver.implicitly_wait(30)
+        time.sleep(3)
         element_button = driver.find_element_by_id(locators["add_purchase_save_button"])
         element_name = driver.find_element_by_id(locators["add_purchase_name"])
         element_date = driver.find_element_by_id(locators["add_purchase_date"])
@@ -240,7 +240,7 @@ class TestUI:
 
         driver.find_element_by_id(locators["add_float_button_room"]).click()
 
-        # driver.implicitly_wait(30)
+        time.sleep(3)
         element_button = driver.find_element_by_id(locators["add_purchase_save_button"])
         element_name = driver.find_element_by_id(locators["add_purchase_name"])
         element_cost = driver.find_element_by_id(locators["add_purchase_cost"])
@@ -250,14 +250,14 @@ class TestUI:
         element_cost.send_keys(30)
         shop_name = "test-shop"
         element_shop.click()
-        # driver.implicitly_wait(30)
+        time.sleep(2)
         driver.find_element_by_id(locators["add_shop_title"]).send_keys(shop_name)
-        # driver.implicitly_wait(30)
+        time.sleep(2)
         driver.find_element_by_id(locators["add_shop_save_button"]).click()
-        # driver.implicitly_wait(30)
+        time.sleep(2)
         element_shop = driver.find_element_by_id(locators["add_purchase_shop"])
         check.equal(shop_name, element_shop.get_attribute("text"))
-        # driver.implicitly_wait(30)
+        time.sleep(2)
         element_button.click()
         purchases = driver.find_elements_by_id(locators["purchase_name"])
         names = [purchase.get_attribute("text") for purchase in purchases]
@@ -267,12 +267,12 @@ class TestUI:
     def test_add_purchase_to_closed_room(self, payshare_closed_room_for_thread_vk):
         driver = payshare_closed_room_for_thread_vk
 
-        # driver.implicitly_wait(30)
+        time.sleep(3)
         purchases = driver.find_elements_by_id(locators["purchase_name"])
         names_before = [purchase.get_attribute("text") for purchase in purchases]
 
         driver.find_element_by_id(locators["add_float_button_room"]).click()
-        # driver.implicitly_wait(30)
+        time.sleep(3)
         element_button = driver.find_element_by_id(locators["add_purchase_save_button"])
         element_name = driver.find_element_by_id(locators["add_purchase_name"])
         element_cost = driver.find_element_by_id(locators["add_purchase_cost"])
@@ -282,14 +282,14 @@ class TestUI:
         element_cost.send_keys(30)
         shop_name = "test-shop"
         element_shop.click()
-        # driver.implicitly_wait(30)
+        time.sleep(2)
         driver.find_element_by_id(locators["add_shop_title"]).send_keys(shop_name)
-        # driver.implicitly_wait(30)
+        time.sleep(2)
         driver.find_element_by_id(locators["add_shop_save_button"]).click()
-        # driver.implicitly_wait(30)
+        time.sleep(2)
         element_shop = driver.find_element_by_id(locators["add_purchase_shop"])
         check.equal(shop_name, element_shop.get_attribute("text"))
-        # driver.implicitly_wait(30)
+        time.sleep(2)
         element_button.click()
         purchases = driver.find_elements_by_id(locators["purchase_name"])
         names_after = [purchase.get_attribute("text") for purchase in purchases]
@@ -305,11 +305,11 @@ class TestUI:
         except Exception:
             logger.error("No element")
 
-        # driver.implicitly_wait(30)
+        time.sleep(3)
         if len(purchases) == 0:
             driver.find_element_by_id(locators["add_float_button_room"]).click()
 
-            # driver.implicitly_wait(30)
+            time.sleep(3)
             element_button = driver.find_element_by_id(locators["add_purchase_save_button"])
             element_name = driver.find_element_by_id(locators["add_purchase_name"])
             element_cost = driver.find_element_by_id(locators["add_purchase_cost"])
@@ -318,16 +318,16 @@ class TestUI:
             element_name.send_keys(name)
             element_cost.send_keys(100)
             element_shop.click()
-            # driver.implicitly_wait(30)
+            time.sleep(2)
             driver.find_element_by_id(locators["add_shop_title"]).send_keys("test-shop")
-            # driver.implicitly_wait(30)
+            time.sleep(2)
             driver.find_element_by_id(locators["add_shop_save_button"]).click()
-            # driver.implicitly_wait(30)
+            time.sleep(2)
             element_button = driver.find_element_by_id(locators["add_purchase_save_button"])
             element_button.click()
             purchases = driver.find_elements_by_id(locators["purchase"])
 
-        # driver.implicitly_wait(30)
+        time.sleep(2)
         rand = random.randint(0, len(purchases) - 1) if len(purchases) == 1 else 0
         logger.info(f"{rand=}")
         logger.info(f"{purchases=}")
@@ -345,9 +345,9 @@ class TestUI:
         toucher = TouchAction(driver)
         toucher.long_press(purchase)
         toucher.perform()
-        # driver.implicitly_wait(30)
+        time.sleep(3)
         driver.find_element_by_id(locators["purchase_info_button"]).click()
-        # driver.implicitly_wait(30)
+        time.sleep(3)
         check.equal(driver.find_element_by_id(locators["purchase_info_name"]).get_attribute("text"), purchase_name)
         check.equal(driver.find_element_by_id(locators["purchase_info_buyer"]).get_attribute("text").lower(), "vk test")
         check.equal(driver.find_element_by_id(locators["purchase_info_price"]).get_attribute("text"), purchase_price)
@@ -374,16 +374,16 @@ class TestUI:
             element_name.send_keys(name)
             element_cost.send_keys(100)
             element_shop.click()
-            # driver.implicitly_wait(30)
+            time.sleep(2)
             driver.find_element_by_id(locators["add_shop_title"]).send_keys("test-shop")
-            # driver.implicitly_wait(30)
+            time.sleep(2)
             driver.find_element_by_id(locators["add_shop_save_button"]).click()
-            # driver.implicitly_wait(30)
+            time.sleep(2)
             element_button = driver.find_element_by_id(locators["add_purchase_save_button"])
             element_button.click()
             purchases = driver.find_elements_by_id(locators["purchase"])
 
-        # driver.implicitly_wait(30)
+        time.sleep(3)
         rand = random.randint(0, len(purchases) - 1) if len(purchases) == 1 else 0
         logger.info(f"{rand=}")
         logger.info(f"{purchases=}")
@@ -395,33 +395,33 @@ class TestUI:
         toucher = TouchAction(driver)
         toucher.long_press(purchase)
         toucher.perform()
-        # driver.implicitly_wait(30)
+        time.sleep(2)
         driver.find_element_by_id(locators["purchase_info_button"]).click()
-        # driver.implicitly_wait(30)
+        time.sleep(2)
 
         participants_before = len(driver.find_elements_by_id(locators["purchase_info_participants"]))
-        # driver.implicitly_wait(30)
+        time.sleep(2)
         driver.find_element_by_id(locators["back_toolbar_button"]).click()
-        # driver.implicitly_wait(30)
+        time.sleep(2)
         purchases = driver.find_elements_by_id(locators["purchase"])
         logger.info(f"{purchases=}")
         purchase = purchases[rand]
         logger.info(f"{purchase=}")
         purchase.click()
-        # driver.implicitly_wait(30)
+        time.sleep(2)
         purchases_marks = driver.find_elements_by_id(locators["purchase_is_bought"])
         is_bought = [purchase.get_attribute("checked") for purchase in purchases_marks]
         is_checked_after = is_bought[rand]
         logger.info(f"{is_checked_after=}")
-        # driver.implicitly_wait(30)
+        time.sleep(3)
         check.not_equal(is_checked_after, is_checked)
 
         toucher = TouchAction(driver)
         toucher.long_press(driver.find_elements_by_id(locators["purchase"])[rand])
         toucher.perform()
-        # driver.implicitly_wait(30)
+        time.sleep(2)
         driver.find_element_by_id(locators["purchase_info_button"]).click()
-        # driver.implicitly_wait(30)
+        time.sleep(2)
 
         participants_after = len(driver.find_elements_by_id(locators["purchase_info_participants"]))
         if is_checked_after == "true":
@@ -437,7 +437,7 @@ class TestUI:
         driver.find_element_by_id(locator).click()
         rooms = driver.find_elements_by_id(locators["rooms_cards_titles"])
         random.choice(rooms).click()
-        # driver.implicitly_wait(30)
+        time.sleep(3)
         purchases = []
         try:
             purchases = driver.find_elements_by_id(locators["purchase"])
@@ -455,16 +455,16 @@ class TestUI:
             element_name.send_keys(name)
             element_cost.send_keys(100)
             element_shop.click()
-            # driver.implicitly_wait(30)
+            time.sleep(2)
             driver.find_element_by_id(locators["add_shop_title"]).send_keys("test-shop")
-            # driver.implicitly_wait(30)
+            time.sleep(2)
             driver.find_element_by_id(locators["add_shop_save_button"]).click()
-            # driver.implicitly_wait(30)
+            time.sleep(2)
             element_button = driver.find_element_by_id(locators["add_purchase_save_button"])
             element_button.click()
             purchases = driver.find_elements_by_id(locators["purchase"])
 
-        # driver.implicitly_wait(30)
+        time.sleep(2)
         rand = random.randint(0, len(purchases) - 1) if len(purchases) == 1 else 0
         logger.info(f"{rand=}")
         logger.info(f"{purchases=}")
@@ -476,33 +476,33 @@ class TestUI:
         toucher = TouchAction(driver)
         toucher.long_press(purchase)
         toucher.perform()
-        # driver.implicitly_wait(30)
+        time.sleep(2)
         driver.find_element_by_id(locators["purchase_info_button"]).click()
-        # driver.implicitly_wait(30)
+        time.sleep(2)
 
         participants_before = len(driver.find_elements_by_id(locators["purchase_info_participants"]))
-        # driver.implicitly_wait(30)
+        time.sleep(2)
         driver.find_element_by_id(locators["back_toolbar_button"]).click()
-        # driver.implicitly_wait(30)
+        time.sleep(2)
         purchases = driver.find_elements_by_id(locators["purchase"])
         logger.info(f"{purchases=}")
         purchase = purchases[rand]
         logger.info(f"{purchase=}")
         purchase.click()
-        # driver.implicitly_wait(30)
+        time.sleep(2)
         purchases_marks = driver.find_elements_by_id(locators["purchase_is_bought"])
         is_bought = [purchase.get_attribute("checked") for purchase in purchases_marks]
         is_checked_after = is_bought[rand]
         logger.info(f"{is_checked_after=}")
-        # driver.implicitly_wait(30)
+        time.sleep(3)
         check.not_equal(is_checked_after, is_checked)
 
         toucher = TouchAction(driver)
         toucher.long_press(driver.find_elements_by_id(locators["purchase"])[rand])
         toucher.perform()
-        # driver.implicitly_wait(30)
+        time.sleep(2)
         driver.find_element_by_id(locators["purchase_info_button"]).click()
-        # driver.implicitly_wait(30)
+        time.sleep(2)
 
         participants_after = len(driver.find_elements_by_id(locators["purchase_info_participants"]))
         if is_checked_after == "true":
@@ -531,16 +531,16 @@ class TestUI:
             element_name.send_keys(name)
             element_cost.send_keys(30)
             element_shop.click()
-            # driver.implicitly_wait(30)
+            time.sleep(2)
             driver.find_element_by_id(locators["add_shop_title"]).send_keys("test-shop")
-            # driver.implicitly_wait(30)
+            time.sleep(2)
             driver.find_element_by_id(locators["add_shop_save_button"]).click()
-            # driver.implicitly_wait(30)
+            time.sleep(2)
             element_button = driver.find_element_by_id(locators["add_purchase_save_button"])
             element_button.click()
             purchases = driver.find_elements_by_id(locators["purchase"])
 
-        # driver.implicitly_wait(30)
+        time.sleep(3)
         rand = random.randint(0, len(purchases) - 1) if len(purchases) == 1 else 0
         logger.info(f"{rand=}")
         logger.info(f"{purchases=}")
@@ -552,7 +552,7 @@ class TestUI:
         toucher = TouchAction(driver)
         toucher.long_press(purchase)
         toucher.perform()
-        # driver.implicitly_wait(30)
+        time.sleep(3)
         driver.find_element_by_id(locators["purchase_delete_button"]).click()
         text = driver.find_element_by_id(locators["delete_dialog"]).get_attribute("text")
         check.is_in("удалить", text.lower())
@@ -564,16 +564,16 @@ class TestUI:
         check.is_in(purchase_name, names)
         toucher.long_press(purchase)
         toucher.perform()
-        # driver.implicitly_wait(30)
+        time.sleep(2)
         driver.find_element_by_id(locators["purchase_delete_button"]).click()
         text = driver.find_element_by_id(locators["delete_dialog"]).get_attribute("text")
         check.is_in("удалить", text.lower())
         check.is_in("покупку", text.lower())
         driver.find_element_by_id(locators["delete_dialog_ok"]).click()
 
-        # driver.implicitly_wait(30)
+        time.sleep(2)
         logger.info(f"{rand=}")
-        time.sleep(10)
+        time.sleep(3)
         purchases_after = driver.find_elements_by_id(locators["purchase_name"])
         logger.info(f"{purchases_after=}")
         names = [purch.get_attribute("text") for purch in purchases_after] if len(purchases) != 0 else []
@@ -590,12 +590,12 @@ class TestUI:
         rooms = driver.find_elements_by_id(locators["rooms_cards_titles"])
         titles = [room.get_attribute("text") for room in rooms]
         random.choice(rooms).click()
-        # # driver.implicitly_wait(30)
+        time.sleep(2)
 
         driver.find_element_by_id(locators["edit_float_button"]).click()
-        # # driver.implicitly_wait(30)
+        time.sleep(2)
         driver.find_element_by_id(locators["first_toolbar_button"]).click()
-        # # driver.implicitly_wait(30)
+        time.sleep(2)
 
         text = driver.find_element_by_id(locators["delete_dialog"]).get_attribute("text")
         check.is_in("удалить", text.lower())
@@ -604,22 +604,22 @@ class TestUI:
         cancel_button = driver.find_element_by_id(locators["delete_dialog_cancel"])
 
         cancel_button.click()
-        # # driver.implicitly_wait(30)
+        time.sleep(2)
         title = driver.find_element_by_id(locators["page_title"]).get_attribute("text")
         check.is_in("test", title.lower())
         room_name = title
         check.is_in(room_name, titles)
 
-        # # driver.implicitly_wait(30)
+        time.sleep(2)
         driver.find_element_by_id(locators["first_toolbar_button"]).click()
-        # # driver.implicitly_wait(30)
+        time.sleep(2)
 
         text = driver.find_element_by_id(locators["delete_dialog"]).get_attribute("text")
         check.is_in("удалить", text.lower())
         check.is_in("комнату", text.lower())
         ok_button = driver.find_element_by_id(locators["delete_dialog_ok"])
         ok_button.click()
-        # driver.implicitly_wait(30)
+        time.sleep(2)
 
         title = driver.find_element_by_id(locators["page_title"]).get_attribute("text")
         check.is_in("покупки", title.lower())
@@ -639,7 +639,7 @@ class TestUI:
     def test_closed_rooms(self, payshare_window_after_login_for_thread_vk, thread_user_vk):
         _, api_svc = thread_user_vk
         driver = payshare_window_after_login_for_thread_vk
-        # driver.implicitly_wait(30)
+        time.sleep(3)
         driver.find_element_by_id(locators["archive_button"]).click()
         closed_rooms = api_svc.get_closed_rooms()["rooms"]
         closed_count = len(closed_rooms) if closed_rooms is not None else 0
