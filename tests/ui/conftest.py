@@ -46,6 +46,7 @@ def desired_capabilities(request):
     desired_capabilities = DESIRED_CAPABILITIES
     desired_capabilities["appium:deviceName"] = request.config.getoption("device_name")
     desired_capabilities["appium:app"] = request.config.getoption("app")
+    desired_capabilities["app"] = request.config.getoption("app")
     yield desired_capabilities
 
 @pytest.fixture(scope="session")
