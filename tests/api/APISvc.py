@@ -84,7 +84,7 @@ class APISvc:
         res = requests.post(url, headers=head, params=params, data=json.dumps(data))
         assert res.ok, res.text
         logger.debug(res.text)
-        res_data = res.json() if res.text is not "" else None
+        res_data = res.json() if res.text != "" else None
         return res_data
 
     def join_room_by_id(self, room_id, params=None, data=None):
@@ -97,7 +97,7 @@ class APISvc:
         res = requests.post(url, headers=head, params=params, data=json.dumps(data))
         logger.debug(res)
         assert res.ok, res.text
-        res_data = res.json() if res.text is not "" else None
+        res_data = res.json() if res.text != "" else None
         return res_data
 
     def close_room(self, room_id, params=None, data=None):
@@ -109,7 +109,7 @@ class APISvc:
         head = {"Accept": "application/json", "Authorization": f"Bearer {self.token}"}
         res = requests.put(url, headers=head, params=params, data=json.dumps(data))
         assert res.ok, res.text
-        res_data = res.json() if res.text is not "" else None
+        res_data = res.json() if res.text != "" else None
         return res_data
 
     def leave_room(self, room_id, params=None, data=None):
@@ -121,7 +121,7 @@ class APISvc:
         head = {"Accept": "application/json", "Authorization": f"Bearer {self.token}"}
         res = requests.delete(url, headers=head, params=params, data=json.dumps(data))
         assert res.ok, res.text
-        res_data = res.json() if res.text is not "" else None
+        res_data = res.json() if res.text != "" else None
         return res_data
 
     def kick_user_from_room(self, room_id, participant_id, params=None, data=None):
@@ -134,7 +134,7 @@ class APISvc:
         head = {"Accept": "application/json", "Authorization": f"Bearer {self.token}"}
         res = requests.delete(url, headers=head, params=params, data=json.dumps(data))
         assert res.ok, res.text
-        res_data = res.json() if res.text is not "" else None
+        res_data = res.json() if res.text != "" else None
         return res_data
 
     def delete_room(self, room_id, params=None):
@@ -144,7 +144,7 @@ class APISvc:
         head = {"Accept": "application/json", "Authorization": f"Bearer {self.token}"}
         res = requests.delete(url, headers=head, params=params)
         assert res.ok, res.text
-        res_data = res.json() if res.text is not "" else None
+        res_data = res.json() if res.text != "" else None
         return res_data
 
     def get_room(self, room_id, params=None):

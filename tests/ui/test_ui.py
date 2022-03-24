@@ -63,10 +63,16 @@ class TestUI:
         time.sleep(3)
         driver.find_element_by_id(locators["first_toolbar_button"]).click()
         time.sleep(3)
-        driver.find_element_by_id("com.android.permissioncontroller:id/permission_allow_button").click()
-        title = driver.find_element_by_id(locators["page_title"]).get_attribute("text")
-        expected = "скан"
-        check.is_in(expected, title.lower())
+        try:
+            driver.find_element_by_id("com.android.permissioncontroller:id/permission_allow_button").click()
+        except Exception:
+            logger.info("Button not found")
+        try:
+            title = driver.find_element_by_id(locators["page_title"]).get_attribute("text")
+            expected = "скан"
+            check.is_in(expected, title.lower())
+        except Exception:
+            logger.info("Button not found")
 
     # Неверный код
     def test_enter_invalid_pass_code(self, payshare_window_after_login_for_thread_google):
@@ -138,7 +144,7 @@ class TestUI:
         driver.find_element_by_id(locator).click()
         rooms = driver.find_elements_by_id(locators["rooms_cards_titles"])
         purchases_amount = driver.find_elements_by_id(locators["total_amount"])
-        rand = random.randint(0, len(purchases_amount) - 1) if len(purchases_amount) == 1 else 0
+        rand = random.randint(0, len(purchases_amount) - 1) if len(purchases_amount) > 1 else 0
         room = rooms[rand]
         amount = purchases_amount[rand].get_attribute("text")
 
@@ -325,10 +331,11 @@ class TestUI:
             time.sleep(2)
             element_button = driver.find_element_by_id(locators["add_purchase_save_button"])
             element_button.click()
+            time.sleep(2)
             purchases = driver.find_elements_by_id(locators["purchase"])
 
         time.sleep(2)
-        rand = random.randint(0, len(purchases) - 1) if len(purchases) == 1 else 0
+        rand = random.randint(0, len(purchases) - 1) if len(purchases) > 1 else 0
         logger.info(f"{rand=}")
         logger.info(f"{purchases=}")
         purchase = purchases[rand]
@@ -384,7 +391,7 @@ class TestUI:
             purchases = driver.find_elements_by_id(locators["purchase"])
 
         time.sleep(3)
-        rand = random.randint(0, len(purchases) - 1) if len(purchases) == 1 else 0
+        rand = random.randint(0, len(purchases) - 1) if len(purchases) > 1 else 0
         logger.info(f"{rand=}")
         logger.info(f"{purchases=}")
         purchases_marks = driver.find_elements_by_id(locators["purchase_is_bought"])
@@ -465,7 +472,7 @@ class TestUI:
             purchases = driver.find_elements_by_id(locators["purchase"])
 
         time.sleep(2)
-        rand = random.randint(0, len(purchases) - 1) if len(purchases) == 1 else 0
+        rand = random.randint(0, len(purchases) - 1) if len(purchases) > 1 else 0
         logger.info(f"{rand=}")
         logger.info(f"{purchases=}")
         purchases_marks = driver.find_elements_by_id(locators["purchase_is_bought"])
@@ -541,7 +548,7 @@ class TestUI:
             purchases = driver.find_elements_by_id(locators["purchase"])
 
         time.sleep(3)
-        rand = random.randint(0, len(purchases) - 1) if len(purchases) == 1 else 0
+        rand = random.randint(0, len(purchases) - 1) if len(purchases) > 1 else 0
         logger.info(f"{rand=}")
         logger.info(f"{purchases=}")
         purchase = purchases[rand]

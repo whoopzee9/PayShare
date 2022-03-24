@@ -104,7 +104,6 @@ def payshare_opened_room_for_thread_vk(payshare_window_after_login_for_thread_vk
     random.choice(rooms).click()
     time.sleep(3)
     yield driver
-    driver.quit()
 
 @pytest.fixture(scope="function")
 def payshare_opened_room_for_thread_google(payshare_window_after_login_for_thread_google):
@@ -115,7 +114,6 @@ def payshare_opened_room_for_thread_google(payshare_window_after_login_for_threa
     random.choice(rooms).click()
     time.sleep(3)
     yield driver
-    driver.quit()
 
 @pytest.fixture(scope="function")
 def payshare_closed_room_for_thread_vk(payshare_window_after_login_for_thread_vk):
@@ -128,7 +126,6 @@ def payshare_closed_room_for_thread_vk(payshare_window_after_login_for_thread_vk
     room.click()
     time.sleep(3)
     yield driver
-    driver.quit()
 
 @pytest.fixture(scope="function")
 def payshare_closed_room_for_thread_google(payshare_window_after_login_for_thread_google):
@@ -140,5 +137,4 @@ def payshare_closed_room_for_thread_google(payshare_window_after_login_for_threa
     room.click()
     time.sleep(3)
     yield driver
-    driver.quit()
 
