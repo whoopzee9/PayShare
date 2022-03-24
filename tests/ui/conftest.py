@@ -65,7 +65,7 @@ def thread_user_vk():
 @pytest.fixture(scope="function")
 def payshare_window_login(web_address, desired_capabilities):
     driver = webdriver.Remote(web_address, desired_capabilities=desired_capabilities)
-    driver.implicitly_wait(20)
+    # driver.implicitly_wait(20)
 
     return driver
 
@@ -73,54 +73,54 @@ def payshare_window_login(web_address, desired_capabilities):
 @pytest.fixture(scope="function")
 def payshare_window_after_login_for_thread_vk(web_address, desired_capabilities):
     driver = webdriver.Remote(web_address, desired_capabilities=desired_capabilities)
-    driver.implicitly_wait(30)
+    # driver.implicitly_wait(30)
 
     element = driver.find_element_by_id(locators["vk_auth"])
     element.click()
-    driver.implicitly_wait(30)
+    # driver.implicitly_wait(30)
     return driver
 
 
 @pytest.fixture(scope="function")
 def payshare_window_after_login_for_thread_google(web_address, desired_capabilities):
     driver = webdriver.Remote(web_address, desired_capabilities=desired_capabilities)
-    driver.implicitly_wait(30)
+    # driver.implicitly_wait(30)
 
     element = driver.find_element_by_id(locators["google_auth"])
     element.click()
-    driver.implicitly_wait(30)
+    # driver.implicitly_wait(30)
     return driver
 
 @pytest.fixture(scope="function")
 def payshare_opened_room_for_thread_vk(payshare_window_after_login_for_thread_vk):
     driver = payshare_window_after_login_for_thread_vk
-    driver.implicitly_wait(30)
+    # driver.implicitly_wait(30)
     driver.find_element_by_id(locators["opened_rooms_button"]).click()
     rooms = driver.find_elements_by_id(locators["rooms_cards_titles"])
     random.choice(rooms).click()
-    driver.implicitly_wait(30)
+    # driver.implicitly_wait(30)
     return driver
 
 @pytest.fixture(scope="function")
 def payshare_opened_room_for_thread_google(payshare_window_after_login_for_thread_google):
     driver = payshare_window_after_login_for_thread_google
-    driver.implicitly_wait(30)
+    # driver.implicitly_wait(30)
     driver.find_element_by_id(locators["opened_rooms_button"]).click()
     rooms = driver.find_elements_by_id(locators["rooms_cards_titles"])
     random.choice(rooms).click()
-    driver.implicitly_wait(30)
+    # driver.implicitly_wait(30)
     return driver
 
 @pytest.fixture(scope="function")
 def payshare_closed_room_for_thread_vk(payshare_window_after_login_for_thread_vk):
     driver = payshare_window_after_login_for_thread_vk
-    driver.implicitly_wait(30)
+    # driver.implicitly_wait(30)
 
     driver.find_element_by_id(locators["archive_button"]).click()
     rooms = driver.find_elements_by_id(locators["rooms_cards_titles"])
     room = random.choice(rooms)
     room.click()
-    driver.implicitly_wait(30)
+    # driver.implicitly_wait(30)
     return driver
 
 @pytest.fixture(scope="function")
@@ -131,6 +131,6 @@ def payshare_closed_room_for_thread_google(payshare_window_after_login_for_threa
     rooms = driver.find_elements_by_id(locators["rooms_cards_titles"])
     room = random.choice(rooms)
     room.click()
-    driver.implicitly_wait(30)
+    # driver.implicitly_wait(30)
     return driver
 
