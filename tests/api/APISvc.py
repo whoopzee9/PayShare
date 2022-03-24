@@ -23,7 +23,7 @@ class APISvc:
         "kick_room_participant": "/user/room/{room_id}/participant/{participant_id}",
         "purchase": "/user/room/{room_id}/purchase",
         "join_purchase": "/user/room/{room_id}}/purchase/{purchase_id}/join",
-        "check_purchase_paid": "/user/room/{room_id}}/purchase/{purchase_id}/paid",
+        "mark_purchase": "/user/room/{room_id}}/purchase/{purchase_id}/paid",
 
     }
 
@@ -177,14 +177,84 @@ class APISvc:
         res_data = res.json()
         return res_data
 
-    def add_purchase(self, room_id, params=None, data=None):
+    def add_purchase(self, room_id, name, cost, shop, params=None, data=None):
         if params is None:
             params = {}
         if data is None:
             data = {}
+        data = {
+            "name": name,
+            "cost": cost,
+            "locate": {
+                "lat": 123.45,
+                "long": 123.45,
+                "shop_name": shop,
+                "date": "string",
+                "description": "string"
+            }
+        }
         url = self.endpoint + self._endpoints["purchase"].replace("{room_id}", str(room_id))
         head = {"Accept": "application/json", "Authorization": f"Bearer {self.token}"}
         res = requests.post(url, headers=head, params=params, data=json.dumps(data))
+        assert res.ok, res.text
+        res_data = res.json()
+        return res_data
+
+    def edit_purchase(self, room_id, purchase_id, name, cost, shop, params=None, data=None):
+        if params is None:
+            params = {}
+        if data is None:
+            data = {}
+        data = {
+            "name": name,
+            "cost": cost,
+            "locate": {
+                "lat": 123.45,
+                "long": 123.45,
+                "shop_name": shop,
+                "date": "string",
+                "description": "string"
+            }
+        }
+        url = self.endpoint + self._endpoints["purchase"].replace("{room_id}", str(room_id)) + f"/{purchase_id}"
+        head = {"Accept": "application/json", "Authorization": f"Bearer {self.token}"}
+        res = requests.put(url, headers=head, params=params, data=json.dumps(data))
+        assert res.ok, res.text
+        res_data = res.json()
+        return res_data
+
+    def delete_purchase(self, room_id, purchase_id, params=None, data=None):
+        if params is None:
+            params = {}
+        if data is None:
+            data = {}
+        url = self.endpoint + self._endpoints["purchase"].replace("{room_id}", str(room_id)) + f"/{purchase_id}"
+        head = {"Accept": "application/json", "Authorization": f"Bearer {self.token}"}
+        res = requests.delete(url, headers=head, params=params, data=json.dumps(data))
+        assert res.ok, res.text
+        res_data = res.json()
+        return res_data
+
+    def join_purchase(self, room_id, purchase_id, params=None, data=None):
+        if params is None:
+            params = {}
+        if data is None:
+            data = {}
+        url = self.endpoint + self._endpoints["join_purchase"].replace("{room_id}", str(room_id)).replace("{purchase_id}", str(purchase_id))
+        head = {"Accept": "application/json", "Authorization": f"Bearer {self.token}"}
+        res = requests.put(url, headers=head, params=params, data=json.dumps(data))
+        assert res.ok, res.text
+        res_data = res.json()
+        return res_data
+
+    def mark_purchase(self, room_id, purchase_id, params=None, data=None):
+        if params is None:
+            params = {}
+        if data is None:
+            data = {}
+        url = self.endpoint + self._endpoints["mark_purchase"].replace("{room_id}", str(room_id)).replace("{purchase_id}", str(purchase_id))
+        head = {"Accept": "application/json", "Authorization": f"Bearer {self.token}"}
+        res = requests.put(url, headers=head, params=params, data=json.dumps(data))
         assert res.ok, res.text
         res_data = res.json()
         return res_data
