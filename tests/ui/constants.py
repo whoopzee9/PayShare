@@ -1,7 +1,7 @@
 DESIRED_CAPABILITIES = {
     "build": "Python Android",
     "device": "Samsung Galaxy S8 Plus",
-    "app": "bs://4541e9baf57e85aba43755597c2369cb5f1c0471",
+    "app": "bs://5813521c93b842b95ebbd4309ce5cb922583211b",
     "appium:deviceName": "Pixel",
     "platformName": "Android",
     "appium:appPackage": "ru.spbstu.payshare",
