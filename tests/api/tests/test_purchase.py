@@ -1,11 +1,9 @@
 import random
 import uuid
 
-import requests
 import pytest_check as check
 from loguru import logger
 
-from tests.api.constants import BASE_URL
 from tests.api.markers import *
 
 
@@ -18,6 +16,8 @@ from tests.api.markers import *
 
 class TestPurchase:
 
+    # Добавление покупки
+    @pytest.mark.skip
     def test_add_purchase(self, thread_user_google):
         _, api_svc = thread_user_google
         opened_rooms = api_svc.get_opened_rooms()["rooms"]
@@ -36,32 +36,29 @@ class TestPurchase:
         purchases_after = room_after["room_info"]["purchases"]
         check.equal(len(purchases) + 1, len(purchases_after))
 
+    # Невозможно добавить покупки в закрытую комнату
+    def test_add_purchase_to_closed_room(self, thread_user_google):
+        _, api_svc = thread_user_google
+        assert 1
 
-    @pytest.mark.parametrize("auth_type", ["vk", "google"])
-    def test_add_new_purchase(self, thread_user_google, thread_user_vk, auth_type):
-        url = BASE_URL + "/user/room/{room_id}/purchase"
-        head = {}
-        head["Accept"] = "application/json"
-        head["Authorization"] = f"Bearer {thread_user_google}" if auth_type == "google" else f"Bearer {thread_user_vk}"
-        res = requests.post(url, headers=head)
-        assert res.ok
-        res_data = res.json()
-        logger.debug(res_data)
+    # Присоединение к покупке
+    def test_mark_purchase(self, thread_user_google):
+        _, api_svc = thread_user_google
+        assert 1
 
-    @pytest.mark.parametrize("auth_type", ["vk", "google"])
-    def test_edit_purchase(self, thread_user_google, thread_user_vk, auth_type):
-        url = BASE_URL + "/user/room/{room_id}/purchase/{purchase_id}"
-        head = {}
-        head["Accept"] = "application/json"
-        head["Authorization"] = f"Bearer {thread_user_google}" if auth_type == "google" else f"Bearer {thread_user_vk}"
-        res = requests.put(url, params={"help": "true"}, headers=head)
-        logger.debug(res.json())
+    # Отметка долга
+    def test_mark_debt(self, thread_user_google):
+        _, api_svc = thread_user_google
+        assert 1
 
-    @pytest.mark.parametrize("auth_type", ["vk", "google"])
-    def test_delete_purchase(self, thread_user_google, thread_user_vk, auth_type):
-        url = BASE_URL + "/user/room/{room_id}/purchase/{purchase_id}"
-        head = {}
-        head["Accept"] = "application/json"
-        head["Authorization"] = f"Bearer {thread_user_google}" if auth_type == "google" else f"Bearer {thread_user_vk}"
-        res = requests.put(url, params={"help": "true"}, headers=head)
-        logger.debug(res.json())
+    # Изменение покупки
+    def test_edit_purchase(self, thread_user_vk):
+        _, api_svc = thread_user_vk
+        assert 1
+
+    # Удаление покупки
+    def test_delete_purchase(self, thread_user_vk):
+        _, api_svc = thread_user_vk
+        assert 1
+
+

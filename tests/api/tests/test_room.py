@@ -20,6 +20,7 @@ from tests.api.markers import *
 
 class TestRoom:
 
+    # Создание комнаты
     @pytest.mark.parametrize("day", ["today", -1, 1])
     def test_create_room(self, thread_user_google, day):
         token, api_svc = thread_user_google
@@ -52,6 +53,7 @@ class TestRoom:
         check.is_in(f"test-room", room["room"]["room_name"])
         check.is_none(room["purchases"])
 
+    # Создание множества комнат не влияет на прошлые комнаты
     def test_check_opened_and_closed_rooms_after_create(self, thread_user_google):
         token, api_svc = thread_user_google
         opened_rooms = api_svc.get_opened_rooms()["rooms"]
@@ -77,6 +79,7 @@ class TestRoom:
         check.is_true(all(id in opened_ids for id in ids))
         check.is_true(all(id not in closed_ids for id in ids), msg=f"{closed_ids=}, {ids=}")
 
+    # Проверка информации комнаты по коду
     def test_join_code_info(self, thread_user_google, thread_user_vk):
         _, api_svc_google = thread_user_google
         token, api_svc_vk = thread_user_vk
@@ -96,6 +99,7 @@ class TestRoom:
         purchases = res["room"]["purchases"] if res["room"]["purchases"] is not None else []
         check.equal(purchases, room_data["room_info"]["purchases"])
 
+    # Подключение к комнате
     @pytest.mark.parametrize("day", ["today", -1, 1])
     def test_join_room(self, thread_user_google, thread_user_vk, day):
         token_vk, api_svc_vk = thread_user_vk
@@ -125,17 +129,16 @@ class TestRoom:
         check.equal(len(get_room_res["room_info"]["participants"]), 2)
         check.equal(len(get_room_res["room_info"]["purchases"]), 0)
 
+    # Невозможность присоединиться к комнате второй раз
     @pytest.mark.xfail(reason="Negative test case")
-    @pytest.mark.parametrize("group_type", ["owner", "user"])
-    def test_cant_join_room_twice(self, thread_user_google, thread_user_vk, group_type):
+    @pytest.mark.parametrize("user_type", ["owner", "user"])
+    def test_cant_join_room_twice(self, thread_user_google, thread_user_vk, user_type):
         token_vk, api_svc_vk = thread_user_vk
         token_google, api_svc_google = thread_user_google
         time = datetime.date.today()
         room_res = api_svc_vk.create_room(room_name=f"test-room{datetime.datetime.now()}", room_date=str(time))
         room_id = room_res["id"]
-        # res = api_svc_vk.get_invite_code(room_id)
-        # invite_code = res["code"]
-        if group_type == "owner":
+        if user_type == "owner":
             api_svc_vk.join_room_by_id(room_id)
         else:
             try:
@@ -148,6 +151,7 @@ class TestRoom:
             except Exception as e:
                 pytest.fail(e.args)
 
+    # Подключение к множеству комнат не влияет на другие комнаты
     def test_check_opened_and_closed_rooms_after_join(self, thread_user_google, thread_user_vk):
         _, api_svc_vk = thread_user_vk
         _, api_svc_google = thread_user_google
@@ -177,6 +181,7 @@ class TestRoom:
         check.is_true(all(id in opened_ids for id in ids))
         check.is_true(all(id not in closed_ids for id in ids), msg=f"{closed_ids=}, {ids=}")
 
+    # Закрытие комнаты
     def test_close_room(self, thread_user_vk):
         _, api_svc = thread_user_vk
 
@@ -203,6 +208,7 @@ class TestRoom:
         check.equal(closed_after_count, closed_before_count + 1)
         check.is_in(room_id, closed_ids)
 
+    # Открытие закрытой комнаты
     def test_reopen_closed_room(self, thread_user_vk):
         _, api_svc = thread_user_vk
 
@@ -231,6 +237,7 @@ class TestRoom:
         check.is_not_in(room_id, closed_ids)
         api_svc.close_room(room_id)
 
+    # Удаление комнаты
     @pytest.mark.parametrize("room", ["closed", "opened"])
     def test_delete_room(self, thread_user_vk, room):
         _, api_svc = thread_user_vk
@@ -268,6 +275,7 @@ class TestRoom:
             check.equal(opened_after_count, opened_before_count)
             check.equal(closed_after_count, closed_before_count - 1)
 
+    # Невозможность присоединения к закрытой комнате
     @pytest.mark.xfail(reason="Negative test case")
     @pytest.mark.parametrize("type", ["code", "join"])
     def test_cant_join_closed_room(self, thread_user_google, type):
@@ -281,8 +289,9 @@ class TestRoom:
         else:
             api_svc.join_room_by_id(room_id)
 
+    # Участник покидает комнату
     @pytest.mark.parametrize("room_type", ["open", "closed"])
-    def test_leave_room_user(self, thread_user_google, thread_user_vk, room_type):
+    def test_leave_room_participant(self, thread_user_google, thread_user_vk, room_type):
         _, api_svc_google = thread_user_google
         _, api_svc_vk = thread_user_vk
         opened_rooms_user = api_svc_google.get_opened_rooms()["rooms"]
@@ -331,6 +340,7 @@ class TestRoom:
         check.equal(opened_before_count_owner, opened_after_count_owner)
         check.equal(len(room_info_after["room_info"]["participants"]), len(room_info_before["room_info"]["participants"]) - 1)
 
+    # Владелец покидает комнату
     @pytest.mark.parametrize("room_type", ["open", "closed"])
     @pytest.mark.xfail(reason="Negative test case")
     def test_leave_room_owner(self, thread_user_vk, room_type):
@@ -352,7 +362,8 @@ class TestRoom:
         res = api_svc.leave_room(room_id)
         logger.debug(f"Test passed: {res}")
 
-    def test_room_operation_by_user(self, thread_user_google):
+    # Участник не имеет доступа к операциям владельца
+    def test_room_operation_by_participant(self, thread_user_google):
         _, api_svc = thread_user_google
         opened_rooms_user = api_svc.get_opened_rooms()["rooms"]
         opened_before_count_user = len(opened_rooms_user) if opened_rooms_user is not None else 0
