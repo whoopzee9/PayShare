@@ -29,7 +29,7 @@ jobs:
             pytest-html
             Appium-Python-Client
       - name: Test
-        run: python3 -m pytest tests/ui --web_address="https://bsuser_T4hZIk:cNXhZr7JLszVEgdgq9A7@hub-cloud.browserstack.com/wd/hub" --device_name="Samsung Galaxy S8 Plus" --app="bs://eb25dce42ceaff2d1abcc8b8a83913902a8bd044" -v --html=report.html
+        run: python3 -m pytest tests/ui --web_address="https://bsuser_T4hZIk:cNXhZr7JLszVEgdgq9A7@hub-cloud.browserstack.com/wd/hub" --device_name="Samsung Galaxy S8 Plus" --app="bs://5813521c93b842b95ebbd4309ce5cb922583211b" -v --html=report.html
       - name: Upload report
         uses: actions/upload-artifact@v1
         with:
