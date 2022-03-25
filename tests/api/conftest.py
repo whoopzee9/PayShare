@@ -1,12 +1,6 @@
-import json
-
 import pytest
-import requests
-
-from loguru import logger
 
 from tests.api.APISvc import APISvc
-from tests.api.constants import BASE_URL
 
 
 @pytest.fixture(scope="session")

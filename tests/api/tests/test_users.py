@@ -1,7 +1,5 @@
 from loguru import logger
 
-from tests.api.markers import *
-
 
 class TestUsers:
 

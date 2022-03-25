@@ -1,21 +1,11 @@
 import datetime
 import random
 
-import pytest
+
 import pytest_check as check
 from loguru import logger
 
 from tests.api.markers import *
-
-
-# -------------- REQUESTS TO TEST ----------------
-
-# post /user/room любой пользователь
-# post /user/room/join любой пользователь
-# put /user/room/{room_id}/close только создатель комнаты
-# delete /user/room/{room_id} только создатель комнаты
-# post /user/room/{room_id}/code только участники комнаты
-# delete /user/room/{room_id}/participant/{participant_id} только создатель комнаты
 
 
 class TestRoom:

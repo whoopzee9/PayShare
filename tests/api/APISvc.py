@@ -230,9 +230,9 @@ class APISvc:
             data = {}
         url = self.endpoint + self._endpoints["purchase"].replace("{room_id}", str(room_id)) + f"/{purchase_id}"
         head = {"Accept": "application/json", "Authorization": f"Bearer {self.token}"}
-        res = requests.delete(url, headers=head, params=params, data=json.dumps(data))
+        res = requests.delete(url, headers=head, params=params)
         assert res.ok, res.text
-        res_data = res.json()
+        res_data = res.json() if res.text != "" else None
         return res_data
 
     def join_purchase(self, room_id, purchase_id, params=None, data=None):
